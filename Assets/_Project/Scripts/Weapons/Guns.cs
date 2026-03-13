@@ -8,16 +8,19 @@ public class Guns : MonoBehaviour
 
     [Header("Bullet setting")]
     [SerializeField] protected Bullet Bullet;
-    [SerializeField] protected float BulletForce = 500f;    
+    [SerializeField] protected float BulletForce = 500f;
 
     [Header("Gun stats")]
     [SerializeField] protected int MagazineSize;
     [SerializeField] protected int Damage = 5;
     [SerializeField] protected float SpeedShot = 5f;
     [SerializeField] protected float Spread = 0f;
+    [SerializeField] private float _shootDistance = 200f;
 
     protected bool CanShot = true;
     protected int Ammunition;
+
+    private Camera _camera;
 
     public event Action AmmunitionChanged;
 
@@ -38,28 +41,38 @@ public class Guns : MonoBehaviour
 
     private void Awake()
     {
+        _camera = Camera.main;
         CurrentAmmunition = MagazineSize;
     }
 
     public virtual void Shoot()
     {
-        if(CurrentAmmunition <= 0)
+        if (CurrentAmmunition <= 0)
         {
             Reload();
             return;
         }
 
         CurrentAmmunition--;
-        var bullet = Instantiate(Bullet, Muzzle.position, Muzzle.rotation);
 
-        float x = UnityEngine.Random.Range(-Spread, Spread);
-        float y = UnityEngine.Random.Range(-Spread, Spread);
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-        Vector3 directionWithSpread = Muzzle.forward + new Vector3(x, y, 0);
+        RaycastHit hit;
+        Vector3 targetPoint =
+            Physics.Raycast(ray, out hit, _shootDistance)
+            ? hit.point
+            : ray.GetPoint(_shootDistance);
 
-        Vector3 force = directionWithSpread * BulletForce;
+        Vector3 direction = (targetPoint - Muzzle.position).normalized;
 
-        bullet.Shot(force);
+
+        Vector2 spread = UnityEngine.Random.insideUnitCircle * Spread;
+
+        direction += new Vector3(spread.x, spread.y, 0);
+        direction.Normalize();
+
+        var bullet = Instantiate(Bullet, Muzzle.position, Quaternion.LookRotation(direction));
+        bullet.Shot(direction * BulletForce, Damage);
     }
 
     protected virtual void Reload()
