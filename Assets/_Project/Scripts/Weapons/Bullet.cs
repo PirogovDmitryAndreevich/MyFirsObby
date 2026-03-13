@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void Play(Vector3 force)
+    public void Shot(Vector3 force)
     {
         _rigidbody.velocity = force;
     }

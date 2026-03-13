@@ -11,6 +11,8 @@ public class CharacterController : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector3 _movementVector;
 
+    public Guns SelectedGuns => _gun;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -34,9 +36,7 @@ public class CharacterController : MonoBehaviour
 
         _rigidbody.MovePosition(transform.position + _movementVector * _moveSpeed * Time.fixedDeltaTime);
 
-        if (_inputReader.GetIsShot() && _inputReader.IsKeepWeapon)
-        {
-            _gun.Shot();
-        }
+        if (_inputReader.GetIsShot() && _inputReader.IsKeepWeapon && _gun.CanShotNow)        
+            _gun.Shoot();        
     }
 }
