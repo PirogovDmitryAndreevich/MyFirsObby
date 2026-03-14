@@ -2,26 +2,19 @@ using UnityEngine;
 
 public class CharacterRotation : MonoBehaviour
 {
-    [SerializeField] private Transform _character;
-    [SerializeField] private float _sensitivity = 1.5f;
+    private const float minMovementMagnitude = 0.001f;
+
+    [SerializeField] private Transform _characterView;
     [SerializeField] private float _smooth = 10f;
 
-    private float _xRotation;
-    private float _yRotation;
-
-    private void Update()
+    public void RotateCharacter(Vector3 direction)
     {
-        _yRotation += Input.GetAxis(ConstantsData.InputAxis.MouseX) * _sensitivity;
-    }
+        Vector3 horizontalDirection = new Vector3(direction.x, 0f, direction.z);
 
-    private void FixedUpdate()
-    {
-        RotateCharacter();
-    }
+        if (horizontalDirection.sqrMagnitude < minMovementMagnitude)
+            return;
 
-    private void RotateCharacter()
-    {
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, _yRotation, 0), Time.deltaTime * _smooth);
-        _character.rotation = Quaternion.Lerp(_character.rotation, Quaternion.Euler(0, _yRotation, 0), Time.deltaTime * _smooth);
+        Quaternion targetRotation = Quaternion.LookRotation(horizontalDirection);
+        _characterView.rotation = Quaternion.Slerp(_characterView.rotation, targetRotation, _smooth * Time.fixedDeltaTime);
     }
 }
