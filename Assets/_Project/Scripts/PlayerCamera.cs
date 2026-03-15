@@ -22,6 +22,8 @@ public class PlayerCamera : MonoBehaviour
     private float _currentDistance;
     private float _targetDistance;
 
+    private IInputService _inputService;
+
     public Transform CameraTransform => transform;
 
     private void Awake()
@@ -30,6 +32,8 @@ public class PlayerCamera : MonoBehaviour
         _targetDistance = _currentDistance;
         _targetVerticalAngel = 0f;
         _planarDirection = Vector3.forward;
+
+        _inputService = Game.InputService;
     }
 
     private void OnValidate()
@@ -45,14 +49,14 @@ public class PlayerCamera : MonoBehaviour
         _planarDirection = t.forward;
     }
 
-    public void UpdateWithInput(float deltaTime, Vector3 rotationInput, bool doRotatingCamera)
+    public void UpdateWithInput(float deltaTime, Vector3 rotationInput, bool isMoveCamera)
     {
         if (_followTransform == null)
             return;
 
         Quaternion targetRotation = transform.rotation;
 
-        if (doRotatingCamera)
+        if (isMoveCamera)
         {
             HandleRotationInput(deltaTime, rotationInput, out targetRotation);
         }
