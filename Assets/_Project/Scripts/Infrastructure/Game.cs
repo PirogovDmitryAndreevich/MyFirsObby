@@ -3,10 +3,13 @@ using UnityEngine;
 public class Game
 {
     public static IInputService InputService;
+    public GameStateMachine _stateMachine;
 
-    public Game()
+    public Game(ICoroutineRunner coroutineRunner)
     {
         RegisterInputService();
+
+        _stateMachine = new GameStateMachine(new SceneLoader(coroutineRunner));
     }
 
     private void RegisterInputService()
