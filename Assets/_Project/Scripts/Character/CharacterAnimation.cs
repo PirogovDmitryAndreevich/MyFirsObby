@@ -1,17 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class CharacterAnimation : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
+
     private const string IsRun = "IsRun";
     private const string IsKeepWeapon = "IsKeepWeapon";
-
-    private Animator _animator;
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-    }
 
     public void Run(bool isRun)
     {

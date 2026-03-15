@@ -28,12 +28,19 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake()
     {
+        _inputService = Game.InputService;
         _currentDistance = _defaultDistance;
         _targetDistance = _currentDistance;
         _targetVerticalAngel = 0f;
         _planarDirection = Vector3.forward;
+    }
 
-        _inputService = Game.InputService;
+    private void LateUpdate()
+    {
+        UpdateWithInput
+            (Time.deltaTime,
+            _inputService.LookInputVector,
+           _inputService.IsCameraMoving);
     }
 
     private void OnValidate()

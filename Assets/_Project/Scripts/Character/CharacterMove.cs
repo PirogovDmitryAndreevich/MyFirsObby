@@ -3,10 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterMove : MonoBehaviour
 {
-    [SerializeField] private PlayerCamera _playerCamera;
-    [SerializeField] private Transform _cameraFollowPoint;
     [SerializeField] private float _movementSpeed = 10f;
 
+    private PlayerCamera _playerCamera;
     private Rigidbody _rigidbody;
     private IInputService _inputService;
     private Vector3 _movementVector;
@@ -18,10 +17,13 @@ public class CharacterMove : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _inputService = Game.InputService;
+        
     }
 
-    private void Start() => 
-        _playerCamera.SetFollowTransform(_cameraFollowPoint);
+    private void Start()
+    {
+        _playerCamera = Camera.main.GetComponent<PlayerCamera>();
+    }
 
     private void Update()
     {

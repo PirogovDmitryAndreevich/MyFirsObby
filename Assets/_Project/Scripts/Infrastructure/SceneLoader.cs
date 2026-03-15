@@ -23,7 +23,7 @@ public class SceneLoader
 
         AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(name);
 
-        while(waitNextScene.isDone)
+        while(!waitNextScene.isDone)
             yield return null;
 
         onLoaded?.Invoke();

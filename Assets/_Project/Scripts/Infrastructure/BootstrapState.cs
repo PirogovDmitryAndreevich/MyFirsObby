@@ -1,4 +1,4 @@
-using System;
+using UnityEngine;
 
 public class BootstrapState : IState
 {
@@ -28,7 +28,15 @@ public class BootstrapState : IState
 
     private void RegisterServices()
     {
-        
+        Game.InputService = RegisterInputService();
+    }
+
+    private IInputService RegisterInputService()
+    {
+        if (Application.isEditor)
+            return new StandaloneInputService();
+        else
+            return new MobileInputService();
     }
 }
 
