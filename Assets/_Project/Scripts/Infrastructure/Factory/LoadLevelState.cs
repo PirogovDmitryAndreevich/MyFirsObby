@@ -2,19 +2,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 internal class LoadLevelState : IPayloaderState<string>
-{
-    private const string CharacterPath = "Character/Character";
-    private const string HudPath = "Hud/Hud";
+{    
     private const string InitialPointTag = "InitialPoint";
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingCurtain _curtain;
+    private readonly IGameFactory _gameFactory;
 
-    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
+    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, IGameFactory gameFactory)
     {
         _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
         _curtain = curtain;
+        _gameFactory = gameFactory;
     }
 
     public void Enter(string sceneName)
@@ -28,10 +28,8 @@ internal class LoadLevelState : IPayloaderState<string>
 
     private void OnLoaded()
     {
-        var initialPoint = GameObject.FindWithTag(InitialPointTag);
-
-        GameObject character = Instantiate(CharacterPath, at: initialPoint.transform.position);
-        Instantiate(HudPath);
+        GameObject character = _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
+        _gameFactory.CreateHud();
 
         CameraFollow(character);
 
@@ -48,16 +46,5 @@ internal class LoadLevelState : IPayloaderState<string>
             Camera.main
                 .AddComponent<PlayerCamera>()
                 .SetFollowTransform(character.transform);
-    }
-
-    private GameObject Instantiate(string path)
-    {
-        GameObject prefab = Resources.Load<GameObject>(path);
-        return UnityEngine.Object.Instantiate(prefab);
-    }
-    private GameObject Instantiate(string path, Vector3 at)
-    {
-        GameObject prefab = Resources.Load<GameObject>(path);
-        return UnityEngine.Object.Instantiate(prefab, at, Quaternion.identity);
-    }
+    }    
 }

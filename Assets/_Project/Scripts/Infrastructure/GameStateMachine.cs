@@ -7,12 +7,12 @@ public partial class GameStateMachine
 
     private Dictionary<Type, IExcitableState> _states;
 
-    public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain)
+    public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, AllServices services)
     {
         _states = new Dictionary<Type, IExcitableState>()
         {
-            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-            [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain),
+            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
+            [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>()),
             [typeof(GameLoopState)] = new GameLoopState(this)
         };
     }
@@ -39,20 +39,5 @@ public partial class GameStateMachine
         TState state = GetState<TState>();
         _activeState = state;
         return state;
-    }
-}
-
-internal class GameLoopState : IState
-{
-    public GameLoopState(GameStateMachine stateMachine)
-    {
-    }
-
-    public void Enter()
-    {
-    }
-
-    public void Exit()
-    {
     }
 }

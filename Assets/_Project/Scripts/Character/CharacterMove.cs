@@ -16,7 +16,7 @@ public class CharacterMove : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _inputService = Game.InputService;
+        _inputService = AllServices.Container.Single<IInputService>();
         
     }
 

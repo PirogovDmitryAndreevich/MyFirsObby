@@ -28,7 +28,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake()
     {
-        _inputService = Game.InputService;
+        _inputService = AllServices.Container.Single<IInputService>();
         _currentDistance = _defaultDistance;
         _targetDistance = _currentDistance;
         _targetVerticalAngel = 0f;
