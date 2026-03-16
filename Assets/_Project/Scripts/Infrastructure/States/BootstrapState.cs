@@ -21,7 +21,7 @@ public class BootstrapState : IState
     }
 
     private void EnterLoadLevel() => 
-        _stateMachine.Enter<LoadLevelState, string>("SampleScene");
+        _stateMachine.Enter<LoadProgressState>();
 
     public void Exit()
     {
@@ -32,7 +32,9 @@ public class BootstrapState : IState
     {
         _services.RegisterSingle<IInputService>(InputService());
         _services.RegisterSingle<IAssets>(new AssetProvider());
+        _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
         _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>()));
+        _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
     }
 
     private IInputService InputService()

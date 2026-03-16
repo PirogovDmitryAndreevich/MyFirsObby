@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,18 +9,23 @@ internal class LoadLevelState : IPayloaderState<string>
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingCurtain _curtain;
     private readonly IGameFactory _gameFactory;
+    private readonly IPersistentProgressService _progressService;
 
-    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, IGameFactory gameFactory)
+    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
+        LoadingCurtain curtain, IGameFactory gameFactory,
+        IPersistentProgressService progressService)
     {
         _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
         _curtain = curtain;
         _gameFactory = gameFactory;
+        _progressService = progressService;
     }
 
     public void Enter(string sceneName)
     {
         _curtain.Show();
+        _gameFactory.Cleanup();
         _sceneLoader.Load(sceneName, OnLoaded);
     }
 
@@ -28,12 +34,23 @@ internal class LoadLevelState : IPayloaderState<string>
 
     private void OnLoaded()
     {
+        InitGameWorld();
+        InformProgressReaders();
+        _stateMachine.Enter<GameLoopState>();
+    }
+
+    private void InformProgressReaders()
+    {
+        foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)        
+            progressReader.LoadProgress(_progressService.Progress);        
+    }
+
+    private void InitGameWorld()
+    {
         GameObject character = _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
         _gameFactory.CreateHud();
 
         CameraFollow(character);
-
-        _stateMachine.Enter<GameLoopState>();
     }
 
     private void CameraFollow(GameObject character)
