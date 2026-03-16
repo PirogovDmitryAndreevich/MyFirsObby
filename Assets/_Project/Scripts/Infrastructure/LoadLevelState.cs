@@ -4,6 +4,9 @@ using UnityEngine;
 
 internal class LoadLevelState : IPayloaderState<string>
 {
+    private const string CharacterPath = "Character/Character";
+    private const string HudPath = "Hud/Hud";
+    private const string InitialPointTag = "InitialPoint";
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
 
@@ -22,8 +25,10 @@ internal class LoadLevelState : IPayloaderState<string>
     }
     private void OnLoaded()
     {
-        GameObject character = Instantiate("Character/Character");
-        Instantiate("Hud/Hud");
+        var initialPoint = GameObject.FindWithTag(InitialPointTag);
+
+        GameObject character = Instantiate(CharacterPath, at: initialPoint.transform.position);
+        Instantiate(HudPath);
 
         CameraFollow(character);
     }
@@ -44,5 +49,10 @@ internal class LoadLevelState : IPayloaderState<string>
     {
         GameObject prefab = Resources.Load<GameObject>(path);
         return UnityEngine.Object.Instantiate(prefab);
+    }
+    private GameObject Instantiate(string path, Vector3 at)
+    {
+        GameObject prefab = Resources.Load<GameObject>(path);
+        return UnityEngine.Object.Instantiate(prefab, at, Quaternion.identity);
     }
 }
