@@ -1,4 +1,3 @@
-using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,22 +6,26 @@ internal class LoadLevelState : IPayloaderState<string>
     private const string CharacterPath = "Character/Character";
     private const string HudPath = "Hud/Hud";
     private const string InitialPointTag = "InitialPoint";
-    private readonly GameStateMachine _gameStateMachine;
+    private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
+    private readonly LoadingCurtain _curtain;
 
-    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader)
+    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
     {
-        _gameStateMachine = gameStateMachine;
+        _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
+        _curtain = curtain;
     }
 
-    public void Enter(string sceneName) =>
-        _sceneLoader.Load(sceneName, OnLoaded);
-
-    public void Exit()
+    public void Enter(string sceneName)
     {
-        throw new NotImplementedException();
+        _curtain.Show();
+        _sceneLoader.Load(sceneName, OnLoaded);
     }
+
+    public void Exit() => 
+        _curtain.Hide();
+
     private void OnLoaded()
     {
         var initialPoint = GameObject.FindWithTag(InitialPointTag);
@@ -31,6 +34,8 @@ internal class LoadLevelState : IPayloaderState<string>
         Instantiate(HudPath);
 
         CameraFollow(character);
+
+        _stateMachine.Enter<GameLoopState>();
     }
 
     private void CameraFollow(GameObject character)
