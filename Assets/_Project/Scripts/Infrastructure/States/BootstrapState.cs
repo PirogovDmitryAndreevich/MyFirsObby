@@ -3,6 +3,7 @@ using UnityEngine;
 public class BootstrapState : IState
 {
     private const string Initial = "Initial";
+
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly AllServices _services;
