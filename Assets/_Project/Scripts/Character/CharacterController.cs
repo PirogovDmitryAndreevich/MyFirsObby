@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
 public class CharacterController : MonoBehaviour, ISavedProgress
 {
+    public Transform CameraFollow;
+
     [SerializeField] private Guns _gun;
 
     private CharacterMove _mover;

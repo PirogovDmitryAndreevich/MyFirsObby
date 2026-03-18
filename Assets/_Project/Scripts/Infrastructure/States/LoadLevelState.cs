@@ -1,4 +1,3 @@
-using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -55,13 +54,14 @@ internal class LoadLevelState : IPayloaderState<string>
 
     private void CameraFollow(GameObject character)
     {
+        Transform cameraFollow = character.GetComponent<CharacterController>().CameraFollow;
         PlayerCamera playerCamera;
 
         if (Camera.main.TryGetComponent<PlayerCamera>(out playerCamera))
-            playerCamera.SetFollowTransform(character.transform);
+            playerCamera.SetFollowTransform(cameraFollow);
         else
             Camera.main
                 .AddComponent<PlayerCamera>()
-                .SetFollowTransform(character.transform);
+                .SetFollowTransform(cameraFollow);
     }    
 }

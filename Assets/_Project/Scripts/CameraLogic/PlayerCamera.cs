@@ -3,9 +3,9 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField]
-    private float _defaultDistance = 11f,
-        _minDistance = 3f,
-        _maxDistance = 11f,
+    private float _defaultDistance = 2f,
+        _minDistance = 1f,
+        _maxDistance = 5f,
         _distanceMovementSharpness = 10f,
         _rotationSpeed = 10f,
         _rotationSharpness = 10000f,
