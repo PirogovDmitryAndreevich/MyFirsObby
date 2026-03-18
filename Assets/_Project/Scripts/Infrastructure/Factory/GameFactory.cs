@@ -6,16 +6,25 @@ public class GameFactory : IGameFactory
 {
     private readonly IAssets _assets;
 
+    public event Action CharacterCreated;
+
     public List<ISavedProgressReader> ProgressReaders { get; } = new();
     public List<ISavedProgress> ProgressWriters { get; } = new();
+    public GameObject CharacterObject { get; set; }
 
     public GameFactory(IAssets assets)
     {
         _assets = assets;
     }
 
-    public GameObject CreateCharacter(GameObject at) =>
-        InsatiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
+    public GameObject CreateCharacter(GameObject at)
+    {
+        CharacterObject = InsatiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
+                
+        CharacterCreated?.Invoke();
+
+        return CharacterObject;
+    }
 
     public void CreateHud() =>
         InsatiateRegistered(AssetsPath.HudPath);
