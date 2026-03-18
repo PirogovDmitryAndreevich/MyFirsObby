@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
 {
-    private static readonly int Attack = Animator.StringToHash("Attack");
+    private static readonly int Attack = Animator.StringToHash("IsAttack");
     private static readonly int IsWalk = Animator.StringToHash("IsWalk");
 
     private readonly int Attacking = Animator.StringToHash("Attack");

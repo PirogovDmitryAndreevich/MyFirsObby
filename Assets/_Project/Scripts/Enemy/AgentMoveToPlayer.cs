@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AgentMoveToPlayer : MonoBehaviour
+public class AgentMoveToPlayer : Follow
 {
-    private const float MinimalDistance = 1f;
+    private const float MinimalDistance = 2f;
 
     [SerializeField] private NavMeshAgent _agent;
 
@@ -23,7 +23,10 @@ public class AgentMoveToPlayer : MonoBehaviour
     private void Update()
     {
         if (_characterTransform != null && IsCharacterReached())
+        {
+            _agent.updateRotation = true;
             _agent.destination = _characterTransform.position;
+        }
     }
 
     private void SetCharacterTransform()
