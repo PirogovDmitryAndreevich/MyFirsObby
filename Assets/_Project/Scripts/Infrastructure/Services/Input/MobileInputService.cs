@@ -5,14 +5,29 @@ public class MobileInputService : InputService
     public override Vector2 Axis =>
         SimpleInputAxis();
 
-    public override Vector3 LookInputVector =>
-        SimpleInputMouseAxis();
-
-    public override bool IsCameraMoving
+    public override bool IsShoot
     {
         get
         {
-            return SimpleInputMouseAxis() != Vector2.zero;
+            if (Input.touchCount > 0)
+            {
+                Debug.Log("MobileInput");
+
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Began)
+                {
+                    ShootPosition = touch.position;
+                    return true;
+                }
+
+                return false;
+            }
+
+            return false;
         }
     }
+
+    protected override bool IsAttackStateButtonDown() =>
+        AttackState();
 }

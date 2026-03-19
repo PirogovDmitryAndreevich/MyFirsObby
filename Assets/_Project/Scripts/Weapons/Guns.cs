@@ -45,7 +45,7 @@ public class Guns : MonoBehaviour
         CurrentAmmunition = MagazineSize;
     }
 
-    public virtual void Shoot()
+    public virtual void Shoot(Vector3 shootPosition)
     {
         if (CurrentAmmunition <= 0)
         {
@@ -55,7 +55,7 @@ public class Guns : MonoBehaviour
 
         CurrentAmmunition--;
 
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _camera.ScreenPointToRay(shootPosition);
 
         RaycastHit hit;
         Vector3 targetPoint =

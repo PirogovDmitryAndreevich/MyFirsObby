@@ -7,9 +7,13 @@ public interface IInputService : IService
 
     public Vector3 LookInputVector { get; }
 
-    public bool IsCameraMoving { get; }
+    public Vector2 ShootPosition { get; }
 
-    public bool IsAttackButtonUp();
+    public bool IsCameraMoving { get; } 
 
-    public bool IsInteractButtonUp();
+    public bool IsShoot {  get; }
+
+    public bool GetAttackState();
+
+    public bool GetInteract();
 }

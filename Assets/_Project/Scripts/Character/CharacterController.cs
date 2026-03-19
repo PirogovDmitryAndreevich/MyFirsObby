@@ -12,27 +12,31 @@ public class CharacterController : MonoBehaviour, ISavedProgress
     private InputReader _inputReader;
     private CharacterRotation _meshRootRotation;
 
+    private IInputService _input;
+
     public Guns SelectedGuns => _gun;
 
     private void Awake()
     {
+        _input = AllServices.Container.Single<IInputService>();
         _inputReader = GetComponent<InputReader>();
         _meshRootRotation = GetComponent<CharacterRotation>();
         _animation = GetComponent<CharacterAnimation>();
         _mover = GetComponent<CharacterMove>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         _animation.Run(_mover.IsMoving);
-        _animation.KeepWeapon(_inputReader.IsKeepWeapon);
+        _animation.KeepWeapon(_input.GetAttackState());
 
         if (_mover.IsMoving)
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
 
-        if (_inputReader.GetIsShot() && _inputReader.IsKeepWeapon && _gun.CanShotNow)
-            _gun.Shoot();
+        if (_input.IsShoot && _input.GetAttackState() && _gun.CanShotNow)
+            _gun.Shoot(_input.ShootPosition);
     }
+
     public void UpdateProgress(PlayerProgress progress) =>
         progress.WorldData.Position = transform.position.AsVectorData();
 

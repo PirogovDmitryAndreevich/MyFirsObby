@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class StandaloneInputService : InputService
@@ -16,30 +15,27 @@ public class StandaloneInputService : InputService
         }
     }
 
-    public override Vector3 LookInputVector
+    public override bool IsShoot
     {
         get
         {
-            Vector2 axis = SimpleInputMouseAxis();
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("StandaloneInput");
+                ShootPosition = Input.mousePosition;
+                return true;
+            }
 
-            if (axis == Vector2.zero)
-                axis = UnityMouseAxis();
-
-            return axis;
+            return false;
         }
     }
 
-    public override bool IsCameraMoving
+    protected override bool IsAttackStateButtonDown()
     {
-        get
-        {
-            Vector2 axis = SimpleInputMouseAxis();
-
-            if (axis != Vector2.zero)
-                return true;
-            else
-                return Input.GetMouseButton(1);
-        }
+        if (AttackState())
+            return true;
+        else
+            return Input.GetKeyDown(KeyCode.E);
     }
 
     private Vector2 UnityAxis() =>
@@ -47,12 +43,5 @@ public class StandaloneInputService : InputService
         (
             Input.GetAxis(ConstantsData.InputAxis.HorizontalAxis),
             Input.GetAxis(ConstantsData.InputAxis.VerticalAxis)
-        );
-
-    private Vector2 UnityMouseAxis() =>
-        new Vector2
-        (
-            Input.GetAxis(ConstantsData.InputAxis.MouseX),
-            Input.GetAxis(ConstantsData.InputAxis.MouseY)
         );
 }
