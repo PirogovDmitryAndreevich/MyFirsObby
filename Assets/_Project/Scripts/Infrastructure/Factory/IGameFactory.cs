@@ -13,5 +13,6 @@ public interface IGameFactory : IService
 
     void Cleanup();
     GameObject CreateCharacter(GameObject at);
-    GameObject CreateHud();
+    GameObject CreateHudMobile();
+    GameObject CreateHudDesktop();
 }

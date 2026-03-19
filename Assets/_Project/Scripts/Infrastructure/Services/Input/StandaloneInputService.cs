@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class StandaloneInputService : InputService
 {
+    public override bool IsCameraMoving => 
+        Input.GetMouseButton(1);
+
     public override Vector2 Axis
     {
         get
@@ -15,13 +19,18 @@ public class StandaloneInputService : InputService
         }
     }
 
+    public override Vector3 LookInputVector =>
+        MouseInputAxis();
+
     public override bool IsShoot
     {
         get
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("StandaloneInput");
+                if (EventSystem.current.IsPointerOverGameObject())
+                    return false;
+
                 ShootPosition = Input.mousePosition;
                 return true;
             }
@@ -30,18 +39,17 @@ public class StandaloneInputService : InputService
         }
     }
 
-    protected override bool IsAttackStateButtonDown()
-    {
-        if (AttackState())
-            return true;
-        else
-            return Input.GetKeyDown(KeyCode.E);
-    }
-
     private Vector2 UnityAxis() =>
         new Vector2
         (
             Input.GetAxis(ConstantsData.InputAxis.HorizontalAxis),
             Input.GetAxis(ConstantsData.InputAxis.VerticalAxis)
         );
+
+    private Vector3 MouseInputAxis() =>
+        new Vector2
+            (
+                Input.GetAxis(ConstantsData.InputAxis.MouseX),
+                Input.GetAxis(ConstantsData.InputAxis.MouseY)
+            );
 }

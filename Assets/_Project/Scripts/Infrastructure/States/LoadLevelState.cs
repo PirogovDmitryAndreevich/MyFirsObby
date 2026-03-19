@@ -1,9 +1,12 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using YG;
 
 internal class LoadLevelState : IPayloaderState<string>
 {    
     private const string InitialPointTag = "InitialPoint";
+
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingCurtain _curtain;
@@ -47,6 +50,7 @@ internal class LoadLevelState : IPayloaderState<string>
     private void InitGameWorld()
     {
         GameObject character = _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
+        
         InitHud(character);
 
         CameraFollow(character);
@@ -54,9 +58,14 @@ internal class LoadLevelState : IPayloaderState<string>
 
     private void InitHud(GameObject character)
     {
-        GameObject hud = _gameFactory.CreateHud();
+        GameObject hud;
 
-        hud.GetComponentInChildren<ActorUI>().Construct(character.GetComponent<CharacterHealth>());
+        if (YG2.envir.isMobile)
+            hud = _gameFactory.CreateHudMobile();
+        else
+            hud = _gameFactory.CreateHudDesktop();
+
+            hud.GetComponentInChildren<ActorUI>().Construct(character.GetComponent<CharacterHealth>());
     }
 
     private void CameraFollow(GameObject character)

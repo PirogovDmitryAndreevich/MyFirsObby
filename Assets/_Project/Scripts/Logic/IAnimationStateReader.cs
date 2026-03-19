@@ -1,5 +1,3 @@
-using UnityEditor.Animations;
-
 public interface IAnimationStateReader
 {
     public void EnteredState(int stateHash);

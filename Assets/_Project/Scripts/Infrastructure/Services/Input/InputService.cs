@@ -2,7 +2,6 @@ using UnityEngine;
 
 public abstract class InputService : IInputService
 {
-    private const string AttackButton = "Attack";
     private const string InteractButton = "Interact";
     private const string AttackStateButton = "AttackState";
 
@@ -13,18 +12,9 @@ public abstract class InputService : IInputService
 
     public abstract Vector2 Axis { get; }
 
-    public Vector3 LookInputVector
-    {
-        get
-        {
-            Vector2 axis = SimpleInputMouseAxis();
+    public abstract Vector3 LookInputVector { get; }    
 
-            return axis;
-        }
-    }
-
-    public bool IsCameraMoving =>
-        LookInputVector != Vector3.zero;
+    public abstract bool IsCameraMoving { get; }    
 
     public abstract bool IsShoot {  get; }   
 
@@ -51,13 +41,11 @@ public abstract class InputService : IInputService
         return true;
     }
 
-    protected abstract bool IsAttackStateButtonDown();    
+    protected bool IsAttackStateButtonDown() =>
+        AttackState();
 
     protected bool IsInteractButtonUp() =>
         SimpleInput.GetButtonDown(InteractButton);
-
-    protected bool AttackState() =>
-        SimpleInput.GetButtonDown(AttackStateButton);
 
     protected Vector2 SimpleInputAxis() =>
         new Vector2
@@ -66,7 +54,7 @@ public abstract class InputService : IInputService
             SimpleInput.GetAxis(ConstantsData.InputAxis.VerticalAxis)
         );
 
-    private Vector2 SimpleInputMouseAxis() =>
+    protected Vector2 SimpleInputMouseAxis() =>
         new Vector2
         (
             SimpleInput.GetAxis(ConstantsData.InputAxis.MouseRigth),
@@ -75,4 +63,8 @@ public abstract class InputService : IInputService
 
     private void SwitchState() => 
         _isKeepWeapon = !_isKeepWeapon;
+
+    private bool AttackState() =>
+        SimpleInput.GetButtonDown(AttackStateButton);
+
 }

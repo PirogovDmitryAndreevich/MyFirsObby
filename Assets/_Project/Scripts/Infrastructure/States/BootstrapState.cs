@@ -1,4 +1,5 @@
 using UnityEngine;
+using YG;
 
 public class BootstrapState : IState
 {
@@ -40,10 +41,18 @@ public class BootstrapState : IState
 
     private IInputService InputService()
     {
+#if UNITY_EDITOR
         if (Application.isEditor)
             return new StandaloneInputService();
         else
             return new MobileInputService();
+#else
+
+        if (YG2.envir.isDesktop)
+            return new StandaloneInputService();
+        else
+            return new MobileInputService();
+#endif
     }
 }
 

@@ -19,15 +19,18 @@ public class GameFactory : IGameFactory
 
     public GameObject CreateCharacter(GameObject at)
     {
-        CharacterObject = InsatiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
+        CharacterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
                 
         CharacterCreated?.Invoke();
 
         return CharacterObject;
     }
 
-    public GameObject CreateHud() =>
-        InsatiateRegistered(AssetsPath.HudPath);
+    public GameObject CreateHudMobile() =>
+        InstantiateRegistered(AssetsPath.HudMobilePath);
+
+    public GameObject CreateHudDesktop() =>
+        InstantiateRegistered(AssetsPath.HudDesktopPath);
 
     public void Cleanup()
     {
@@ -35,7 +38,7 @@ public class GameFactory : IGameFactory
         ProgressWriters.Clear();
     }
 
-    private GameObject InsatiateRegistered(string prefabPath, Vector3 at)
+    private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {
         GameObject gameObject = _assets.Instantiate(prefabPath, at);
         RegisterProgressWatchers(gameObject);
@@ -43,7 +46,7 @@ public class GameFactory : IGameFactory
         return gameObject;
     }
 
-    private GameObject InsatiateRegistered(string prefabPath)
+    private GameObject InstantiateRegistered(string prefabPath)
     {
         GameObject gameObject = _assets.Instantiate(prefabPath);
         RegisterProgressWatchers(gameObject);
