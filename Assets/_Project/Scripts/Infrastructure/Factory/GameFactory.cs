@@ -26,7 +26,7 @@ public class GameFactory : IGameFactory
         return CharacterObject;
     }
 
-    public void CreateHud() =>
+    public GameObject CreateHud() =>
         InsatiateRegistered(AssetsPath.HudPath);
 
     public void Cleanup()

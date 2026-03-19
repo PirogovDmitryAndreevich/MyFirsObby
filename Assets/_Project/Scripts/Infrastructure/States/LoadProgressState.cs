@@ -30,6 +30,13 @@ internal class LoadProgressState : IState
             LoadProgress()
             ?? NewProgress();
 
-    private PlayerProgress NewProgress() => 
-        new PlayerProgress(initialLevel: "SampleScene");
+    private PlayerProgress NewProgress()
+    {
+        var progress = new PlayerProgress(initialLevel: "SampleScene");
+
+        progress.CharacterState.MaxHP = 100;
+        progress.CharacterState.ResetHP();
+
+        return progress;
+    }
 }

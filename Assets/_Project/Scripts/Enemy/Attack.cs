@@ -11,6 +11,7 @@ public class Attack : MonoBehaviour
     [SerializeField] private LayerMask _layerMaskPlayer;
     [SerializeField] private float _cleavage = 1f;
     [SerializeField] private float _effectiveDistance = 0.5f;
+    [SerializeField] private float _damage = 10f;
 
     private IGameFactory _gameFactory;
     private Transform _characterTransform;
@@ -68,6 +69,9 @@ public class Attack : MonoBehaviour
         if (Hit(out Collider hit))
         {
             PhysicsDebug.DrawDebug(StartPoint(), _cleavage, 1f);
+            if (hit != null && hit.TryGetComponent(out CharacterHealth characterHealth))
+                characterHealth.TakeDame(_damage);
+
         }
     }
 

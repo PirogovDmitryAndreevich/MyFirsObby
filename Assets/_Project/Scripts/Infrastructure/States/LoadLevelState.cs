@@ -47,9 +47,16 @@ internal class LoadLevelState : IPayloaderState<string>
     private void InitGameWorld()
     {
         GameObject character = _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
-        _gameFactory.CreateHud();
+        InitHud(character);
 
         CameraFollow(character);
+    }
+
+    private void InitHud(GameObject character)
+    {
+        GameObject hud = _gameFactory.CreateHud();
+
+        hud.GetComponentInChildren<ActorUI>().Construct(character.GetComponent<CharacterHealth>());
     }
 
     private void CameraFollow(GameObject character)

@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 4185175320858550535}
   - component: {fileID: 2133988900390975148}
   - component: {fileID: 6758067989327951912}
+  - component: {fileID: 1174925173661415784}
+  - component: {fileID: 6794229615858354666}
   m_Layer: 11
   m_Name: Character
   m_TagString: Untagged
@@ -155,6 +157,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 455749784660612688}
+--- !u!114 &1174925173661415784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474936620066482375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087490ebd9714ed49bf0b98529217a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6794229615858354666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474936620066482375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fbc0e87f1cc7504b9704114c5ebee29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: {fileID: 1174925173661415784}
 --- !u!1 &2126411479266927479
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,12 +460,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Muzzle: {fileID: 1866002580983368928}
   Bullet: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
-  BulletForce: 500
-  MagazineSize: 0
+  BulletForce: 80
+  MagazineSize: 10
   Damage: 5
-  SpeedShot: 5
-  Spread: 0
-  _shootDistance: 200
+  SpeedShot: 3
+  Spread: 0.05
+  _shootDistance: 10
 --- !u!1001 &6285252299021921217
 PrefabInstance:
   m_ObjectHideFlags: 0
