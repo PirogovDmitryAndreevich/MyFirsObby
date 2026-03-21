@@ -4,22 +4,29 @@ public class ActorUI : MonoBehaviour
 {
     [SerializeField] private HpBar _hpBar;
 
-    private CharacterHealth _characterHealth;
+    private IHealth _health;
+
+    private void Start()
+    {
+        IHealth health = GetComponent<IHealth>();
+
+        if (health != null)
+            Construct(health);
+    }
 
     private void OnDestroy()
     {
-        _characterHealth.HealthChange -= UpdateHpBar;
+        Debug.Log(gameObject.name);
+        _health.HealthChanged -= UpdateHpBar;
     }
 
-    public void Construct(CharacterHealth health)
+    public void Construct(IHealth health)
     {
-        _characterHealth = health;
+        _health = health;
 
-        _characterHealth.HealthChange += UpdateHpBar;
+        _health.HealthChanged += UpdateHpBar;
     }
 
-    private void UpdateHpBar()
-    {
-        _hpBar.SetValue(_characterHealth.Current, _characterHealth.Max);
-    }
+    private void UpdateHpBar() => 
+        _hpBar.SetValue(_health.Current, _health.Max);
 }

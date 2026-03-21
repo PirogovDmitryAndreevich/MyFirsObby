@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterHealth))]
@@ -8,10 +7,10 @@ public class CharacterDeath : MonoBehaviour
     private bool _isDead = false;
 
     private void Start() => 
-        _health.HealthChange += HealthChanged;
+        _health.HealthChanged += HealthChanged;
 
     private void OnDestroy() => 
-        _health.HealthChange -= HealthChanged;
+        _health.HealthChanged -= HealthChanged;
 
     private void HealthChanged()
     {

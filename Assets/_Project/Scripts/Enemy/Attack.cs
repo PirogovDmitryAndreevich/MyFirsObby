@@ -69,8 +69,8 @@ public class Attack : MonoBehaviour
         if (Hit(out Collider hit))
         {
             PhysicsDebug.DrawDebug(StartPoint(), _cleavage, 1f);
-            if (hit != null && hit.TryGetComponent(out CharacterHealth characterHealth))
-                characterHealth.TakeDame(_damage);
+            if (hit != null && hit.TryGetComponent(out IHealth characterHealth))
+                characterHealth.TakeDamage(_damage);
 
         }
     }
