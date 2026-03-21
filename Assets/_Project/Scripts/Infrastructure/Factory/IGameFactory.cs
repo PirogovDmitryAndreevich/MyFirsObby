@@ -9,9 +9,8 @@ public interface IGameFactory : IService
 
     void Cleanup();
     GameObject CreateCharacter(GameObject at);
-    GameObject CreateHudMobile();
-    GameObject CreateHudDesktop();
+    GameObject CreateHod(bool isMobile);
+    LootPiece CreateLoot();
     void CreateMonster(MonsterTypeID monsterTypeID, Transform parent);
-    void RegisterProgressWatchers(GameObject gameObject);
     void Register(ISavedProgressReader progressReader);
 }

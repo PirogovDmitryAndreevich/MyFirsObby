@@ -14,11 +14,8 @@ public class ActorUI : MonoBehaviour
             Construct(health);
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log(gameObject.name);
+    private void OnDestroy() => 
         _health.HealthChanged -= UpdateHpBar;
-    }
 
     public void Construct(IHealth health)
     {

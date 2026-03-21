@@ -7,10 +7,15 @@ public class MonsterStaticData : ScriptableObject
 
     public int Health;
     public float Damage;
+
+    public int MinLoot;
+    public int MixLoot;
+
     public float MoveSpeed;
 
-    public GameObject Prefab;
     public float EffectiveDistance;
     public float Cleavage;
     public float CooldownAttack;
+
+    public GameObject Prefab;
 }

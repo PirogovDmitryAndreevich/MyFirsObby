@@ -4,7 +4,7 @@ using UnityEngine;
 using YG;
 
 internal class LoadSceneState : IPayloaderState<string>
-{    
+{
     private const string InitialPointTag = "InitialPoint";
     private const string EnemySpawnerTag = "EnemySpawner";
     private readonly GameStateMachine _stateMachine;
@@ -31,7 +31,7 @@ internal class LoadSceneState : IPayloaderState<string>
         _sceneLoader.Load(sceneName, OnLoaded);
     }
 
-    public void Exit() => 
+    public void Exit() =>
         _curtain.Hide();
 
     private void OnLoaded()
@@ -45,14 +45,14 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InformProgressReaders()
     {
-        foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)        
-            progressReader.LoadProgress(_progressService.Progress);        
+        foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
+            progressReader.LoadProgress(_progressService.Progress);
     }
 
     private void InitGameWorld()
     {
         GameObject character = _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
-        
+
         InitHud(character);
 
         CameraFollow(character);
@@ -69,14 +69,9 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InitHud(GameObject character)
     {
-        GameObject hud;
+        GameObject hud = _gameFactory.CreateHod(YG2.envir.isMobile);
 
-        if (YG2.envir.isMobile)
-            hud = _gameFactory.CreateHudMobile();
-        else
-            hud = _gameFactory.CreateHudDesktop();
-
-            hud.GetComponentInChildren<ActorUI>().Construct(character.GetComponent<CharacterHealth>());
+        hud.GetComponentInChildren<ActorUI>().Construct(character.GetComponent<CharacterHealth>());
     }
 
     private void CameraFollow(GameObject character)
@@ -90,5 +85,5 @@ internal class LoadSceneState : IPayloaderState<string>
             Camera.main
                 .AddComponent<PlayerCamera>()
                 .SetFollowTransform(cameraFollow);
-    }    
+    }
 }

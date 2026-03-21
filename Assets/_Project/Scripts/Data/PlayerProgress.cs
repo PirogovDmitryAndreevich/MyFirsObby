@@ -20,6 +20,13 @@ public class PlayerResources
 {
     public int Score;
     public int Cash;
+    public event Action ValueChanged;
+
+    public void Collect(Loot loot)
+    {
+        Cash += loot.Value;
+        ValueChanged?.Invoke();
+    }
 }
 
 [Serializable]
