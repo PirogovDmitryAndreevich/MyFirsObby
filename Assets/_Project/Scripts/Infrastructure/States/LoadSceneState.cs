@@ -3,17 +3,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using YG;
 
-internal class LoadLevelState : IPayloaderState<string>
+internal class LoadSceneState : IPayloaderState<string>
 {    
     private const string InitialPointTag = "InitialPoint";
-
+    private const string EnemySpawnerTag = "EnemySpawner";
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingCurtain _curtain;
     private readonly IGameFactory _gameFactory;
     private readonly IPersistentProgressService _progressService;
 
-    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
+    public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         LoadingCurtain curtain, IGameFactory gameFactory,
         IPersistentProgressService progressService)
     {
@@ -36,9 +36,19 @@ internal class LoadLevelState : IPayloaderState<string>
 
     private void OnLoaded()
     {
+        InitEnemySpawner();
+
         InitGameWorld();
         InformProgressReaders();
         _stateMachine.Enter<GameLoopState>();
+    }
+
+    private void InitEnemySpawner()
+    {
+        foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(EnemySpawnerTag))
+        {
+            EnemySpawner spawner = spawnerObject.GetComponent<EnemySpawner>();
+        }
     }
 
     private void InformProgressReaders()

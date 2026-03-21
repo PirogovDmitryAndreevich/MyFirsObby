@@ -16,7 +16,7 @@ internal class LoadProgressState : IState
     public void Enter()
     {
         LoadProgressOrInitNew();
-        _stateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.Level);
+        _stateMachine.Enter<LoadSceneState, string>(_progressService.Progress.WorldData.Level);
     }
 
     public void Exit()
