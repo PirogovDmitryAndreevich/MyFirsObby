@@ -4,19 +4,9 @@ public class RotateToPlayer : Follow
 {
     [SerializeField] private float _speed = 3f; 
     
-    private IGameFactory _gameFactory;
     private Transform _characterTransform;
     private Vector3 _positionToLook;
-
-    private void Start()
-    {
-        _gameFactory = AllServices.Container.Single<IGameFactory>();
-
-        if (_gameFactory.CharacterObject != null)
-            SetCharacterTransform();
-        else
-            _gameFactory.CharacterCreated += CharacterCreated;
-    }
+        
 
     private void Update()
     {
@@ -37,15 +27,6 @@ public class RotateToPlayer : Follow
         _positionToLook = new Vector3(positionDiff.x, transform.position.y, positionDiff.z);
     }
 
-    private void SetCharacterTransform() =>
-        _characterTransform = _gameFactory.CharacterObject.transform;
-
-    private void CharacterCreated()
-    {
-        _gameFactory.CharacterCreated -= CharacterCreated;
-        SetCharacterTransform();
-    }
-
     private Quaternion SmoothedRotation(Quaternion rotation, Vector3 positionToLook) =>
         Quaternion.Lerp(rotation, TargetRotation(positionToLook), SpeedFactor());
 
@@ -57,4 +38,7 @@ public class RotateToPlayer : Follow
 
     private bool Initialized() =>
         _characterTransform != null;
+
+    internal void Construct(Transform transform) => 
+        _characterTransform = transform;
 }

@@ -32,14 +32,22 @@ public class BootstrapState : IState
 
     private void RegisterServices()
     {
-        _services.RegisterSingle<IInputService>(InputService());
+        RegisterStaticData();
+        _services.RegisterSingle(RegisterInputService());
         _services.RegisterSingle<IAssets>(new AssetProvider());
         _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-        _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>()));
+        _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(), _services.Single<IStaticDataService>()));
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
     }
 
-    private IInputService InputService()
+    private void RegisterStaticData()
+    {
+        IStaticDataService staticData = new StaticDataService();
+        staticData.LoadMonsters();
+        _services.RegisterSingle(staticData);
+    }
+
+    private IInputService RegisterInputService()
     {
 #if UNITY_EDITOR
         if (Application.isEditor)

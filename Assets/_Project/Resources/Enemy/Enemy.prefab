@@ -528,7 +528,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 3
   m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 1600
@@ -608,13 +608,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 108749402642580005}
   _animationEvents: {fileID: 8153670370448622255}
-  _cooldownAttack: 1
   _layerMaskPlayer:
     serializedVersion: 2
     m_Bits: 2048
-  _cleavage: 1
-  _effectiveDistance: 0.5
-  _damage: 10
 --- !u!114 &6830101639158370120
 MonoBehaviour:
   m_ObjectHideFlags: 0

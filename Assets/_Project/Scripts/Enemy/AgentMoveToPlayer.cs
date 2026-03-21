@@ -8,17 +8,6 @@ public class AgentMoveToPlayer : Follow
     [SerializeField] private NavMeshAgent _agent;
 
     private Transform _characterTransform;
-    private IGameFactory _gameFactory;
-
-    private void Start()
-    {
-        _gameFactory = AllServices.Container.Single<IGameFactory>();
-
-        if (_gameFactory.CharacterObject != null)
-            SetCharacterTransform();
-        else
-            _gameFactory.CharacterCreated += SetCharacterTransform;
-    }    
 
     private void Update()
     {
@@ -29,11 +18,8 @@ public class AgentMoveToPlayer : Follow
         }
     }
 
-    private void SetCharacterTransform()
-    {
-        _gameFactory.CharacterCreated -= SetCharacterTransform;
-        _characterTransform = _gameFactory.CharacterObject.transform;
-    }
+    public void Construct(Transform transform) => 
+        _characterTransform = transform;
 
     private bool IsCharacterReached() =>
         Vector3.Distance(_agent.transform.position, _characterTransform.position) >= MinimalDistance;

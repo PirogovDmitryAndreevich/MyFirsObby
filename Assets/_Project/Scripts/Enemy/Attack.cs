@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -7,28 +6,18 @@ public class Attack : MonoBehaviour
 {
     [SerializeField] private EnemyAnimator _animator;
     [SerializeField] private EnemyAnimationEvents _animationEvents;
-    [SerializeField] private float _cooldownAttack = 3f;
     [SerializeField] private LayerMask _layerMaskPlayer;
-    [SerializeField] private float _cleavage = 1f;
-    [SerializeField] private float _effectiveDistance = 0.5f;
-    [SerializeField] private float _damage = 10f;
 
-    private IGameFactory _gameFactory;
     private Transform _characterTransform;
+    private float _cooldownAttack = 3f;
+    private float _cleavage = 1f;
+    private float _effectiveDistance = 0.5f;
+    private float _damage = 10f;
+
     private float _cooldownAttackTime;
     private bool _isAttacking;
-    private Collider[] _hits = new Collider[1];
     private bool _attackIsActive;
-
-    private void Awake()
-    {
-        _gameFactory = AllServices.Container.Single<IGameFactory>();
-
-        if (_gameFactory.CharacterObject != null)
-            SetCharacterTransform();
-        else
-            _gameFactory.CharacterCreated += CharacterCreated;
-    }
+    private Collider[] _hits = new Collider[1];
 
     private void Start()
     {
@@ -50,10 +39,19 @@ public class Attack : MonoBehaviour
             StartAttack();
     }
 
-    public void DisableAttack() => 
+    public void Construct(Transform character, float damage, float effectiveDistance, float cleavage, float cooldownAttack)
+    {
+        _characterTransform = character;
+        _damage = damage;
+        _effectiveDistance = effectiveDistance;
+        _cleavage = cleavage;
+        _cooldownAttack = cooldownAttack;
+    }
+
+    public void DisableAttack() =>
         _attackIsActive = false;
 
-    public void EnableAttack() => 
+    public void EnableAttack() =>
         _attackIsActive = true;
 
     private void StartAttack()
@@ -105,13 +103,4 @@ public class Attack : MonoBehaviour
 
     private bool CooldownIsUp() =>
         _cooldownAttackTime <= 0;
-
-    private void SetCharacterTransform() =>
-        _characterTransform = _gameFactory.CharacterObject.transform;
-
-    private void CharacterCreated()
-    {
-        _gameFactory.CharacterCreated -= CharacterCreated;
-        SetCharacterTransform();
-    }    
 }

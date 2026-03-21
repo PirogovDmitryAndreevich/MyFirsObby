@@ -43,14 +43,6 @@ internal class LoadSceneState : IPayloaderState<string>
         _stateMachine.Enter<GameLoopState>();
     }
 
-    private void InitEnemySpawner()
-    {
-        foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(EnemySpawnerTag))
-        {
-            EnemySpawner spawner = spawnerObject.GetComponent<EnemySpawner>();
-        }
-    }
-
     private void InformProgressReaders()
     {
         foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)        
@@ -64,6 +56,15 @@ internal class LoadSceneState : IPayloaderState<string>
         InitHud(character);
 
         CameraFollow(character);
+    }
+
+    private void InitEnemySpawner()
+    {
+        foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(EnemySpawnerTag))
+        {
+            EnemySpawner spawner = spawnerObject.GetComponent<EnemySpawner>();
+            _gameFactory.Register(spawner);
+        }
     }
 
     private void InitHud(GameObject character)
