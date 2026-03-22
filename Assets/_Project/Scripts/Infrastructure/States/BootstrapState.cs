@@ -36,12 +36,14 @@ public class BootstrapState : IState
         _services.RegisterSingle(RegisterInputService());
         _services.RegisterSingle<IAssets>(new AssetProvider());
         _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-
-        _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
-            _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>()));
+        _services.RegisterSingle<ISavedLists>(new SavedLists());
 
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService
-            (_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
+            (_services.Single<IPersistentProgressService>(), _services.Single<ISavedLists>()));
+
+        _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
+            _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>(),
+            _services.Single<ISavedLists>(), _services.Single<ISaveLoadService>()));
     }
 
     private void RegisterStaticData()

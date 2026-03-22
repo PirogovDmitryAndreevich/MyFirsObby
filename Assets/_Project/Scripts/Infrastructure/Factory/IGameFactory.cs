@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface IGameFactory : IService
 {
-    List<ISavedProgress> ProgressWriters { get; }
-    List<ISavedProgressReader> ProgressReaders { get; }
-
-    void Cleanup();
     GameObject CreateCharacter(GameObject at);
     GameObject CreateHod(bool isMobile);
     LootPiece CreateLoot();

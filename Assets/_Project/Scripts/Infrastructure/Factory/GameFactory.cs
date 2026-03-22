@@ -1,38 +1,39 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Object = UnityEngine.Object;
 
 public class GameFactory : IGameFactory
 {
+    private GameObject _characterObject;
+
     private readonly IAssets _assets;
     private readonly IStaticDataService _staticData;
-    private IPersistentProgressService _progressService;
+    private readonly IPersistentProgressService _progressService;
+    private readonly ISavedLists _savedLists;
+    private readonly ISaveLoadService _saveLoadService;
 
-    public List<ISavedProgressReader> ProgressReaders { get; } = new();
-    public List<ISavedProgress> ProgressWriters { get; } = new();
-    private  GameObject CharacterObject { get; set; }
-
-    public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService)
+    public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
+        ISavedLists savedLists, ISaveLoadService saveLoadService)
     {
         _assets = assets;
         _staticData = staticData;
         _progressService = progressService;
+        _savedLists = savedLists;
+        _saveLoadService = saveLoadService;
     }    
 
     public void Register(ISavedProgressReader progressReader)
     {
         if (progressReader is ISavedProgress progressWriter)
-            ProgressWriters.Add(progressWriter);
+            _savedLists.AddWriter(progressWriter);
 
-        ProgressReaders.Add(progressReader);
+        _savedLists.AddReader(progressReader);
     }
 
     public GameObject CreateCharacter(GameObject at)
     {
-        CharacterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
+        _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
 
-        return CharacterObject;
+        return _characterObject;
     }
 
     public GameObject CreateHod(bool isMobile)
@@ -55,7 +56,7 @@ public class GameFactory : IGameFactory
         var lootPiece = InstantiateRegistered(AssetsPath.Loot)
             .GetComponent<LootPiece>();
 
-        lootPiece.Construct(_progressService.Progress.Resources);
+        lootPiece.Construct(_progressService.Progress.Resources, _saveLoadService);
 
         return lootPiece;
     }
@@ -71,7 +72,7 @@ public class GameFactory : IGameFactory
         health.Current = monsterData.Health;
 
         monster.GetComponent<ActorUI>().Construct(health);
-        monster.GetComponent<AgentMoveToPlayer>().Construct(CharacterObject.transform);
+        monster.GetComponent<AgentMoveToPlayer>().Construct(_characterObject.transform);
         monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
         LootSpawner lootSpawner = monster.GetComponentInChildren<LootSpawner>();
@@ -79,16 +80,10 @@ public class GameFactory : IGameFactory
         lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MixLoot);
 
         monster.GetComponent<Attack>()
-            .Construct(CharacterObject.transform, monsterData.Damage, monsterData.EffectiveDistance,
+            .Construct(_characterObject.transform, monsterData.Damage, monsterData.EffectiveDistance,
             monsterData.Cleavage, monsterData.CooldownAttack);
 
-        monster.GetComponent<RotateToPlayer>()?.Construct(CharacterObject.transform);
-    }
-
-    public void Cleanup()
-    {
-        ProgressReaders.Clear();
-        ProgressWriters.Clear();
+        monster.GetComponent<RotateToPlayer>()?.Construct(_characterObject.transform);
     }
 
     private GameObject CreateHudMobile() =>

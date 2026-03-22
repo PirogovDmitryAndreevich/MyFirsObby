@@ -1,0 +1,24 @@
+{
+    "intExample": 5,
+    "strExample": "Hello!",
+    "boolExample": [
+        false,
+        false,
+        false,
+        false
+    ],
+    "idSave": 4,
+    "Progress": {
+        "WorldData": {
+            "Level": "SampleScene"
+        },
+        "Resources": {
+            "Score": 0,
+            "Cash": 7
+        },
+        "CharacterState": {
+            "CurrentHP": 95.0,
+            "MaxHP": 100.0
+        }
+    }
+}

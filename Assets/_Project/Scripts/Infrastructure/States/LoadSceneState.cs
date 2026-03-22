@@ -12,22 +12,24 @@ internal class LoadSceneState : IPayloaderState<string>
     private readonly LoadingCurtain _curtain;
     private readonly IGameFactory _gameFactory;
     private readonly IPersistentProgressService _progressService;
+    private readonly ISavedLists _savedLists;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         LoadingCurtain curtain, IGameFactory gameFactory,
-        IPersistentProgressService progressService)
+        IPersistentProgressService progressService, ISavedLists savedLists)
     {
         _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
         _curtain = curtain;
         _gameFactory = gameFactory;
         _progressService = progressService;
+        _savedLists = savedLists;
     }
 
     public void Enter(string sceneName)
     {
         _curtain.Show();
-        _gameFactory.Cleanup();
+        _savedLists.Cleanup();
         _sceneLoader.Load(sceneName, OnLoaded);
     }
 
@@ -45,7 +47,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InformProgressReaders()
     {
-        foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
+        foreach (ISavedProgressReader progressReader in _savedLists.ProgressReaders)
             progressReader.LoadProgress(_progressService.Progress);
     }
 

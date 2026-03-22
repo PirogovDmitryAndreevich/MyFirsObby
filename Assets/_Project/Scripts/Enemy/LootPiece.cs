@@ -3,12 +3,14 @@ using UnityEngine;
 public class LootPiece : MonoBehaviour
 {
     private PlayerResources _resources;
+    private ISaveLoadService _save;
     private Loot _loot;
     private bool _picked;
 
-    public void Construct(PlayerResources resources)
+    public void Construct(PlayerResources resources, ISaveLoadService saveLoadService)
     {
         _resources = resources;
+        _save = saveLoadService;
     }
 
     public void Initialize(Loot loot)
@@ -31,7 +33,7 @@ public class LootPiece : MonoBehaviour
 
         _resources.Collect(_loot);
 
-        Debug.Log("Loot Collected");
+        _save.SaveProgress();
         Destroy(gameObject);
     }
 }
