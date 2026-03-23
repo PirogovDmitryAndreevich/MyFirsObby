@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 14146725200849607}
-  - component: {fileID: 9009545621600386696}
+  - component: {fileID: 3826171985552467755}
   m_Layer: 0
-  m_Name: EnemySpawner
-  m_TagString: EnemySpawner
+  m_Name: SpawnPoint
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9009545621600386696
+--- !u!114 &3826171985552467755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3125106388860990232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 482bb37eb5cdb624e8b4dbd106aebc8c, type: 3}
+  m_Script: {fileID: 11500000, guid: 347d9640a68b11749b2bd4e044dda521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _monsterTypeID: 0

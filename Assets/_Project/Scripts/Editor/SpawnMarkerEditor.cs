@@ -1,11 +1,11 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(EnemySpawner))]
-public class EnemySpawnerEditor : UnityEditor.Editor
+[CustomEditor(typeof(SpawnMarker))]
+public class SpawnMarkerEditor : Editor
 {
     [DrawGizmo(GizmoType.Active | GizmoType.Pickable | GizmoType.NonSelected)]
-   public static void RenderCustomGizmo(EnemySpawner spawner, GizmoType gizmo)
+   public static void RenderCustomGizmo(SpawnMarker spawner, GizmoType gizmo)
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(spawner.transform.position, 0.5f);

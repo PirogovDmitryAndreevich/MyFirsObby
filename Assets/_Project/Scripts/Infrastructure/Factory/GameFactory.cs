@@ -19,14 +19,6 @@ public class GameFactory : IGameFactory
         _progressService = progressService;
         _savedLists = savedLists;
         _saveLoadService = saveLoadService;
-    }    
-
-    public void Register(ISavedProgressReader progressReader)
-    {
-        if (progressReader is ISavedProgress progressWriter)
-            _savedLists.AddWriter(progressWriter);
-
-        _savedLists.AddReader(progressReader);
     }
 
     public GameObject CreateCharacter(GameObject at)
@@ -40,9 +32,9 @@ public class GameFactory : IGameFactory
     {
         GameObject hod;
 
-        if (isMobile)        
-            hod = CreateHudMobile();        
-        else        
+        if (isMobile)
+            hod = CreateHudMobile();
+        else
             hod = CreateHudDesktop();
 
         hod.GetComponentInChildren<LootCounter>()
@@ -86,17 +78,22 @@ public class GameFactory : IGameFactory
         monster.GetComponent<RotateToPlayer>()?.Construct(_characterObject.transform);
     }
 
+    public void CreateSpawner(Vector3 at, string id, MonsterTypeID monsterTypeId)
+    {
+        SpawnPoint spawner = InstantiateRegistered(AssetsPath.Spawner)
+            .GetComponent<SpawnPoint>();
+
+        spawner.Construct(this);
+        spawner.Id = id;
+        spawner._monsterTypeID = monsterTypeId;
+        spawner.transform.position = at;
+    }
+
     private GameObject CreateHudMobile() =>
         InstantiateRegistered(AssetsPath.HudMobilePath);
 
     private GameObject CreateHudDesktop() =>
         InstantiateRegistered(AssetsPath.HudDesktopPath);
-
-    private void RegisterProgressWatchers(GameObject gameObject)
-    {
-        foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
-            Register(progressReader);
-    }
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {
@@ -114,4 +111,21 @@ public class GameFactory : IGameFactory
         return gameObject;
     }
 
+    private void RegisterProgressWatchers(GameObject gameObject)
+    {
+        foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
+            Register(progressReader);
+    }
+
+    private void Register(ISavedProgressReader progressReader)
+    {
+        if (progressReader is ISavedProgress progressWriter)
+        {
+            if (!_savedLists.ProgressWriters.Contains(progressWriter))
+                _savedLists.AddWriter(progressWriter);
+        }
+
+        if (!_savedLists.ProgressReaders.Contains(progressReader))
+            _savedLists.AddReader(progressReader);
+    }
 }

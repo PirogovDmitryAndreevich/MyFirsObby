@@ -6,5 +6,5 @@ public interface IGameFactory : IService
     GameObject CreateHod(bool isMobile);
     LootPiece CreateLoot();
     void CreateMonster(MonsterTypeID monsterTypeID, Transform parent);
-    void Register(ISavedProgressReader progressReader);
+    void CreateSpawner(Vector3 at, string id, MonsterTypeID monsterTypeId);
 }

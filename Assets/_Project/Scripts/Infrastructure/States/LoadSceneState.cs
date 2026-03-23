@@ -1,22 +1,24 @@
-using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YG;
 
 internal class LoadSceneState : IPayloaderState<string>
 {
     private const string InitialPointTag = "InitialPoint";
-    private const string EnemySpawnerTag = "EnemySpawner";
+
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingCurtain _curtain;
     private readonly IGameFactory _gameFactory;
     private readonly IPersistentProgressService _progressService;
     private readonly ISavedLists _savedLists;
+    private readonly IStaticDataService _staticData;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         LoadingCurtain curtain, IGameFactory gameFactory,
-        IPersistentProgressService progressService, ISavedLists savedLists)
+        IPersistentProgressService progressService, ISavedLists savedLists,
+        IStaticDataService staticData)
     {
         _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
@@ -24,6 +26,7 @@ internal class LoadSceneState : IPayloaderState<string>
         _gameFactory = gameFactory;
         _progressService = progressService;
         _savedLists = savedLists;
+        _staticData = staticData;
     }
 
     public void Enter(string sceneName)
@@ -38,17 +41,11 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void OnLoaded()
     {
-        InitEnemySpawner();
+        InitEnemySpawners();
 
         InitGameWorld();
         InformProgressReaders();
         _stateMachine.Enter<GameLoopState>();
-    }
-
-    private void InformProgressReaders()
-    {
-        foreach (ISavedProgressReader progressReader in _savedLists.ProgressReaders)
-            progressReader.LoadProgress(_progressService.Progress);
     }
 
     private void InitGameWorld()
@@ -60,13 +57,14 @@ internal class LoadSceneState : IPayloaderState<string>
         CameraFollow(character);
     }
 
-    private void InitEnemySpawner()
+    private void InitEnemySpawners()
     {
-        foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(EnemySpawnerTag))
-        {
-            EnemySpawner spawner = spawnerObject.GetComponent<EnemySpawner>();
-            _gameFactory.Register(spawner);
-        }
+        string sceneKey = SceneManager.GetActiveScene().name;
+
+        LevelStaticData levelData = _staticData.ForLevel(sceneKey);
+
+        foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
+            _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeId);
     }
 
     private void InitHud(GameObject character)
@@ -74,6 +72,12 @@ internal class LoadSceneState : IPayloaderState<string>
         GameObject hud = _gameFactory.CreateHod(YG2.envir.isMobile);
 
         hud.GetComponentInChildren<ActorUI>().Construct(character.GetComponent<CharacterHealth>());
+    }
+
+    private void InformProgressReaders()
+    {
+        foreach (ISavedProgressReader progressReader in _savedLists.ProgressReaders)        
+            progressReader.LoadProgress(_progressService.Progress);        
     }
 
     private void CameraFollow(GameObject character)

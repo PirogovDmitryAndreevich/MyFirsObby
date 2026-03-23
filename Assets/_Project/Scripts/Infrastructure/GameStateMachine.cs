@@ -12,8 +12,8 @@ public partial class GameStateMachine
         _states = new Dictionary<Type, IExcitableState>()
         {
             [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
-            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IPersistentProgressService>(), 
-            services.Single<ISavedLists>()),
+            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, curtain, services.Single<IGameFactory>(),
+            services.Single<IPersistentProgressService>(), services.Single<ISavedLists>(), services.Single<IStaticDataService>()),
             [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>()),
             [typeof(GameLoopState)] = new GameLoopState(this)
         };
