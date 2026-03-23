@@ -3,26 +3,22 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
 public class CharacterController : MonoBehaviour, ISavedProgress
 {
-    public Transform CameraFollow;
-
+    [SerializeField] private Transform _cameraFollow;
     [SerializeField] private Guns _gun;
 
     private CharacterMove _mover;
     private CharacterAnimation _animation;
-    private InputReader _inputReader;
     private CharacterRotation _meshRootRotation;
 
     private IInputService _input;
 
     public Guns SelectedGuns => _gun;
+    public Transform CameraFollow => _cameraFollow;
 
     private void Awake()
     {
-        _input = AllServices.Container.Single<IInputService>();
-        _inputReader = GetComponent<InputReader>();
         _meshRootRotation = GetComponent<CharacterRotation>();
-        _animation = GetComponent<CharacterAnimation>();
-        _mover = GetComponent<CharacterMove>();
+        _animation = GetComponent<CharacterAnimation>();        
     }
 
     private void Update()
@@ -35,6 +31,14 @@ public class CharacterController : MonoBehaviour, ISavedProgress
 
         if (_input.IsShoot && _input.GetAttackState() && _gun.CanShotNow)
             _gun.Shoot(_input.ShootPosition);
+    }
+
+    public void Construct(IInputService inputService)
+    {
+        _input = inputService;
+
+        _mover = GetComponent<CharacterMove>();
+        _mover.Construct(_input);
     }
 
     public void UpdateProgress(PlayerProgress progress) =>

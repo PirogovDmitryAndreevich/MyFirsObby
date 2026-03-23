@@ -1,6 +1,3 @@
-using System;
-using UnityEngine;
-
 public class Vector3Data
 {
     public float X;

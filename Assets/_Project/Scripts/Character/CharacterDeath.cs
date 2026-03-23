@@ -23,5 +23,6 @@ public class CharacterDeath : MonoBehaviour
     private void Die()
     {
         _isDead = true;
+        Debug.Log("Character died");
     }
 }

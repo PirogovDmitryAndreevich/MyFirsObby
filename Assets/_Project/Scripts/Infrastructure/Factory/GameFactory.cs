@@ -10,20 +10,26 @@ public class GameFactory : IGameFactory
     private readonly IPersistentProgressService _progressService;
     private readonly ISavedLists _savedLists;
     private readonly ISaveLoadService _saveLoadService;
+    private readonly IInputService _inputService;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
-        ISavedLists savedLists, ISaveLoadService saveLoadService)
+        ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService)
     {
         _assets = assets;
         _staticData = staticData;
         _progressService = progressService;
         _savedLists = savedLists;
         _saveLoadService = saveLoadService;
+        _inputService = inputService;
     }
 
     public GameObject CreateCharacter(GameObject at)
     {
         _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
+
+        CharacterController controller = _characterObject.GetComponent<CharacterController>();
+
+        controller.Construct(_inputService);
 
         return _characterObject;
     }

@@ -13,17 +13,11 @@ public class CharacterMove : MonoBehaviour
     public Vector3 MovementVector => _movementVector;
     public bool IsMoving => _inputService.Axis.sqrMagnitude > ConstantsData.Epsilon;
 
-    private void Awake()
-    {
+    private void Awake() => 
         _rigidbody = GetComponent<Rigidbody>();
-        _inputService = AllServices.Container.Single<IInputService>();
-        
-    }
 
-    private void Start()
-    {
+    private void Start() => 
         _playerCamera = Camera.main.GetComponent<PlayerCamera>();
-    }
 
     private void Update()
     {
@@ -41,4 +35,7 @@ public class CharacterMove : MonoBehaviour
             _rigidbody.MovePosition(_rigidbody.position + move);
         }
     }
+
+    public void Construct(IInputService inputService) => 
+        _inputService = inputService;
 }
