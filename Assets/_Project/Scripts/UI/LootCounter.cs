@@ -12,6 +12,9 @@ public class LootCounter : MonoBehaviour
         UpdateCounter();
     }
 
+    private void OnDestroy() => 
+        _resources.ValueChanged -= UpdateCounter;
+
     public void Construct(PlayerResources resources)
     {
         _resources = resources;

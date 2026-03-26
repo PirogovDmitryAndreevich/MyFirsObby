@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +9,7 @@ using YG;
 internal class LoadSceneState : IPayloaderState<string>
 {
     private const string InitialPointTag = "InitialPoint";
+    private const string ArsnalPointTag = "ArsenalPoint";
 
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -14,11 +18,12 @@ internal class LoadSceneState : IPayloaderState<string>
     private readonly IPersistentProgressService _progressService;
     private readonly ISavedLists _savedLists;
     private readonly IStaticDataService _staticData;
+    private readonly ISaveLoadService _saveLoadService;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         LoadingCurtain curtain, IGameFactory gameFactory,
         IPersistentProgressService progressService, ISavedLists savedLists,
-        IStaticDataService staticData)
+        IStaticDataService staticData, ISaveLoadService saveLoadService)
     {
         _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
@@ -27,6 +32,7 @@ internal class LoadSceneState : IPayloaderState<string>
         _progressService = progressService;
         _savedLists = savedLists;
         _staticData = staticData;
+        _saveLoadService = saveLoadService;
     }
 
     public void Enter(string sceneName)
@@ -50,12 +56,31 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InitGameWorld()
     {
-        GameObject character = _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
+        GameObject character = InitCharacter();
+        CharacterController characterController = character.GetComponent<CharacterController>();
+        CharacterHealth characterHealth = character.GetComponent<CharacterHealth>();
 
-        InitHud(character);
+        GameObject hud = InitHud(characterHealth);
+        InventoryView inventoryView = hud.GetComponentInChildren<InventoryView>();
+
+        InitInventory(characterController, inventoryView);
+
+        InitArsenal();
 
         CameraFollow(character);
     }
+
+    private GameObject InitCharacter() =>
+        _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
+
+    private void InitInventory(CharacterController character , InventoryView inventoryView)
+    {
+        Inventory inventory = _gameFactory.CreateInventory();
+        inventory.Construct(character, _staticData.ForWeapons(), inventoryView, _saveLoadService);
+    }
+
+    private void InitArsenal() => 
+        _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag));
 
     private void InitEnemySpawners()
     {
@@ -67,11 +92,13 @@ internal class LoadSceneState : IPayloaderState<string>
             _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeId);
     }
 
-    private void InitHud(GameObject character)
+    private GameObject InitHud(CharacterHealth character)
     {
         GameObject hud = _gameFactory.CreateHod(YG2.envir.isMobile);
 
-        hud.GetComponentInChildren<ActorUI>().Construct(character.GetComponent<CharacterHealth>());
+        hud.GetComponentInChildren<ActorUI>().Construct(character);
+
+        return hud;
     }
 
     private void InformProgressReaders()

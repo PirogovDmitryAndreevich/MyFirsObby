@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public class M1911 : Guns
+public class M1911 : Shooter
 {    
 }

@@ -95,11 +95,22 @@ public class GameFactory : IGameFactory
         spawner.transform.position = at;
     }
 
+    public void CreateArsenal(GameObject at) => 
+        InstantiateRegistered(AssetsPath.Arsenal, at.transform.position);
+
     private GameObject CreateHudMobile() =>
         InstantiateRegistered(AssetsPath.HudMobilePath);
 
     private GameObject CreateHudDesktop() =>
         InstantiateRegistered(AssetsPath.HudDesktopPath);
+
+    public Inventory CreateInventory()
+    {
+        var inventory = new Inventory();
+        Register(inventory);
+
+        return inventory;
+    }
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {

@@ -7,14 +7,14 @@
         false,
         false
     ],
-    "idSave": 4,
+    "idSave": 6,
     "Progress": {
         "WorldData": {
             "Level": "SampleScene"
         },
         "Resources": {
             "Score": 0,
-            "Cash": 7
+            "Cash": 14
         },
         "CharacterState": {
             "CurrentHP": 95.0,

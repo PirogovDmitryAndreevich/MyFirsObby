@@ -1,24 +1,26 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
+[RequireComponent(typeof(Shooter))]
 public class CharacterController : MonoBehaviour, ISavedProgress
 {
     [SerializeField] private Transform _cameraFollow;
-    [SerializeField] private Guns _gun;
 
+    private Shooter _gun;
     private CharacterMove _mover;
     private CharacterAnimation _animation;
     private CharacterRotation _meshRootRotation;
 
     private IInputService _input;
 
-    public Guns SelectedGuns => _gun;
+    public Shooter SelectedGuns => _gun;
     public Transform CameraFollow => _cameraFollow;
 
     private void Awake()
     {
         _meshRootRotation = GetComponent<CharacterRotation>();
-        _animation = GetComponent<CharacterAnimation>();        
+        _animation = GetComponent<CharacterAnimation>();
+        _gun = GetComponent<Shooter>();
     }
 
     private void Update()
@@ -41,6 +43,13 @@ public class CharacterController : MonoBehaviour, ISavedProgress
         _mover.Construct(_input);
     }
 
+    public void SelectWeapon(WeaponStaticData weapon, int damageLevel, int magazineLevel)
+    {
+        GameObject prefab = weapon.Prefab;
+        Muzzle muzzle = prefab.GetComponentInChildren<Muzzle>();
+        _gun.SelectWeapon(weapon, muzzle.CurrentMuzzle, damageLevel, magazineLevel);
+    }
+
     public void UpdateProgress(PlayerProgress progress) =>
         progress.WorldData.Position = transform.position.AsVectorData();
 
@@ -48,8 +57,8 @@ public class CharacterController : MonoBehaviour, ISavedProgress
     {
         Vector3Data savedPosition = progress.WorldData.Position;
 
-        if (savedPosition != null)            
-            Warp(to: savedPosition);        
+        if (savedPosition != null)
+            Warp(to: savedPosition);
     }
 
     private void Warp(Vector3Data to)
