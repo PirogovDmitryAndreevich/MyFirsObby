@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
 [RequireComponent(typeof(Shooter))]
-public class CharacterController : MonoBehaviour, ISavedProgress
+public class CharacterController : MonoBehaviour, ISavedProgress, IInteractable
 {
     [SerializeField] private Transform _cameraFollow;
 
@@ -12,6 +12,7 @@ public class CharacterController : MonoBehaviour, ISavedProgress
     private CharacterRotation _meshRootRotation;
 
     private IInputService _input;
+    private IInteractObject _currentInteract;
 
     public Shooter SelectedGuns => _gun;
     public Transform CameraFollow => _cameraFollow;
@@ -33,6 +34,9 @@ public class CharacterController : MonoBehaviour, ISavedProgress
 
         if (_input.IsShoot && _input.GetAttackState() && _gun.CanShotNow)
             _gun.Shoot(_input.ShootPosition);
+
+        if (_currentInteract != null && Input.GetKeyDown(KeyCode.E))
+            _currentInteract.Interact();
     }
 
     public void Construct(IInputService inputService)
@@ -50,6 +54,9 @@ public class CharacterController : MonoBehaviour, ISavedProgress
         _gun.SelectWeapon(weapon, muzzle.CurrentMuzzle, damageLevel, magazineLevel);
     }
 
+    public void SetInteractable(IInteractObject interact) => 
+        _currentInteract = interact;
+
     public void UpdateProgress(PlayerProgress progress) =>
         progress.WorldData.Position = transform.position.AsVectorData();
 
@@ -66,5 +73,5 @@ public class CharacterController : MonoBehaviour, ISavedProgress
         _mover.enabled = false;
         transform.position = to.AsUnityVector();
         _mover.enabled = true;
-    }
+    }    
 }

@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ArsenalView : MonoBehaviour, ISavedProgressReader
+public class ArsenalView : MonoBehaviour, ISavedProgressReader, IInteractObject
 {
     [Header("SceneSettings")]
     [SerializeField] private TriggerObserver _triggerObserver;
@@ -12,9 +13,13 @@ public class ArsenalView : MonoBehaviour, ISavedProgressReader
 
     [SerializeField] private bool isUnblocked;
 
-    private Dictionary<WeaponType, ArsenalViewWeapon> _weapons;
-
     private Arsenal _arsenal;
+
+    public event Action ShowShopIndicate;
+    public event Action HideShopIndicate;
+    public event Action ShowArsenalShop;
+
+    private Dictionary<WeaponType, ArsenalViewWeapon> _weapons;
 
     private void Start()
     {
@@ -38,6 +43,9 @@ public class ArsenalView : MonoBehaviour, ISavedProgressReader
         _weapons = _weaponsView.ToDictionary(x => x.Type, x => x);
         CheckUnblock();
     }
+
+    public void Interact() => 
+        ShowArsenalShop?.Invoke();
 
     private void CheckUnblock()
     {
@@ -66,12 +74,17 @@ public class ArsenalView : MonoBehaviour, ISavedProgressReader
 
     private void TriggerExit(Collider collider)
     {
+        HideShopIndicate?.Invoke();
         Debug.Log("Exit arsenal trigger observer");
     }
 
     private void TriggerEnter(Collider collider)
     {
-        if (collider.GetComponent<CharacterController>())
+        if (collider.gameObject.TryGetComponent( out IInteractable interactable))
+        {
+            interactable.SetInteractable(this);
+            ShowShopIndicate?.Invoke();
             Debug.Log("Show open popup");
+        }
     }
 }

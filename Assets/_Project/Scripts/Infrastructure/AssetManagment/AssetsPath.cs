@@ -6,4 +6,6 @@ public static class AssetsPath
     public const string Loot = "Loot/Loot";
     public const string Spawner = "Enemy/SpawnPoint";
     public const string Arsenal = "Arsenal/Arsenal";
+    public const string ArsenalShopPath = "ArsenalShop/ArsenalShop";
+    public const string ConveerPath = "Conveer/Conveer";
 }

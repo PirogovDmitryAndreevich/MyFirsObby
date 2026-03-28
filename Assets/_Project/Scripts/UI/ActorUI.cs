@@ -3,27 +3,43 @@ using UnityEngine;
 public class ActorUI : MonoBehaviour
 {
     [SerializeField] private HpBar _hpBar;
+    [SerializeField] private IndicateView _indicate;
 
     private IHealth _health;
+    private ArsenalView _arsenalView;
 
-    private void Start()
+
+    private void OnDestroy()
     {
-        IHealth health = GetComponent<IHealth>();
+        if (_arsenalView != null)
+        {
+            _arsenalView.ShowShopIndicate -= ShowActionIndicate;
+            _arsenalView.HideShopIndicate -= HideActionIndicate;
+        }        
 
-        if (health != null)
-            Construct(health);
+        _health.HealthChanged -= UpdateHpBar;
     }
 
-    private void OnDestroy() => 
-        _health.HealthChanged -= UpdateHpBar;
-
-    public void Construct(IHealth health)
+    public void Construct(IHealth health, ArsenalView arsenal = null)
     {
         _health = health;
+
+        if (arsenal != null)
+        {
+            _arsenalView = arsenal;
+            _arsenalView.ShowShopIndicate += ShowActionIndicate;
+            _arsenalView.HideShopIndicate += HideActionIndicate;
+        }
 
         _health.HealthChanged += UpdateHpBar;
     }
 
-    private void UpdateHpBar() => 
+    private void HideActionIndicate() =>
+        _indicate.Hide();
+
+    private void ShowActionIndicate() =>
+        _indicate.Show();
+
+    private void UpdateHpBar() =>
         _hpBar.SetValue(_health.Current, _health.Max);
 }

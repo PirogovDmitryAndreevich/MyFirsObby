@@ -95,7 +95,7 @@ public class GameFactory : IGameFactory
         spawner.transform.position = at;
     }
 
-    public void CreateArsenal(GameObject at) => 
+    public GameObject CreateArsenal(GameObject at) => 
         InstantiateRegistered(AssetsPath.Arsenal, at.transform.position);
 
     private GameObject CreateHudMobile() =>
@@ -111,6 +111,18 @@ public class GameFactory : IGameFactory
 
         return inventory;
     }
+
+    public GameObject CreateConveer(GameObject at) => 
+        InstantiateRegistered(AssetsPath.ConveerPath, at.transform.position);
+
+    public void CreateConveerManager(Conveer conveerComponent)
+    {
+        ConveerManager conveerManager = new ConveerManager(_saveLoadService, _staticData, conveerComponent);
+        Register(conveerManager);
+    }
+
+    public GameObject CreateArsenalShop() => 
+        InstantiateRegistered(AssetsPath.ArsenalShopPath);
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {
@@ -130,7 +142,7 @@ public class GameFactory : IGameFactory
 
     private void RegisterProgressWatchers(GameObject gameObject)
     {
-        foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
+        foreach (ISavedProgress progressReader in gameObject.GetComponentsInChildren<ISavedProgress>())
             Register(progressReader);
     }
 
@@ -144,5 +156,5 @@ public class GameFactory : IGameFactory
 
         if (!_savedLists.ProgressReaders.Contains(progressReader))
             _savedLists.AddReader(progressReader);
-    }
+    }    
 }

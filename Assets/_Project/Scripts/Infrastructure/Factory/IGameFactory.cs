@@ -2,8 +2,11 @@
 
 public interface IGameFactory : IService
 {
-    void CreateArsenal(GameObject at);
+    GameObject CreateArsenal(GameObject at);
+    GameObject CreateArsenalShop();
     GameObject CreateCharacter(GameObject at);
+    GameObject CreateConveer(GameObject at);
+    void CreateConveerManager(Conveer conveerComponent);
     GameObject CreateHod(bool isMobile);
     Inventory CreateInventory();
     LootPiece CreateLoot();

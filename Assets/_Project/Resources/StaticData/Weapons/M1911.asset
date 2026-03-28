@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: M1911
   m_EditorClassIdentifier: 
   Type: 0
-  Prefab: {fileID: 0}
-  BulletPrefab: {fileID: 0}
+  ConveerLevel: 1
+  Prefab: {fileID: 100004, guid: b812e42521a5a27499e76cc5ed56e3ac, type: 3}
+  BulletPrefab: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
   Spread: 0
-  MagazineLevels: 
-  DamageLevels: 
+  MagazineLevels: 0a0000000c0000000e000000100000001200000014000000
+  DamageLevels: 0a00000014000000190000001e0000002300000028000000

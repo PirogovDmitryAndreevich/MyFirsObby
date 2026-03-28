@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 [Serializable]
 public class PlayerProgress
@@ -9,6 +8,7 @@ public class PlayerProgress
     public PlayerResources Resources;
     public State CharacterState;
     public Arsenal Arsenal;
+    public ÑonveerProgress Conveers;
 
     public PlayerProgress(string initialLevel)
     {
@@ -16,6 +16,7 @@ public class PlayerProgress
         Resources = new PlayerResources();
         CharacterState = new State();
         Arsenal = new Arsenal();
+        Conveers = new ÑonveerProgress();
     }
 }
 
@@ -56,7 +57,7 @@ public class Arsenal
 
     public event Action<WeaponType> AddedNewWeapon;
 
-    public void AddWeapon(WeaponType type)
+    public OpenedWeapon AddWeapon(WeaponType type)
     {
         var weapon = new OpenedWeapon(type);
 
@@ -65,6 +66,8 @@ public class Arsenal
             Weapons.Add(weapon);
             AddedNewWeapon?.Invoke(type);
         }
+
+        return weapon;
     }
 }
 
@@ -93,5 +96,38 @@ public class OpenedWeapon
     {
         if (DamageLevel < MaxLevel)
             DamageLevel++;
+    }
+}
+
+public class ÑonveerProgress
+{
+    public List<ConveerLineProgress> ConveerLines;
+
+    public ÑonveerProgress()
+    {
+        ConveerLines = new List<ConveerLineProgress>()
+        {
+            new ConveerLineProgress(ConveerNumbers.Conveyor_1, true),
+            new ConveerLineProgress(ConveerNumbers.Conveyor_2),
+            new ConveerLineProgress(ConveerNumbers.Conveyor_3),
+            new ConveerLineProgress(ConveerNumbers.Conveyor_4),
+            new ConveerLineProgress(ConveerNumbers.Conveyor_bonus)
+        };
+    }
+}
+
+public class ConveerLineProgress
+{
+    public ConveerNumbers Numbers;
+    public bool IsOpened;
+    public int CooldownLevel;
+    public int Level;
+
+    public ConveerLineProgress(ConveerNumbers numbers, bool isOpened = false)
+    {
+        Numbers = numbers;
+        IsOpened = isOpened;
+        CooldownLevel = 1;
+        Level = 1;
     }
 }

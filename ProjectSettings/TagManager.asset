@@ -6,6 +6,7 @@ TagManager:
   tags:
   - InitialPoint
   - ArsenalPoint
+  - ConveerPoint
   layers:
   - Default
   - TransparentFX
@@ -22,9 +23,9 @@ TagManager:
   - Agro
   - AttackZone
   - Pickup
-  - 
-  - 
-  - 
+  - ShopZone
+  - Conveer
+  - ConveerWeapon
   - 
   - 
   - 

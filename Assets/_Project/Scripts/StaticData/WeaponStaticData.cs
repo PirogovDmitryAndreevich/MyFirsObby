@@ -4,6 +4,7 @@ using UnityEngine;
 public class WeaponStaticData : ScriptableObject
 {
     public WeaponType Type;
+    [Range(1, 8)] public int ConveerLevel;
 
     [Header("Setting")]
     public GameObject Prefab;

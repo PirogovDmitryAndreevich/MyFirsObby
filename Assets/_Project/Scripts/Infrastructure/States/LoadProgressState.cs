@@ -1,6 +1,4 @@
-﻿using System;
-
-internal class LoadProgressState : IState
+﻿internal class LoadProgressState : IState
 {
     private readonly GameStateMachine _stateMachine;
     private readonly IPersistentProgressService _progressService;
