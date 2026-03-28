@@ -2,6 +2,7 @@
 
 public interface IStaticDataService : IService
 {
+    CharacterView ForCharacterView(CharacterType type);
     public LevelStaticData ForLevel(string sceneKey);
     public MonsterStaticData ForMonster(MonsterTypeID typeId);
     public Dictionary<WeaponType, WeaponStaticData> ForWeaponsData();

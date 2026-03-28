@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlayerProgress
 {
     public WorldData WorldData;
-    public PlayerResources Resources;
+    public PlayerState PlayerState;
     public State CharacterState;
     public Arsenal Arsenal;
     public ÑonveerProgress Conveers;
@@ -13,7 +13,7 @@ public class PlayerProgress
     public PlayerProgress(string initialLevel)
     {
         WorldData = new WorldData(initialLevel);
-        Resources = new PlayerResources();
+        PlayerState = new PlayerState();
         CharacterState = new State();
         Arsenal = new Arsenal();
         Conveers = new ÑonveerProgress();
@@ -21,10 +21,19 @@ public class PlayerProgress
 }
 
 [Serializable]
-public class PlayerResources
+public class PlayerState
 {
+    public CharacterType CurrentType;
     public int Score;
     public int Cash;
+
+    public PlayerState()
+    {
+        CurrentType = CharacterType.Sad;
+        Score = 0;
+        Cash = 100;
+    }
+
     public event Action ValueChanged;
 
     public void Collect(Loot loot)
@@ -71,6 +80,7 @@ public class Arsenal
     }
 }
 
+[Serializable]
 public class OpenedWeapon
 {
     private const int MaxLevel = 6;
@@ -96,38 +106,5 @@ public class OpenedWeapon
     {
         if (DamageLevel < MaxLevel)
             DamageLevel++;
-    }
-}
-
-public class ÑonveerProgress
-{
-    public List<ConveerLineProgress> ConveerLines;
-
-    public ÑonveerProgress()
-    {
-        ConveerLines = new List<ConveerLineProgress>()
-        {
-            new ConveerLineProgress(ConveerNumbers.Conveyor_1, true),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_2),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_3),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_4),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_bonus)
-        };
-    }
-}
-
-public class ConveerLineProgress
-{
-    public ConveerNumbers Numbers;
-    public bool IsOpened;
-    public int CooldownLevel;
-    public int Level;
-
-    public ConveerLineProgress(ConveerNumbers numbers, bool isOpened = false)
-    {
-        Numbers = numbers;
-        IsOpened = isOpened;
-        CooldownLevel = 1;
-        Level = 1;
     }
 }

@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class LootPiece : MonoBehaviour
 {
-    private PlayerResources _resources;
+    private PlayerState _resources;
     private ISaveLoadService _save;
     private Loot _loot;
     private bool _picked;
 
-    public void Construct(PlayerResources resources, ISaveLoadService saveLoadService)
+    public void Construct(PlayerState resources, ISaveLoadService saveLoadService)
     {
         _resources = resources;
         _save = saveLoadService;

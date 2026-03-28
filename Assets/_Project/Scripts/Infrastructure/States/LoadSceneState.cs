@@ -54,9 +54,8 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InitGameWorld()
     {
-        GameObject character = InitCharacter();
-        CharacterController characterController = character.GetComponent<CharacterController>();
-        CharacterHealth characterHealth = character.GetComponent<CharacterHealth>();
+        CharacterController characterController =
+            InitCharacter(at: GameObject.FindWithTag(InitialPointTag).transform); 
 
         GameObject conveer = _gameFactory.CreateConveer(at: GameObject.FindWithTag(ConveerPointTag));
         Conveer conveerComponent = conveer.GetComponent<Conveer>();
@@ -66,15 +65,18 @@ internal class LoadSceneState : IPayloaderState<string>
         GameObject arsenal = InitArsenal();
         ArsenalView arsenalView = arsenal.GetComponent<ArsenalView>();
 
-        GameObject hud = InitHud(characterHealth, arsenalView);
+        GameObject hud = InitHud(characterController.Health, arsenalView);
         InventoryView inventoryView = hud.GetComponentInChildren<InventoryView>();
 
         Inventory inventory = InitInventory(characterController, inventoryView);
 
         InitArsenalShop(inventory, arsenalView);
 
-        CameraFollow(character);
+        CameraFollow(characterController.CameraFollow);
     }
+
+    private CharacterController InitCharacter(Transform at) =>
+        _gameFactory.CreateCharacterController(at: at);
 
     private void InitArsenalShop(Inventory inventory, ArsenalView arsenalView)
     {
@@ -83,9 +85,6 @@ internal class LoadSceneState : IPayloaderState<string>
 
         arsenalShop.Construct(inventory, arsenalView);
     }
-
-    private GameObject InitCharacter() =>
-        _gameFactory.CreateCharacter(at: GameObject.FindWithTag(InitialPointTag));
 
     private Inventory InitInventory(CharacterController character , InventoryView inventoryView)
     {
@@ -123,12 +122,9 @@ internal class LoadSceneState : IPayloaderState<string>
             progressReader.LoadProgress(_progressService.Progress);        
     }
 
-    private void CameraFollow(GameObject character)
-    {
-        Transform cameraFollow = character.GetComponent<CharacterController>().CameraFollow;
-        PlayerCamera playerCamera;
-
-        if (Camera.main.TryGetComponent<PlayerCamera>(out playerCamera))
+    private void CameraFollow(Transform cameraFollow)
+    {    
+        if (Camera.main.TryGetComponent<PlayerCamera>(out PlayerCamera playerCamera))
             playerCamera.SetFollowTransform(cameraFollow);
         else
             Camera.main

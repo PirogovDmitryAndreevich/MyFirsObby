@@ -21,17 +21,17 @@ public class GameFactory : IGameFactory
         _savedLists = savedLists;
         _saveLoadService = saveLoadService;
         _inputService = inputService;
-    }
+    }        
 
-    public GameObject CreateCharacter(GameObject at)
+    public CharacterController CreateCharacterController(Transform at)
     {
         _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
 
         CharacterController controller = _characterObject.GetComponent<CharacterController>();
 
-        controller.Construct(_inputService);
+        controller.Construct(_inputService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CurrentType));
 
-        return _characterObject;
+        return controller;
     }
 
     public GameObject CreateHod(bool isMobile)
@@ -44,7 +44,7 @@ public class GameFactory : IGameFactory
             hod = CreateHudDesktop();
 
         hod.GetComponentInChildren<LootCounter>()
-            .Construct(_progressService.Progress.Resources);
+            .Construct(_progressService.Progress.PlayerState);
 
         return hod;
     }
@@ -54,7 +54,7 @@ public class GameFactory : IGameFactory
         var lootPiece = InstantiateRegistered(AssetsPath.Loot)
             .GetComponent<LootPiece>();
 
-        lootPiece.Construct(_progressService.Progress.Resources, _saveLoadService);
+        lootPiece.Construct(_progressService.Progress.PlayerState, _saveLoadService);
 
         return lootPiece;
     }
@@ -95,7 +95,7 @@ public class GameFactory : IGameFactory
         spawner.transform.position = at;
     }
 
-    public GameObject CreateArsenal(GameObject at) => 
+    public GameObject CreateArsenal(GameObject at) =>
         InstantiateRegistered(AssetsPath.Arsenal, at.transform.position);
 
     private GameObject CreateHudMobile() =>
@@ -112,7 +112,7 @@ public class GameFactory : IGameFactory
         return inventory;
     }
 
-    public GameObject CreateConveer(GameObject at) => 
+    public GameObject CreateConveer(GameObject at) =>
         InstantiateRegistered(AssetsPath.ConveerPath, at.transform.position);
 
     public void CreateConveerManager(Conveer conveerComponent)
@@ -121,7 +121,7 @@ public class GameFactory : IGameFactory
         Register(conveerManager);
     }
 
-    public GameObject CreateArsenalShop() => 
+    public GameObject CreateArsenalShop() =>
         InstantiateRegistered(AssetsPath.ArsenalShopPath);
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
@@ -156,5 +156,5 @@ public class GameFactory : IGameFactory
 
         if (!_savedLists.ProgressReaders.Contains(progressReader))
             _savedLists.AddReader(progressReader);
-    }    
+    }
 }

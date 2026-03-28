@@ -4,8 +4,9 @@ public class CharacterRotation : MonoBehaviour
 {
     private const float minMovementMagnitude = 0.001f;
 
-    [SerializeField] private Transform _characterView;
     [SerializeField] private float _smooth = 10f;
+
+    public Transform CharacterView { get; set; }
 
     public void RotateCharacter(Vector3 direction)
     {
@@ -15,6 +16,6 @@ public class CharacterRotation : MonoBehaviour
             return;
 
         Quaternion targetRotation = Quaternion.LookRotation(horizontalDirection);
-        _characterView.rotation = Quaternion.Slerp(_characterView.rotation, targetRotation, _smooth * Time.fixedDeltaTime);
+        CharacterView.rotation = Quaternion.Slerp(CharacterView.rotation, targetRotation, _smooth * Time.fixedDeltaTime);
     }
 }

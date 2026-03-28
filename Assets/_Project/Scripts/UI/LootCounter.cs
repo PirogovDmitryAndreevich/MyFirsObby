@@ -5,7 +5,7 @@ public class LootCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _counterText;
 
-    private PlayerResources _resources;
+    private PlayerState _resources;
 
     private void Start()
     {
@@ -15,7 +15,7 @@ public class LootCounter : MonoBehaviour
     private void OnDestroy() => 
         _resources.ValueChanged -= UpdateCounter;
 
-    public void Construct(PlayerResources resources)
+    public void Construct(PlayerState resources)
     {
         _resources = resources;
         _resources.ValueChanged += UpdateCounter;

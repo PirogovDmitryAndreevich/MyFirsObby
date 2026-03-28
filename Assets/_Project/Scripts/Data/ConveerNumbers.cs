@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public enum ConveerNumbers
 {
     Conveyor_1,

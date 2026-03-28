@@ -8,9 +8,8 @@ public class CharacterMove : MonoBehaviour
     private PlayerCamera _playerCamera;
     private Rigidbody _rigidbody;
     private IInputService _inputService;
-    private Vector3 _movementVector;
 
-    public Vector3 MovementVector => _movementVector;
+    public Vector3 MovementVector { get; private set; }
     public bool IsMoving => _inputService.Axis.sqrMagnitude > ConstantsData.Epsilon;
 
     private void Awake() => 
@@ -21,7 +20,7 @@ public class CharacterMove : MonoBehaviour
 
     private void Update()
     {
-        _movementVector =
+        MovementVector =
             (_playerCamera.CameraTransform.right * _inputService.Axis.x
             + _inputService.Axis.y * _playerCamera.CameraTransform.forward)
             .normalized;
@@ -31,7 +30,7 @@ public class CharacterMove : MonoBehaviour
     {
         if (IsMoving)
         {
-            Vector3 move = _movementVector * _movementSpeed * Time.fixedDeltaTime;
+            Vector3 move = MovementVector * _movementSpeed * Time.fixedDeltaTime;
             _rigidbody.MovePosition(_rigidbody.position + move);
         }
     }

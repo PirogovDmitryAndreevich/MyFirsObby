@@ -8,7 +8,7 @@ public class ConveerLine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _material.mainTextureOffset = new Vector2(Time.time * 10 * Time.deltaTime, 0f);
+        _material.mainTextureOffset = new Vector2(0f, Time.time * 5 * Time.deltaTime);
 
         Vector3 pos = _rigidbody.position;
 
