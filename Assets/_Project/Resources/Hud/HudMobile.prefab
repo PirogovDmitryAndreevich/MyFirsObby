@@ -243,6 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4226725152734997827}
   - component: {fileID: 1326668577456032200}
+  - component: {fileID: 5541240880879734584}
   m_Layer: 5
   m_Name: HpBar
   m_TagString: Untagged
@@ -283,6 +284,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpBar: {fileID: 8367923732274117072}
+--- !u!114 &5541240880879734584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880695211309096282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38024c04134b1b40ab642f94a78fe6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hpBar: {fileID: 1326668577456032200}
 --- !u!1 &1281408967652175059
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,7 +819,7 @@ GameObject:
   - component: {fileID: 8698147564098254517}
   - component: {fileID: 8738606794904903258}
   - component: {fileID: 8852240652987272393}
-  - component: {fileID: 141051497521970383}
+  - component: {fileID: 6319485942906159396}
   m_Layer: 5
   m_Name: Indicate
   m_TagString: Untagged
@@ -870,7 +884,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &141051497521970383
+--- !u!114 &6319485942906159396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1299,7 +1313,7 @@ GameObject:
   - component: {fileID: 423389943070287991}
   - component: {fileID: 1247196688404945339}
   - component: {fileID: 4429421146815581720}
-  - component: {fileID: 8622877832226096206}
+  - component: {fileID: 6452574473806714830}
   m_Layer: 5
   m_Name: HudMobile
   m_TagString: Untagged
@@ -1398,7 +1412,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8622877832226096206
+--- !u!114 &6452574473806714830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1407,11 +1421,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6419339100972167371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f38024c04134b1b40ab642f94a78fe6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 828f49ed627ac4f4e9f0a6dd5c656205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hpBar: {fileID: 1326668577456032200}
-  _indicate: {fileID: 141051497521970383}
+  _lootCounter: {fileID: 7697944143341411981}
+  _healthUI: {fileID: 5541240880879734584}
+  _indicateUI: {fileID: 6319485942906159396}
+  _inventoryView: {fileID: 2330498503027964948}
 --- !u!1 &6469134480682500761
 GameObject:
   m_ObjectHideFlags: 0

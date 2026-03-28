@@ -34,19 +34,20 @@ public class GameFactory : IGameFactory
         return controller;
     }
 
-    public GameObject CreateHod(bool isMobile)
+    public Hud CreateHod(bool isMobile)
     {
-        GameObject hod;
+        GameObject hud;
 
         if (isMobile)
-            hod = CreateHudMobile();
+            hud = CreateHudMobile();
         else
-            hod = CreateHudDesktop();
+            hud = CreateHudDesktop();
 
-        hod.GetComponentInChildren<LootCounter>()
-            .Construct(_progressService.Progress.PlayerState);
+        Hud component = hud.GetComponent<Hud>();
 
-        return hod;
+        component.LootCounter.Construct(_progressService.Progress.PlayerState);
+
+        return component;
     }
 
     public LootPiece CreateLoot()
@@ -69,7 +70,7 @@ public class GameFactory : IGameFactory
         health.Max = monsterData.Health;
         health.Current = monsterData.Health;
 
-        monster.GetComponent<ActorUI>().Construct(health);
+        monster.GetComponent<HealthUI>().Construct(health);
         monster.GetComponent<AgentMoveToPlayer>().Construct(_characterObject.transform);
         monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
@@ -95,8 +96,12 @@ public class GameFactory : IGameFactory
         spawner.transform.position = at;
     }
 
-    public GameObject CreateArsenal(GameObject at) =>
-        InstantiateRegistered(AssetsPath.Arsenal, at.transform.position);
+    public ArsenalView CreateArsenal(Transform at, IInventory inventory, IIndicateUI indicator)
+    {
+        ArsenalView arsenal = InstantiateRegistered(AssetsPath.Arsenal, at.transform.position).GetComponent<ArsenalView>();
+        arsenal.Construct(_progressService, inventory, indicator);
+        return arsenal;
+    }
 
     private GameObject CreateHudMobile() =>
         InstantiateRegistered(AssetsPath.HudMobilePath);
@@ -104,9 +109,10 @@ public class GameFactory : IGameFactory
     private GameObject CreateHudDesktop() =>
         InstantiateRegistered(AssetsPath.HudDesktopPath);
 
-    public Inventory CreateInventory()
+    public Inventory CreateInventory(CharacterController character)
     {
         var inventory = new Inventory();
+        inventory.Construct(character, _staticData, _progressService, _saveLoadService);
         Register(inventory);
 
         return inventory;

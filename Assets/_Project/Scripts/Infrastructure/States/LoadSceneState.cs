@@ -55,47 +55,44 @@ internal class LoadSceneState : IPayloaderState<string>
     private void InitGameWorld()
     {
         CharacterController characterController =
-            InitCharacter(at: GameObject.FindWithTag(InitialPointTag).transform); 
+            InitCharacter(at: GameObject.FindWithTag(InitialPointTag).transform);
 
+        IInventory inventory = InitInventory(characterController);
+
+        InitConveer();
+
+        Hud hud = InitHud(characterController.Health);
+
+        ArsenalView arsenal = InitArsenal(inventory, hud.IndicateUI);
+
+        InitArsenalShop(inventory);
+
+        CameraFollow(characterController.CameraFollow);
+    }
+
+    private void InitConveer()
+    {
         GameObject conveer = _gameFactory.CreateConveer(at: GameObject.FindWithTag(ConveerPointTag));
         Conveer conveerComponent = conveer.GetComponent<Conveer>();
 
         _gameFactory.CreateConveerManager(conveerComponent);
-
-        GameObject arsenal = InitArsenal();
-        ArsenalView arsenalView = arsenal.GetComponent<ArsenalView>();
-
-        GameObject hud = InitHud(characterController.Health, arsenalView);
-        InventoryView inventoryView = hud.GetComponentInChildren<InventoryView>();
-
-        Inventory inventory = InitInventory(characterController, inventoryView);
-
-        InitArsenalShop(inventory, arsenalView);
-
-        CameraFollow(characterController.CameraFollow);
     }
 
     private CharacterController InitCharacter(Transform at) =>
         _gameFactory.CreateCharacterController(at: at);
 
-    private void InitArsenalShop(Inventory inventory, ArsenalView arsenalView)
+    private void InitArsenalShop(IInventory inventory)
     {
         GameObject shop = _gameFactory.CreateArsenalShop();
         ArsenalShop arsenalShop = shop.GetComponent<ArsenalShop>();
-
-        arsenalShop.Construct(inventory, arsenalView);
+        arsenalShop.Construct(inventory);
     }
 
-    private Inventory InitInventory(CharacterController character , InventoryView inventoryView)
-    {
-        Inventory inventory = _gameFactory.CreateInventory();
-        inventory.Construct(character, _staticData.ForWeaponsData(), inventoryView, _saveLoadService);
+    private Inventory InitInventory(CharacterController character) =>
+        _gameFactory.CreateInventory(character);
 
-        return inventory;
-    }
-
-    private GameObject InitArsenal() => 
-        _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag));
+    private ArsenalView InitArsenal(IInventory inventory, IIndicateUI indicator) => 
+        _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag).transform, inventory, indicator);
 
     private void InitEnemySpawners()
     {
@@ -107,11 +104,10 @@ internal class LoadSceneState : IPayloaderState<string>
             _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeId);
     }
 
-    private GameObject InitHud(CharacterHealth character, ArsenalView arsenal)
+    private Hud InitHud(CharacterHealth character)
     {
-        GameObject hud = _gameFactory.CreateHod(YG2.envir.isMobile);
-
-        hud.GetComponentInChildren<ActorUI>().Construct(character, arsenal);
+        Hud hud = _gameFactory.CreateHod(YG2.envir.isMobile);
+        hud.HealthUI.Construct(character);
 
         return hud;
     }

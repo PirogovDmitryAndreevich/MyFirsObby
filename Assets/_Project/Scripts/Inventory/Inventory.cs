@@ -1,55 +1,57 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Inventory : ISavedProgressReader
+public class Inventory : IInventory, ISavedProgress
 {
-    private PlayerProgress _progress;
     private CharacterController _character;
-    private InventoryView _inventoryView;
+
+    public event Action<WeaponType> OpenedNewWeapon;
+    public event Action<WeaponType> UpdatedWeapon;
 
     private ISaveLoadService _saveLoadService;
+    private IStaticDataService _staticData;
+    private IPersistentProgressService _progress;
 
-    public Dictionary<WeaponType, WeaponStaticData> Weapons { get; private set; }
     public Dictionary<WeaponType, OpenedWeapon> OpenedWeapons { get; private set; }
 
-    public void Construct(CharacterController character, Dictionary<WeaponType, WeaponStaticData> weapons,
-        InventoryView inventoryView, ISaveLoadService saveLoadService)
+    public void Construct(CharacterController character, IStaticDataService staticData, IPersistentProgressService progress, ISaveLoadService saveLoadService)
     {
         _character = character;
-        Weapons = weapons;
-        _inventoryView = inventoryView;
         _saveLoadService = saveLoadService;
+        _staticData = staticData;
+        _progress = progress;
 
-        _inventoryView.SelectWeapon += SelectWeapon;
+        OpenedWeapons = _progress.Progress.Arsenal.Weapons.ToDictionary(x => x.Type, x => x);
+    }
+
+    public void UpdateProgress(PlayerProgress progress)
+    {
+
     }
 
     public void LoadProgress(PlayerProgress progress)
     {
-        _progress = progress;
 
-        OpenedWeapons = progress.Arsenal.Weapons.ToDictionary(x => x.Type, x => x);
-
-        foreach (var button in OpenedWeapons)
-            _inventoryView.AddButton(button.Key);
     }
 
     public void OpenNewWeapon(WeaponType type)
     {
-        if (!OpenedWeapons.ContainsKey(type))
-        {
-            var weapon = _progress.Arsenal.AddWeapon(type);
-            OpenedWeapons.Add(type, weapon);
-        }
+        if (OpenedWeapons.ContainsKey(type))
+            return;
 
+        var weapon = _progress.Progress.Arsenal.AddWeapon(type);
+        OpenedWeapons.Add(type, weapon);
+        OpenedNewWeapon?.Invoke(type);
 
-        _inventoryView.AddButton(type);
+        //_saveLoadService.SaveProgress();
     }
 
     public void UpdateWeapon(WeaponType type)
     {
-
+        //_saveLoadService.SaveProgress();
     }
 
-    private void SelectWeapon(WeaponType type) =>
-        _character.SelectWeapon(Weapons[type], OpenedWeapons[type].DamageLevel, OpenedWeapons[type].MagazineLevel);
+    public void SelectWeapon(WeaponType type) =>
+        _character.SelectWeapon(_staticData.ForWeaponsData(type), OpenedWeapons[type].DamageLevel, OpenedWeapons[type].MagazineLevel);
 }

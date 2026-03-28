@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ArsenalShop : MonoBehaviour, ISavedProgressReader
+public class ArsenalShop : MonoBehaviour
 {
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _addWeapon;
 
-    private Inventory _inventory;
-    private ArsenalView _arsenalView;
+    private IInventory _inventory;
 
     private void Awake()
     {
@@ -19,20 +18,11 @@ public class ArsenalShop : MonoBehaviour, ISavedProgressReader
     {
         _closeButton?.onClick.RemoveListener(Hide);
         _addWeapon?.onClick.RemoveListener(AddWeapon);
-        _arsenalView.ShowArsenalShop -= Show;
     }
 
-    public void Construct(Inventory inventory, ArsenalView arsenalView)
+    public void Construct(IInventory inventory)
     {
         _inventory = inventory;
-        _arsenalView = arsenalView;
-
-        _arsenalView.ShowArsenalShop += Show;
-    }
-
-    public void LoadProgress(PlayerProgress progress)
-    {
-        
     }
 
     private void AddWeapon()

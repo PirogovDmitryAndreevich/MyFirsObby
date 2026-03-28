@@ -45,8 +45,10 @@ public class StaticDataService : IStaticDataService
         ? staticData
         : null;
 
-    public Dictionary<WeaponType, WeaponStaticData> ForWeaponsData() =>
-        _weaponsData;
+    public WeaponStaticData ForWeaponsData(WeaponType type) =>
+        _weaponsData.TryGetValue(type, out WeaponStaticData weaponData)
+        ? weaponData
+        : null;
 
     public ConveerStaticData ForConveer() =>
         _conveers;
