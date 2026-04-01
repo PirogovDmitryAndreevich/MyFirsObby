@@ -23,31 +23,15 @@ public class GameFactory : IGameFactory
         _inputService = inputService;
     }        
 
-    public CharacterController CreateCharacterController(Transform at)
+    public Character CreateCharacterController(Transform at)
     {
         _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
 
-        CharacterController controller = _characterObject.GetComponent<CharacterController>();
+        Character controller = _characterObject.GetComponent<Character>();
 
         controller.Construct(_inputService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CurrentType));
 
         return controller;
-    }
-
-    public Hud CreateHod(bool isMobile)
-    {
-        GameObject hud;
-
-        if (isMobile)
-            hud = CreateHudMobile();
-        else
-            hud = CreateHudDesktop();
-
-        Hud component = hud.GetComponent<Hud>();
-
-        component.LootCounter.Construct(_progressService.Progress.PlayerState);
-
-        return component;
     }
 
     public LootPiece CreateLoot()
@@ -65,12 +49,12 @@ public class GameFactory : IGameFactory
         MonsterStaticData monsterData = _staticData.ForMonster(typeID);
 
         GameObject monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
-        IHealth health = monster.GetComponent<IHealth>();
-
-        health.Max = monsterData.Health;
-        health.Current = monsterData.Health;
+        EnemyHealth health = monster.GetComponent<EnemyHealth>();
 
         monster.GetComponent<HealthUI>().Construct(health);
+
+        health.Construct(monsterData.Health);
+
         monster.GetComponent<AgentMoveToPlayer>().Construct(_characterObject.transform);
         monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
@@ -96,26 +80,19 @@ public class GameFactory : IGameFactory
         spawner.transform.position = at;
     }
 
-    public ArsenalView CreateArsenal(Transform at, IInventory inventory, IIndicateUI indicator)
+    public ArsenalView CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow)
     {
         ArsenalView arsenal = InstantiateRegistered(AssetsPath.Arsenal, at.transform.position).GetComponent<ArsenalView>();
-        arsenal.Construct(_progressService, inventory, indicator);
+        arsenal.Construct(_progressService, indicator, arsenalWindow);
         return arsenal;
-    }
+    }    
 
-    private GameObject CreateHudMobile() =>
-        InstantiateRegistered(AssetsPath.HudMobilePath);
-
-    private GameObject CreateHudDesktop() =>
-        InstantiateRegistered(AssetsPath.HudDesktopPath);
-
-    public Inventory CreateInventory(CharacterController character)
+    public WeaponSelector CreateWeaponSelector(Character character)
     {
-        var inventory = new Inventory();
-        inventory.Construct(character, _staticData, _progressService, _saveLoadService);
-        Register(inventory);
+        WeaponSelector weaponSelector = new WeaponSelector();
+        weaponSelector.Construct(character, _staticData, _progressService);
 
-        return inventory;
+        return weaponSelector;
     }
 
     public GameObject CreateConveer(GameObject at) =>
@@ -126,9 +103,6 @@ public class GameFactory : IGameFactory
         ConveerManager conveerManager = new ConveerManager(_saveLoadService, _staticData, conveerComponent);
         Register(conveerManager);
     }
-
-    public GameObject CreateArsenalShop() =>
-        InstantiateRegistered(AssetsPath.ArsenalShopPath);
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {

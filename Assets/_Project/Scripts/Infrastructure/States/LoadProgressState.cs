@@ -3,18 +3,21 @@
     private readonly GameStateMachine _stateMachine;
     private readonly IPersistentProgressService _progressService;
     private readonly ISaveLoadService _saveLoadProgress;
+    private readonly IStaticDataService _staticData;
 
-    public LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService progressService, ISaveLoadService saveLoadProgress)
+    public LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService progressService, ISaveLoadService saveLoadProgress,
+        IStaticDataService staticData)
     {
         _stateMachine = gameStateMachine;
         _progressService = progressService;
         _saveLoadProgress = saveLoadProgress;
+        _staticData = staticData;
     }
 
     public void Enter()
     {
         LoadProgressOrInitNew();
-        _stateMachine.Enter<LoadSceneState, string>(_progressService.Progress.WorldData.Level);
+        _stateMachine.Enter<LoadSceneState, string>(_progressService.Progress.MainScene);
     }
 
     public void Exit()
@@ -28,13 +31,6 @@
             LoadProgress()
             ?? NewProgress();
 
-    private PlayerProgress NewProgress()
-    {
-        var progress = new PlayerProgress(initialLevel: "SampleScene");
-
-        progress.CharacterState.MaxHP = 100;
-        progress.CharacterState.ResetHP();
-
-        return progress;
-    }
+    private PlayerProgress NewProgress() =>
+        new PlayerProgress(_staticData);
 }

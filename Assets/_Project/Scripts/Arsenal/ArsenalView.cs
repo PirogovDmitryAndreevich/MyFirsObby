@@ -8,83 +8,83 @@ public class ArsenalView : MonoBehaviour, IInteractObject
     [Header("SceneSettings")]
     [SerializeField] private TriggerObserver _triggerObserver;
     [Header("Weapons")]
-    [SerializeField] private ArsenalViewWeapon[] _weaponsView;
+    [SerializeField] private WeaponView[] _weaponsView;
     [Header("For Editor")]
     [SerializeField] private bool isUnblocked;
 
-    public event Action ShowArsenalShop;
-
-    private Dictionary<WeaponType, ArsenalViewWeapon> _weapons;
+    private Dictionary<WeaponType, WeaponView> _weapons;
 
     private IIndicateUI _indicator;
-    private IInventory _inventory;
+    private IWindow _arsenalWindow;
     private IPersistentProgressService _progress;
 
     private void Start()
     {
         _triggerObserver.TriggerEnter += TriggerEnter;
         _triggerObserver.TriggerExit += TriggerExit;
-        HideAllWeaponsView();        
+        HideAllWeaponsView();
+        _indicator.Hide();
     }
 
     private void OnDestroy()
     {
         _triggerObserver.TriggerEnter -= TriggerEnter;
         _triggerObserver.TriggerExit -= TriggerExit;
-
-        _inventory.OpenedNewWeapon -= ShowView;
     }
 
-    public void Construct(IPersistentProgressService progress, IInventory inventory, IIndicateUI indicator)
+    public void Construct(IPersistentProgressService progress, IIndicateUI indicator, IWindow arsenalWindow)
     {
-        _inventory = inventory;
         _progress = progress;
         _indicator = indicator;
+        _arsenalWindow = arsenalWindow;
         _weapons = _weaponsView.ToDictionary(x => x.Type, x => x);
 
-        _inventory.OpenedNewWeapon += ShowView;
-        CheckUnblock();
+        if (_progress.Progress.Arsenal.IsUnblocked)
+            return;
+
+        UnblockArsenal();
+
+        foreach (Weapon weapon in _progress.Progress.Arsenal.Weapons)
+            ShowView(weapon);
     }
 
-    public void Interact() => 
-        ShowArsenalShop?.Invoke();
+    public void Interact() =>
+        _arsenalWindow.Show();
 
-    public void ShowView(WeaponType type)
+    public void ShowView(Weapon weapon)
     {
-        if (_weapons.ContainsKey(type))
-            _weapons[type].gameObject.SetActive(true);
+        if (_weapons.ContainsKey(weapon.Type))
+            _weapons[weapon.Type].gameObject.SetActive(true);
         else
             Debug.Log("Unknown weapon type");
     }
 
-    private void CheckUnblock()
+    private void UnblockArsenal()
     {
         isUnblocked = _progress.Progress.Arsenal.IsUnblocked;
 
         if (!isUnblocked)
             return;
 
-        gameObject.SetActive(isUnblocked);
-        
-        foreach (OpenedWeapon weapon in _progress.Progress.Arsenal.Weapons)
-            ShowView(weapon.Type);
+        gameObject.SetActive(isUnblocked);        
     }
 
     private void HideAllWeaponsView()
     {
-        foreach (ArsenalViewWeapon weapon in _weaponsView)
+        foreach (WeaponView weapon in _weaponsView)
             weapon.gameObject.SetActive(false);
     }
 
     private void TriggerExit(Collider collider) =>
-        _indicator.Show();
+        _indicator.Hide();
 
     private void TriggerEnter(Collider collider)
     {
-        if (collider.gameObject.TryGetComponent( out IInteractable interactable))
+        _indicator.Show();
+
+        if (collider.gameObject.TryGetComponent(out IInteractable interactable))
         {
             interactable.SetInteractable(this);
-            _indicator.Hide();
         }
     }
 }

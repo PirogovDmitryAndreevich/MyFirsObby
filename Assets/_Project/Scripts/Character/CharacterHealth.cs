@@ -2,20 +2,21 @@ using System;
 using UnityEngine;
 
 
-public class CharacterHealth : MonoBehaviour, ISavedProgress, IHealth
+public class CharacterHealth : MonoBehaviour, ISavedProgressReader, IHealth
 {
-    private State _state;
+    private float _currentHealth;
+    private float _maxHealth;
 
     public event Action HealthChanged;
 
     public float Current
     {
-        get => _state.CurrentHP;
-        set
+        get => _currentHealth;
+        private set
         {
-            if (_state.CurrentHP != value)
+            if (_currentHealth != value)
             {
-                _state.CurrentHP = value;
+                _currentHealth = value;
                 HealthChanged?.Invoke();
             }
         }
@@ -23,20 +24,23 @@ public class CharacterHealth : MonoBehaviour, ISavedProgress, IHealth
 
     public float Max
     {
-        get => _state.MaxHP;
-        set => _state.MaxHP = value;
+        get => _maxHealth;
+        private set => _maxHealth = value;
     }
 
     public void LoadProgress(PlayerProgress progress)
     {
-        _state = progress.CharacterState;
+        Max = progress.PlayerState.MaxHP;
+        Current = Max;
         HealthChanged?.Invoke();
     }
 
-    public void UpdateProgress(PlayerProgress progress)
+    public void Heal(float value)
     {
-        progress.CharacterState.CurrentHP = Current;
-        progress.CharacterState.MaxHP = Max;
+        Current += value;
+
+        if(Current > Max)
+            Current = Max;
     }
 
     public void TakeDamage(float damage)

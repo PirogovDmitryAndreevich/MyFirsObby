@@ -9,13 +9,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4bd516ca5e977845ad5a7c395ae846d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c78edbab6b7b40469d1074d13ab3432, type: 3}
   m_Name: M1911
   m_EditorClassIdentifier: 
   Type: 0
-  ConveerLevel: 1
-  Prefab: {fileID: 100004, guid: b812e42521a5a27499e76cc5ed56e3ac, type: 3}
+  Name: M1911
+  UnblockPrice: 100
+  Icon: {fileID: 21300000, guid: 138465927537a82458e1a8c8bff32c3c, type: 3}
+  Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
   BulletPrefab: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
   Spread: 0
-  MagazineLevels: 0a0000000c0000000e000000100000001200000014000000
-  DamageLevels: 0a00000014000000190000001e0000002300000028000000
+  MagazineSizeLevels:
+    Levels:
+    - Level: 1
+      Price: 0
+      Value: 10
+    - Level: 2
+      Price: 100
+      Value: 15
+    - Level: 3
+      Price: 150
+      Value: 20
+  DamageLevels:
+    Levels:
+    - Level: 1
+      Price: 0
+      Value: 10
+    - Level: 2
+      Price: 100
+      Value: 15
+    - Level: 3
+      Price: 150
+      Value: 20

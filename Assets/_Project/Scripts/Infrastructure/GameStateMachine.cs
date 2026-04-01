@@ -13,11 +13,12 @@ public partial class GameStateMachine
         {
             [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
 
-            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, curtain, services.Single<IGameFactory>(),
-            services.Single<IPersistentProgressService>(), services.Single<ISavedLists>(), services.Single<IStaticDataService>(),
-            services.Single<ISaveLoadService>()),
+            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IUIFactory>(),
+            services.Single<IPersistentProgressService>(), services.Single<ISavedLists>(), services.Single<IStaticDataService>()),
 
-            [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>()),
+            [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>(),
+            services.Single<IStaticDataService>()),
+
             [typeof(GameLoopState)] = new GameLoopState(this)
         };
     }

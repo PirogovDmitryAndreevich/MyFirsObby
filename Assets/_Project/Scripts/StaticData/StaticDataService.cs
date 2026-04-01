@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
@@ -57,4 +55,7 @@ public class StaticDataService : IStaticDataService
         _charactersView.TryGetValue(type, out CharacterView view)
         ? view 
         : null;
+
+    public List<WeaponStaticData> AllWeapons() =>
+        _weaponsData.Values.ToList();
 }

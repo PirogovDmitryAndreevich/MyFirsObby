@@ -13,24 +13,24 @@ internal class LoadSceneState : IPayloaderState<string>
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingCurtain _curtain;
     private readonly IGameFactory _gameFactory;
+    private readonly IUIFactory _uIFactory;
     private readonly IPersistentProgressService _progressService;
     private readonly ISavedLists _savedLists;
     private readonly IStaticDataService _staticData;
-    private readonly ISaveLoadService _saveLoadService;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
-        LoadingCurtain curtain, IGameFactory gameFactory,
+        LoadingCurtain curtain, IGameFactory gameFactory, IUIFactory uIFactory,
         IPersistentProgressService progressService, ISavedLists savedLists,
-        IStaticDataService staticData, ISaveLoadService saveLoadService)
+        IStaticDataService staticData)
     {
         _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
         _curtain = curtain;
         _gameFactory = gameFactory;
+        _uIFactory = uIFactory;
         _progressService = progressService;
         _savedLists = savedLists;
         _staticData = staticData;
-        _saveLoadService = saveLoadService;
     }
 
     public void Enter(string sceneName)
@@ -54,18 +54,18 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InitGameWorld()
     {
-        CharacterController characterController =
+        Character characterController =
             InitCharacter(at: GameObject.FindWithTag(InitialPointTag).transform);
 
-        IInventory inventory = InitInventory(characterController);
+        IWeaponSelector weaponSelector = InitWeaponSelector(characterController);
 
         InitConveer();
 
-        Hud hud = InitHud(characterController.Health);
+        Hud hud = InitHud(characterController.Health, weaponSelector);
 
-        ArsenalView arsenal = InitArsenal(inventory, hud.IndicateUI);
+        ArsenalShopWindow arsenalWindow = InitArsenalShop();
 
-        InitArsenalShop(inventory);
+        ArsenalView arsenal = InitArsenal(hud.IndicateUI, arsenalWindow);
 
         CameraFollow(characterController.CameraFollow);
     }
@@ -78,21 +78,17 @@ internal class LoadSceneState : IPayloaderState<string>
         _gameFactory.CreateConveerManager(conveerComponent);
     }
 
-    private CharacterController InitCharacter(Transform at) =>
+    private Character InitCharacter(Transform at) =>
         _gameFactory.CreateCharacterController(at: at);
 
-    private void InitArsenalShop(IInventory inventory)
-    {
-        GameObject shop = _gameFactory.CreateArsenalShop();
-        ArsenalShop arsenalShop = shop.GetComponent<ArsenalShop>();
-        arsenalShop.Construct(inventory);
-    }
+    private ArsenalShopWindow InitArsenalShop() => 
+        _uIFactory.CreateArsenalShopWindow();
 
-    private Inventory InitInventory(CharacterController character) =>
-        _gameFactory.CreateInventory(character);
+    private WeaponSelector InitWeaponSelector(Character character) =>
+        _gameFactory.CreateWeaponSelector(character);
 
-    private ArsenalView InitArsenal(IInventory inventory, IIndicateUI indicator) => 
-        _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag).transform, inventory, indicator);
+    private ArsenalView InitArsenal(IIndicateUI indicator, IWindow arsenalWindow) => 
+        _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag).transform, indicator, arsenalWindow);
 
     private void InitEnemySpawners()
     {
@@ -104,13 +100,8 @@ internal class LoadSceneState : IPayloaderState<string>
             _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeId);
     }
 
-    private Hud InitHud(CharacterHealth character)
-    {
-        Hud hud = _gameFactory.CreateHod(YG2.envir.isMobile);
-        hud.HealthUI.Construct(character);
-
-        return hud;
-    }
+    private Hud InitHud(CharacterHealth characterHealth, IWeaponSelector weaponSelector) =>
+        _uIFactory.CreateHod(YG2.envir.isMobile, weaponSelector, characterHealth);
 
     private void InformProgressReaders()
     {

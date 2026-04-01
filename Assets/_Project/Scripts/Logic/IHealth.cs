@@ -2,10 +2,12 @@
 
 public interface IHealth
 {
-    float Current { get; set; }
-    float Max { get; set; }
+    float Current { get;}
+    float Max { get;}
 
     event Action HealthChanged;
+
+    void Heal(float value);
 
     void TakeDamage(float damage);
 }

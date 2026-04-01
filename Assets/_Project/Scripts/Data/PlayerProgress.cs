@@ -4,18 +4,16 @@ using System.Collections.Generic;
 [Serializable]
 public class PlayerProgress
 {
-    public WorldData WorldData;
+    public string MainScene = "Main";
+
     public PlayerState PlayerState;
-    public State CharacterState;
     public Arsenal Arsenal;
     public ÑonveerProgress Conveers;
 
-    public PlayerProgress(string initialLevel)
+    public PlayerProgress(IStaticDataService staticData)
     {
-        WorldData = new WorldData(initialLevel);
         PlayerState = new PlayerState();
-        CharacterState = new State();
-        Arsenal = new Arsenal();
+        Arsenal = new Arsenal(staticData);
         Conveers = new ÑonveerProgress();
     }
 }
@@ -26,85 +24,160 @@ public class PlayerState
     public CharacterType CurrentType;
     public int Score;
     public int Cash;
+    public float CurrentHP;
+    public float MaxHP;
 
     public PlayerState()
     {
         CurrentType = CharacterType.Sad;
         Score = 0;
-        Cash = 100;
+        Cash = 500;
+        MaxHP = 100;
+        CurrentHP = MaxHP;
     }
 
     public event Action ValueChanged;
 
-    public void Collect(Loot loot)
+    public void ResetHP() => CurrentHP = MaxHP;
+
+    public void AddCash(int cash)
     {
-        Cash += loot.Value;
+        Cash += cash;
+        ValueChanged?.Invoke();
+    }
+
+    public void SpendCash(int cash)
+    {
+        Cash -= cash;
         ValueChanged?.Invoke();
     }
 }
 
 [Serializable]
-public class State
-{
-    public float CurrentHP;
-    public float MaxHP;
-
-    public void ResetHP() => CurrentHP = MaxHP;
-}
-
-[Serializable]
 public class Arsenal
 {
-    public bool IsUnblocked = false;
+    public bool IsUnblocked;
+    public List<Weapon> Weapons;
 
-    public Arsenal()
+    public event Action<Weapon> WeaponUnblocked;
+
+    public Arsenal(IStaticDataService staticData)
     {
+        IsUnblocked = false;
         Weapons = new();
+
+        foreach (WeaponStaticData weaponStaticData in staticData.AllWeapons())
+            Weapons.Add(new Weapon(weaponStaticData));
     }
 
-    public List<OpenedWeapon> Weapons;
-
-    public event Action<WeaponType> AddedNewWeapon;
-
-    public OpenedWeapon AddWeapon(WeaponType type)
+    public void UnblockWeapon(Weapon weapon)
     {
-        var weapon = new OpenedWeapon(type);
+        weapon.Unblock();
+        WeaponUnblocked?.Invoke(weapon);
 
-        if (!Weapons.Contains(weapon))
+        /*foreach (Weapon currentWeapon in Weapons)
         {
-            Weapons.Add(weapon);
-            AddedNewWeapon?.Invoke(type);
-        }
-
-        return weapon;
+            if (currentWeapon.Type == weapon.Type)
+            {
+                currentWeapon.Unblock();
+                WeaponUnblocked?.Invoke(currentWeapon);
+            }
+        }*/
     }
 }
 
 [Serializable]
-public class OpenedWeapon
+public class Weapon
 {
-    private const int MaxLevel = 6;
-
     public WeaponType Type;
+
+    public bool IsUnblocked { get; private set; }
+
     public int MagazineLevel;
     public int DamageLevel;
+    public int MaxDamageLevel;
+    public int MaxMagazineLevel;
 
-    public OpenedWeapon(WeaponType type)
+    public bool IsMaxDamageLevel;
+    public bool IsMaxMagazineLevel;
+
+    public event Action<WeaponsUpdateType> WeaponsUpdate;
+    public event Action StatusChanged;
+
+    public Weapon(WeaponStaticData staticData)
     {
-        Type = type;
+        Type = staticData.Type;
+        MaxDamageLevel = staticData.DamageLevels.Levels.Length;
+        MaxMagazineLevel = staticData.MagazineSizeLevels.Levels.Length;
+
+        IsUnblocked = false;
         MagazineLevel = 1;
         DamageLevel = 1;
     }
 
-    public void UpdateMagazineLevel()
+    public void Unblock()
     {
-        if (MagazineLevel < MaxLevel)
+        IsUnblocked = true;
+        StatusChanged?.Invoke();
+    }
+
+    public void UpdateLevel(WeaponsUpdateType type)
+    {
+        switch (type)
+        {
+            case WeaponsUpdateType.MagazineSize:
+                UpdateMagazineLevel();
+                break;
+            case WeaponsUpdateType.Damage:
+                UpdateDamageLevel();
+                break;
+        }
+
+        WeaponsUpdate?.Invoke(type);
+    }
+
+    public bool CanUpgrade(WeaponsUpdateType type)
+    {
+        int currentLevel = GetLevel(type);
+        int maxLevel = GetMaxLevel(type);
+        return currentLevel < maxLevel;
+    }
+
+    public int GetLevel(WeaponsUpdateType type)
+    {
+        switch (type)
+        {
+            case WeaponsUpdateType.MagazineSize:
+                return MagazineLevel;
+            case WeaponsUpdateType.Damage:
+                return DamageLevel;
+            default:
+                return 0;
+        }
+    }
+
+    public int GetMaxLevel(WeaponsUpdateType type)
+    {
+        switch (type)
+        {
+            case WeaponsUpdateType.MagazineSize:
+                return MaxMagazineLevel;
+            case WeaponsUpdateType.Damage:
+                return MaxDamageLevel;
+            default:
+                return 0;
+        }
+    }
+
+    private void UpdateMagazineLevel()
+    {
+        if (MagazineLevel < MaxMagazineLevel)        
             MagazineLevel++;
     }
 
-    public void UpdateDamageLevel()
+    private void UpdateDamageLevel()
     {
-        if (DamageLevel < MaxLevel)
+        if (MagazineLevel < MaxDamageLevel)        
             DamageLevel++;
     }
 }

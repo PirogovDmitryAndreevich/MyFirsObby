@@ -165,7 +165,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 262878348628070439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58d05ad45f96d4a4ca79d36b5685bff2, type: 3}
+  m_Script: {fileID: 11500000, guid: e2cce5825ed4b5d4683f0e2c3f5ef845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hpBar: {fileID: 8634771644834469459}
@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 6830101639158370120}
   - component: {fileID: 4267764530317301311}
   - component: {fileID: 5578594548924154869}
-  - component: {fileID: 5865076889403105791}
+  - component: {fileID: 2568558587967817768}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: {fileID: 4267764530317301311}
---- !u!114 &5865076889403105791
+--- !u!114 &2568558587967817768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -707,7 +707,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7189899491515710879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f38024c04134b1b40ab642f94a78fe6a, type: 3}
+  m_Script: {fileID: 11500000, guid: d694853dd7c3dfd42aae0a200e58d069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hpBar: {fileID: 7874868335785918876}

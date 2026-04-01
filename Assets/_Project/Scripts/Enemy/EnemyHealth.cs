@@ -20,10 +20,21 @@ public class EnemyHealth : MonoBehaviour, IHealth
         set => _max = value;
     }
 
+    public void Construct(float maxHealth)
+    {
+        Max = maxHealth;
+        Current = Max;
+    }
+
     public void TakeDamage(float damage)
     {
         Current -= damage;
 
         HealthChanged?.Invoke();
+    }
+
+    public void Heal(float value)
+    {
+        
     }
 }

@@ -2,13 +2,11 @@
 
 public interface IGameFactory : IService
 {
-    CharacterController CreateCharacterController(Transform at);
-    ArsenalView CreateArsenal(Transform at, IInventory inventory, IIndicateUI indicator);
-    GameObject CreateArsenalShop();
+    Character CreateCharacterController(Transform at);
+    ArsenalView CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow);
     GameObject CreateConveer(GameObject at);
     void CreateConveerManager(Conveer conveerComponent);
-    Hud CreateHod(bool isMobile);
-    Inventory CreateInventory(CharacterController character);
+    WeaponSelector CreateWeaponSelector(Character character);
     LootPiece CreateLoot();
     void CreateMonster(MonsterTypeID monsterTypeID, Transform parent);
     void CreateSpawner(Vector3 at, string id, MonsterTypeID monsterTypeId);

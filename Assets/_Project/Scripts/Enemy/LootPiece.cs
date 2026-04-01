@@ -20,7 +20,7 @@ public class LootPiece : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out CharacterController character))
+        if (other.TryGetComponent(out Character character))
             Pickup();
     }
 
@@ -31,7 +31,7 @@ public class LootPiece : MonoBehaviour
 
         _picked = true;
 
-        _resources.Collect(_loot);
+        _resources.AddCash(_loot.Value);
 
         _save.SaveProgress();
         Destroy(gameObject);

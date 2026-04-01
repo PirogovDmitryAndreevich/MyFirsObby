@@ -1,18 +1,18 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class InventoryButton : MonoBehaviour
 {
-    WeaponType _type;
     private Button _button;
 
-    public event Action<WeaponType> ButtonPressed;
+    private WeaponType _type;
+    private IWeaponSelector _inventory;
 
-    public void Construct(WeaponType type)
+    public void Construct(IWeaponSelector inventory, WeaponType type)
     {
         _type = type;
+        _inventory = inventory;
         _button = GetComponent<Button>();
         _button.onClick.AddListener(OnPressed);
     }
@@ -21,5 +21,5 @@ public class InventoryButton : MonoBehaviour
         _button.onClick.RemoveListener(OnPressed);
 
     private void OnPressed() => 
-        ButtonPressed?.Invoke(_type);
+      _inventory.SelectWeapon(_type);
 }
