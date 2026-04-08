@@ -12,21 +12,269 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d75a8e01b37d654a967d1a656a31e4d, type: 3}
   m_Name: ConveerData
   m_EditorClassIdentifier: 
-  WeaponsPrefabs:
-  - {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
-  - {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
-  - {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
-  - {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
-  - {fileID: 1117582899397640, guid: 689946d975a0e55449b1e7ae41933e73, type: 3}
-  - {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
-  - {fileID: 1261748888023320, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
-  - {fileID: 1411512464560164, guid: 02baef62b1bfedf40bb369fb7542b9e7, type: 3}
-  CooldownLevels:
-  - 5.5
-  - 4
-  - 3.5
-  - 3
-  - 2.5
-  - 2
-  - 1.5
-  - 1
+  StaticInfo:
+  - Number: 0
+    UnblockPrice: 100
+    CooldownsInfo:
+    - Level: 1
+      Price: 0
+      Value: 5
+    - Level: 2
+      Price: 522
+      Value: 4.6
+    - Level: 3
+      Price: 1080
+      Value: 4.23
+    - Level: 4
+      Price: 1800
+      Value: 3.89
+    - Level: 5
+      Price: 2700
+      Value: 3.58
+    - Level: 6
+      Price: 3800
+      Value: 3.29
+    - Level: 7
+      Price: 5100
+      Value: 3.03
+    LevelsInfo:
+    - Level: 1
+      Price: 0
+      Reward: 10
+      Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+    - Level: 2
+      Price: 300
+      Reward: 25
+      Prefab: {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
+    - Level: 3
+      Price: 550
+      Reward: 40
+      Prefab: {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
+    - Level: 4
+      Price: 900
+      Reward: 55
+      Prefab: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+    - Level: 5
+      Price: 1300
+      Reward: 70
+      Prefab: {fileID: 1117582899397640, guid: 689946d975a0e55449b1e7ae41933e73, type: 3}
+    - Level: 6
+      Price: 1750
+      Reward: 90
+      Prefab: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
+    - Level: 7
+      Price: 2300
+      Reward: 110
+      Prefab: {fileID: 1261748888023320, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
+  - Number: 1
+    UnblockPrice: 300
+    CooldownsInfo:
+    - Level: 1
+      Price: 0
+      Value: 5
+    - Level: 2
+      Price: 1550
+      Value: 4.6
+    - Level: 3
+      Price: 3300
+      Value: 4.23
+    - Level: 4
+      Price: 5400
+      Value: 3.89
+    - Level: 5
+      Price: 8100
+      Value: 3.58
+    - Level: 6
+      Price: 11500
+      Value: 3.29
+    - Level: 7
+      Price: 15000
+      Value: 3.03
+    LevelsInfo:
+    - Level: 1
+      Price: 0
+      Reward: 10
+      Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+    - Level: 2
+      Price: 900
+      Reward: 25
+      Prefab: {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
+    - Level: 3
+      Price: 1700
+      Reward: 40
+      Prefab: {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
+    - Level: 4
+      Price: 2700
+      Reward: 55
+      Prefab: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+    - Level: 5
+      Price: 3900
+      Reward: 70
+      Prefab: {fileID: 1117582899397640, guid: 689946d975a0e55449b1e7ae41933e73, type: 3}
+    - Level: 6
+      Price: 5300
+      Reward: 90
+      Prefab: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
+    - Level: 7
+      Price: 6900
+      Reward: 110
+      Prefab: {fileID: 1261748888023320, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
+  - Number: 2
+    UnblockPrice: 900
+    CooldownsInfo:
+    - Level: 1
+      Price: 0
+      Value: 5
+    - Level: 2
+      Price: 4700
+      Value: 4.6
+    - Level: 3
+      Price: 9700
+      Value: 4.23
+    - Level: 4
+      Price: 16300
+      Value: 3.89
+    - Level: 5
+      Price: 24500
+      Value: 3.58
+    - Level: 6
+      Price: 34300
+      Value: 3.29
+    - Level: 7
+      Price: 45800
+      Value: 3.03
+    LevelsInfo:
+    - Level: 1
+      Price: 0
+      Reward: 10
+      Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+    - Level: 2
+      Price: 2700
+      Reward: 25
+      Prefab: {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
+    - Level: 3
+      Price: 5000
+      Reward: 40
+      Prefab: {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
+    - Level: 4
+      Price: 8000
+      Reward: 55
+      Prefab: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+    - Level: 5
+      Price: 11600
+      Reward: 70
+      Prefab: {fileID: 1117582899397640, guid: 689946d975a0e55449b1e7ae41933e73, type: 3}
+    - Level: 6
+      Price: 15800
+      Reward: 90
+      Prefab: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
+    - Level: 7
+      Price: 20500
+      Reward: 110
+      Prefab: {fileID: 1261748888023320, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
+  - Number: 3
+    UnblockPrice: 2700
+    CooldownsInfo:
+    - Level: 1
+      Price: 0
+      Value: 5
+    - Level: 2
+      Price: 14000
+      Value: 4.6
+    - Level: 3
+      Price: 30000
+      Value: 4.23
+    - Level: 4
+      Price: 49000
+      Value: 3.89
+    - Level: 5
+      Price: 73500
+      Value: 3.58
+    - Level: 6
+      Price: 103000
+      Value: 3.29
+    - Level: 7
+      Price: 137500
+      Value: 3.03
+    LevelsInfo:
+    - Level: 1
+      Price: 0
+      Reward: 10
+      Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+    - Level: 2
+      Price: 8000
+      Reward: 25
+      Prefab: {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
+    - Level: 3
+      Price: 15000
+      Reward: 40
+      Prefab: {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
+    - Level: 4
+      Price: 24000
+      Reward: 55
+      Prefab: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+    - Level: 5
+      Price: 35000
+      Reward: 70
+      Prefab: {fileID: 1117582899397640, guid: 689946d975a0e55449b1e7ae41933e73, type: 3}
+    - Level: 6
+      Price: 47500
+      Reward: 90
+      Prefab: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
+    - Level: 7
+      Price: 62000
+      Reward: 110
+      Prefab: {fileID: 1261748888023320, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
+  - Number: 4
+    UnblockPrice: 50
+    CooldownsInfo:
+    - Level: 1
+      Price: 0
+      Value: 5
+    - Level: 2
+      Price: 0
+      Value: 4.6
+    - Level: 3
+      Price: 0
+      Value: 4.23
+    - Level: 4
+      Price: 0
+      Value: 3.89
+    - Level: 5
+      Price: 0
+      Value: 3.58
+    - Level: 6
+      Price: 0
+      Value: 3.29
+    - Level: 7
+      Price: 0
+      Value: 3.03
+    LevelsInfo:
+    - Level: 1
+      Price: 0
+      Reward: 10
+      Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
+    - Level: 2
+      Price: 0
+      Reward: 25
+      Prefab: {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
+    - Level: 3
+      Price: 0
+      Reward: 40
+      Prefab: {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
+    - Level: 4
+      Price: 0
+      Reward: 55
+      Prefab: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+    - Level: 5
+      Price: 0
+      Reward: 70
+      Prefab: {fileID: 1117582899397640, guid: 689946d975a0e55449b1e7ae41933e73, type: 3}
+    - Level: 6
+      Price: 0
+      Reward: 90
+      Prefab: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
+    - Level: 7
+      Price: 0
+      Reward: 110
+      Prefab: {fileID: 1261748888023320, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
