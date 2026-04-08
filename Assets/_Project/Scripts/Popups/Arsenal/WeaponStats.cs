@@ -14,18 +14,20 @@ public class WeaponStats : MonoBehaviour
     private Weapon _weapon;
     private IPersistentProgressService _progressService;
     private WeaponStaticData _weaponStaticData;
+    private IWeaponUpdaterService _updaters;
 
     public WeaponType Type { get; private set; }
 
-    public void Construct(Weapon weapon, WeaponStaticData weaponStaticData, IPersistentProgressService progressService)
+    public void Construct(Weapon weapon, WeaponStaticData weaponStaticData, IPersistentProgressService progressService, IWeaponUpdaterService updaters)
     {
         _weapon = weapon;
         _progressService = progressService;
         Type = _weapon.Type;
         _weaponStaticData = weaponStaticData;
+        _updaters = updaters;
 
-        _damageButton.Construct(weapon, progressService, weaponStaticData);
-        _magazineButton.Construct(weapon, progressService, weaponStaticData);
+        _damageButton.Construct(weapon, progressService, _updaters, weaponStaticData);
+        _magazineButton.Construct(weapon, progressService, _updaters, weaponStaticData);
 
         _name.text = _weaponStaticData.Name;
         _icon.sprite = _weaponStaticData.Icon;

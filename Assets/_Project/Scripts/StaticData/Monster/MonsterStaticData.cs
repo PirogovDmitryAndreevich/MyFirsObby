@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MonsterData", menuName = "StaticData/Monster")]
 public class MonsterStaticData : ScriptableObject
 {
-    public MonsterTypeID MonsterTypeID;
+    public MonsterTypeId MonsterTypeID;
 
     public int Health;
     public float Damage;

@@ -11,6 +11,7 @@ public class WeaponStatsButton : MonoBehaviour
     private WeaponStaticData _weaponStaticData;
     private Weapon _weapon;
     private IPersistentProgressService _progressService;
+    private IWeaponUpdaterService _updaters;
 
     private void OnEnable()
     {
@@ -29,11 +30,12 @@ public class WeaponStatsButton : MonoBehaviour
         _button.onClick.RemoveListener(OnLevelUpdate);
     }
 
-    public void Construct(Weapon weapon, IPersistentProgressService progressService, WeaponStaticData staticData)
+    public void Construct(Weapon weapon, IPersistentProgressService progressService, IWeaponUpdaterService updaters,WeaponStaticData staticData)
     {
         _weaponStaticData = staticData;
         _weapon = weapon;
         _progressService = progressService;
+        _updaters = updaters;
     }
 
     private void UpdateState()
@@ -71,7 +73,7 @@ public class WeaponStatsButton : MonoBehaviour
     }
 
     private void OnLevelUpdate() =>
-        _weapon.UpdateLevel(_type);
+        _updaters.UpdateWeapon(_type, _weapon);
 
     private void SetBlockState() =>
         _button.interactable = false;
