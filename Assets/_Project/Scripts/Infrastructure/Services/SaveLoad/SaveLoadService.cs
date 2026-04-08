@@ -1,24 +1,14 @@
-﻿using UnityEngine;
-using YG;
+﻿using YG;
 
 public class SaveLoadService : ISaveLoadService
 {
     private readonly IPersistentProgressService _progressService;
-    private readonly ISavedLists _savedLists;
 
-    public SaveLoadService(IPersistentProgressService progressService ,ISavedLists savedLists)
-    {
+    public SaveLoadService(IPersistentProgressService progressService) => 
         _progressService = progressService;
-        _savedLists = savedLists;
-    }
 
-    public void SaveProgress()
-    {
-        foreach (ISavedProgress progressWriter in _savedLists.ProgressWriters)
-            progressWriter.UpdateProgress(_progressService.Progress);
-
+    public void SaveProgress() => 
         YandexGamesSave();
-    }
 
     public PlayerProgress LoadProgress() => 
         YG2.saves.Progress;

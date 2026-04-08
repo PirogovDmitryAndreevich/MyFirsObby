@@ -12,7 +12,7 @@ public class Shooter : MonoBehaviour
     private WeaponStaticData _weaponData;
     private Transform _muzzle;
 
-    private int _damage;    
+    private int _damage;
     private int _magazineSize;
 
     private bool CanShot = true;
@@ -42,11 +42,19 @@ public class Shooter : MonoBehaviour
         _camera = Camera.main;
     }
 
-    public void SelectWeapon(WeaponStaticData weaponData, Transform muzzle ,int damageLevel, int magazineLevel)
+    public void SelectWeapon(WeaponStaticData weaponData, Transform muzzle, int damageLevel, int magazineLevel)
     {
         _weaponData = weaponData;
-        _damage = weaponData.GetNextLevelInfo(damageLevel, WeaponsUpdateType.Damage).Value;
-        _magazineSize = weaponData.GetNextLevelInfo(magazineLevel, WeaponsUpdateType.MagazineSize).Value;
+
+        PriceWeaponLevels levelStatsDamage = _weaponData.GeLevelInfo(damageLevel, WeaponsUpdateType.Damage);
+        PriceWeaponLevels levelStatsMagazine = _weaponData.GeLevelInfo(magazineLevel, WeaponsUpdateType.MagazineSize);
+
+        if (levelStatsDamage != null)
+            _damage = levelStatsDamage.Value;
+
+        if (levelStatsMagazine != null)
+            _magazineSize = levelStatsMagazine.Value;
+
         _muzzle = muzzle;
     }
 
