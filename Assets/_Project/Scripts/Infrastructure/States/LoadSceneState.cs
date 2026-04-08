@@ -13,10 +13,12 @@ internal class LoadSceneState : IPayloaderState<string>
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingCurtain _curtain;
     private readonly IGameFactory _gameFactory;
-    private readonly IUIFactory _uIFactory;
+    private readonly IUIFactory _uiFactory;
     private readonly IPersistentProgressService _progressService;
     private readonly ISavedLists _savedLists;
     private readonly IStaticDataService _staticData;
+
+    private LoadedScene _loadedScene;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         LoadingCurtain curtain, IGameFactory gameFactory, IUIFactory uIFactory,
@@ -27,7 +29,7 @@ internal class LoadSceneState : IPayloaderState<string>
         _sceneLoader = sceneLoader;
         _curtain = curtain;
         _gameFactory = gameFactory;
-        _uIFactory = uIFactory;
+        _uiFactory = uIFactory;
         _progressService = progressService;
         _savedLists = savedLists;
         _staticData = staticData;
@@ -49,7 +51,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         InitGameWorld();
         InformProgressReaders();
-        _stateMachine.Enter<GameLoopState>();
+        _stateMachine.Enter<GameLoopState, LoadedScene>(_loadedScene);
     }
 
     private void InitGameWorld()
@@ -59,35 +61,35 @@ internal class LoadSceneState : IPayloaderState<string>
 
         IWeaponSelector weaponSelector = InitWeaponSelector(characterController);
 
-        InitConveer();
-
         Hud hud = InitHud(characterController.Health, weaponSelector);
 
         ArsenalShopWindow arsenalWindow = InitArsenalShop();
+        ConveerShop conveerShop = InitConveerShop();
 
-        ArsenalView arsenal = InitArsenal(hud.IndicateUI, arsenalWindow);
+        ConveerInitializer conveerView = InitConveerView(hud.IndicateUI, conveerShop);
+        ArsenalInitializer arsenal = InitArsenal(hud.IndicateUI, arsenalWindow);
 
         CameraFollow(characterController.CameraFollow);
+
+        _loadedScene = new LoadedScene(characterController, conveerView, arsenal);
     }
 
-    private void InitConveer()
-    {
-        GameObject conveer = _gameFactory.CreateConveer(at: GameObject.FindWithTag(ConveerPointTag));
-        Conveer conveerComponent = conveer.GetComponent<Conveer>();
+    private ConveerShop InitConveerShop() => 
+        _uiFactory.CreateConveerShop();
 
-        _gameFactory.CreateConveerManager(conveerComponent);
-    }
+    private ConveerInitializer InitConveerView(IIndicateUI indicator, IWindow conveerShopWindow) => 
+        _gameFactory.CreateConveerView(at: GameObject.FindWithTag(ConveerPointTag), indicator, conveerShopWindow);
 
     private Character InitCharacter(Transform at) =>
         _gameFactory.CreateCharacterController(at: at);
 
     private ArsenalShopWindow InitArsenalShop() => 
-        _uIFactory.CreateArsenalShopWindow();
+        _uiFactory.CreateArsenalShopWindow();
 
     private WeaponSelector InitWeaponSelector(Character character) =>
         _gameFactory.CreateWeaponSelector(character);
 
-    private ArsenalView InitArsenal(IIndicateUI indicator, IWindow arsenalWindow) => 
+    private ArsenalInitializer InitArsenal(IIndicateUI indicator, IWindow arsenalWindow) => 
         _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag).transform, indicator, arsenalWindow);
 
     private void InitEnemySpawners()
@@ -101,7 +103,7 @@ internal class LoadSceneState : IPayloaderState<string>
     }
 
     private Hud InitHud(CharacterHealth characterHealth, IWeaponSelector weaponSelector) =>
-        _uIFactory.CreateHod(YG2.envir.isMobile, weaponSelector, characterHealth);
+        _uiFactory.CreateHod(YG2.envir.isMobile, weaponSelector, characterHealth);
 
     private void InformProgressReaders()
     {

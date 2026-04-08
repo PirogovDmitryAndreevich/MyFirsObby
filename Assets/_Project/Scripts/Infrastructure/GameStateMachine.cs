@@ -7,7 +7,7 @@ public partial class GameStateMachine
 
     private Dictionary<Type, IExcitableState> _states;
 
-    public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, AllServices services)
+    public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, AllServices services, ICoroutineRunner coroutineRunner)
     {
         _states = new Dictionary<Type, IExcitableState>()
         {
@@ -19,7 +19,7 @@ public partial class GameStateMachine
             [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>(),
             services.Single<IStaticDataService>()),
 
-            [typeof(GameLoopState)] = new GameLoopState(this)
+            [typeof(GameLoopState)] = new GameLoopState(this, services.Single<IPersistentProgressService>(), coroutineRunner)
         };
     }
 

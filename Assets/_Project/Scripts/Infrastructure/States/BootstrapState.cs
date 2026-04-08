@@ -22,7 +22,7 @@ public class BootstrapState : IState
         _sceneLoader.Load(Initial, onLoaded: EnterLoadLevel);
     }
 
-    private void EnterLoadLevel() => 
+    private void EnterLoadLevel() =>
         _stateMachine.Enter<LoadProgressState>();
 
     public void Exit()
@@ -38,15 +38,21 @@ public class BootstrapState : IState
         _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
         _services.RegisterSingle<ISavedLists>(new SavedLists());
 
-        _services.RegisterSingle<ISaveLoadService>(new SaveLoadService
-            (_services.Single<IPersistentProgressService>(), _services.Single<ISavedLists>()));
+        _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
+
+        _services.RegisterSingle<IWeaponUpdaterService>(new WeaponUpdaterService(_services.Single<IPersistentProgressService>(), _services.Single<IStaticDataService>(),
+            _services.Single<ISaveLoadService>()));
+
+        _services.RegisterSingle<IConveerUpdaterService>(new ConveerUpdaterService(_services.Single<IPersistentProgressService>(), _services.Single<IStaticDataService>(),
+            _services.Single<ISaveLoadService>()));
 
         _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
             _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>(),
-            _services.Single<ISavedLists>(), _services.Single<ISaveLoadService>(), _services.Single<IInputService>()));
+            _services.Single<ISavedLists>(), _services.Single<ISaveLoadService>(), _services.Single<IInputService>(),
+            _services.Single<IConveerUpdaterService>()));
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
-            _services.Single<IStaticDataService>()));
+            _services.Single<IStaticDataService>(), _services.Single<IWeaponUpdaterService>(), _services.Single<IConveerUpdaterService>()));
     }
 
     private void RegisterStaticData()
