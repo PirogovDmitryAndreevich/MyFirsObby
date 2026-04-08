@@ -10,11 +10,11 @@ public class StaticDataService : IStaticDataService
     private const string ConveerPath = "StaticData/Conveer/ConveerData";
     private const string CharactersPath = "StaticData/CharactersView/Characters";
 
-    private ConveerStaticData _conveers;
-    private Dictionary<MonsterTypeID, MonsterStaticData> _monsters;
+    private Dictionary<MonsterTypeId, MonsterStaticData> _monsters;
     private Dictionary<string, LevelStaticData> _levels;
     private Dictionary<WeaponType, WeaponStaticData> _weaponsData;
     private Dictionary<CharacterType, CharacterView> _charactersView;
+    private Dictionary<ConveerNumbers, ConveerStaticInfo> Conveers;
 
     public void Load()
     {
@@ -27,13 +27,14 @@ public class StaticDataService : IStaticDataService
         _weaponsData = Resources.LoadAll<WeaponStaticData>(WeaponsPath)
             .ToDictionary(x => x.Type, x => x);
 
-        _conveers = Resources.Load<ConveerStaticData>(ConveerPath);
+        Conveers = Resources.Load<ConveerStaticData>(ConveerPath)
+            .StaticInfo.ToDictionary(x => x.Number, x => x);
 
         _charactersView = Resources.Load<CharacterViewStaticData>(CharactersPath)
             .Characters.ToDictionary(x=>x.Type, x => x);
     }
 
-    public MonsterStaticData ForMonster(MonsterTypeID typeId) =>
+    public MonsterStaticData ForMonster(MonsterTypeId typeId) =>
         _monsters.TryGetValue(typeId, out MonsterStaticData staticData)
         ? staticData
         : null;
@@ -48,8 +49,10 @@ public class StaticDataService : IStaticDataService
         ? weaponData
         : null;
 
-    public ConveerStaticData ForConveer() =>
-        _conveers;
+    public ConveerStaticInfo ForConveers(ConveerNumbers number) =>
+        Conveers.TryGetValue(number, out ConveerStaticInfo info)
+        ? info 
+        : null;
 
     public CharacterView ForCharacterView(CharacterType type) =>
         _charactersView.TryGetValue(type, out CharacterView view)
@@ -58,4 +61,7 @@ public class StaticDataService : IStaticDataService
 
     public List<WeaponStaticData> AllWeapons() =>
         _weaponsData.Values.ToList();
+
+    public List<ConveerStaticInfo> AllConveers() =>
+        Conveers.Values.ToList();
 }

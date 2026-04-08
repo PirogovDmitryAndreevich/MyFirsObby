@@ -4,9 +4,10 @@ public interface IStaticDataService : IService
 {
     CharacterView ForCharacterView(CharacterType type);
     public LevelStaticData ForLevel(string sceneKey);
-    public MonsterStaticData ForMonster(MonsterTypeID typeId);
+    public MonsterStaticData ForMonster(MonsterTypeId typeId);
     public WeaponStaticData ForWeaponsData(WeaponType type);
-    public ConveerStaticData ForConveer();
+    public ConveerStaticInfo ForConveers(ConveerNumbers number);
     public List<WeaponStaticData> AllWeapons();
+    public List<ConveerStaticInfo> AllConveers();
     public void Load();
 }

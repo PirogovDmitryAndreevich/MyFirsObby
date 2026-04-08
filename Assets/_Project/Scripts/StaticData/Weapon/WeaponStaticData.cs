@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "StaticData/Weapon")]
-public partial class WeaponStaticData : ScriptableObject
+public class WeaponStaticData : ScriptableObject
 {
     public WeaponType Type;
 
@@ -21,17 +21,28 @@ public partial class WeaponStaticData : ScriptableObject
 
     public PriceWeaponLevels GetNextLevelInfo(int currentLevel, WeaponsUpdateType type)
     {
-        int nextLevelIndex = currentLevel;  
+        int nextLevelIndex = currentLevel;
 
+        return LevelInfo(nextLevelIndex, type);
+    }
+
+    public PriceWeaponLevels GeLevelInfo(int currentLevel, WeaponsUpdateType type)
+    {
+        int levelIndex = currentLevel - 1;
+        return LevelInfo(levelIndex, type);
+    }
+
+    private PriceWeaponLevels LevelInfo(int index, WeaponsUpdateType type)
+    {
         return type switch
         {
             WeaponsUpdateType.MagazineSize
-                when nextLevelIndex < MagazineSizeLevels.Levels.Length
-            => MagazineSizeLevels.Levels[nextLevelIndex],  
+                when index < MagazineSizeLevels.Levels.Length
+            => MagazineSizeLevels.Levels[index],
 
             WeaponsUpdateType.Damage
-                when nextLevelIndex < DamageLevels.Levels.Length
-            => DamageLevels.Levels[nextLevelIndex],
+                when index < DamageLevels.Levels.Length
+            => DamageLevels.Levels[index],
 
             _ => null
         };
