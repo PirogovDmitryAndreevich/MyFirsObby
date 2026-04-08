@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
 [RequireComponent(typeof(Shooter), typeof(CharacterHealth))]
-public class Character : MonoBehaviour, ISavedProgress, IInteractable
+public class Character : MonoBehaviour, IInteractable
 {
     private Shooter _shooter;
     private CharacterAnimation _animation;
@@ -77,14 +77,4 @@ public class Character : MonoBehaviour, ISavedProgress, IInteractable
 
     public void SetInteractable(IInteractObject interact) =>
         _currentInteract = interact;
-
-    public void UpdateProgress(PlayerProgress progress)
-    {
-        
-    }
-
-    public void LoadProgress(PlayerProgress progress)
-    {
-        
-    }
 }

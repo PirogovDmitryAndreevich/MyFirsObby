@@ -1,40 +1,45 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class CharacterMove : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 10f;
 
     private PlayerCamera _playerCamera;
-    private Rigidbody _rigidbody;
+    private CharacterController _characterController;
     private IInputService _inputService;
 
     public Vector3 MovementVector { get; private set; }
     public bool IsMoving => _inputService.Axis.sqrMagnitude > ConstantsData.Epsilon;
 
-    private void Awake() => 
-        _rigidbody = GetComponent<Rigidbody>();
+    private void Awake() =>
+        _characterController = GetComponent<CharacterController>();
 
-    private void Start() => 
+    private void Start() =>
         _playerCamera = Camera.main.GetComponent<PlayerCamera>();
 
     private void Update()
     {
+        Vector3 forward = _playerCamera.CameraTransform.forward;
+        Vector3 right = _playerCamera.CameraTransform.right;
+
+        forward.y = 0;
+        right.y = 0;
+
+        forward.Normalize();
+        right.Normalize();
+
         MovementVector =
-            (_playerCamera.CameraTransform.right * _inputService.Axis.x
-            + _inputService.Axis.y * _playerCamera.CameraTransform.forward)
-            .normalized;
+            (right * _inputService.Axis.x +
+             forward * _inputService.Axis.y).normalized;
+
+        MovementVector += Physics.gravity;
+
+
+        _characterController.Move(MovementVector * _movementSpeed * Time.fixedDeltaTime);
+        //if (IsMoving)
+
     }
 
-    private void FixedUpdate()
-    {
-        if (IsMoving)
-        {
-            Vector3 move = MovementVector * _movementSpeed * Time.fixedDeltaTime;
-            _rigidbody.MovePosition(_rigidbody.position + move);
-        }
-    }
-
-    public void Construct(IInputService inputService) => 
+    public void Construct(IInputService inputService) =>
         _inputService = inputService;
 }
