@@ -11,9 +11,10 @@ public class GameFactory : IGameFactory
     private readonly ISavedLists _savedLists;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IInputService _inputService;
+    private readonly IConveerUpdaterService _conveerUpdateService;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
-        ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService)
+        ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService, IConveerUpdaterService conveerUpdateService)
     {
         _assets = assets;
         _staticData = staticData;
@@ -21,7 +22,8 @@ public class GameFactory : IGameFactory
         _savedLists = savedLists;
         _saveLoadService = saveLoadService;
         _inputService = inputService;
-    }        
+        _conveerUpdateService = conveerUpdateService;
+    }
 
     public Character CreateCharacterController(Transform at)
     {
@@ -44,7 +46,7 @@ public class GameFactory : IGameFactory
         return lootPiece;
     }
 
-    public void CreateMonster(MonsterTypeID typeID, Transform parent)
+    public void CreateMonster(MonsterTypeId typeID, Transform parent)
     {
         MonsterStaticData monsterData = _staticData.ForMonster(typeID);
 
@@ -69,7 +71,7 @@ public class GameFactory : IGameFactory
         monster.GetComponent<RotateToPlayer>()?.Construct(_characterObject.transform);
     }
 
-    public void CreateSpawner(Vector3 at, string id, MonsterTypeID monsterTypeId)
+    public void CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId)
     {
         SpawnPoint spawner = InstantiateRegistered(AssetsPath.Spawner)
             .GetComponent<SpawnPoint>();
@@ -80,12 +82,13 @@ public class GameFactory : IGameFactory
         spawner.transform.position = at;
     }
 
-    public ArsenalView CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow)
+    public ArsenalInitializer CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow)
     {
-        ArsenalView arsenal = InstantiateRegistered(AssetsPath.Arsenal, at.transform.position).GetComponent<ArsenalView>();
-        arsenal.Construct(_progressService, indicator, arsenalWindow);
+        ArsenalInitializer arsenal = InstantiateRegistered(AssetsPath.Arsenal, at.transform.position).GetComponent<ArsenalInitializer>();
+        arsenal.ArsenalView.Construct(indicator, arsenalWindow);
+        arsenal.Opener.Construct(_progressService);
         return arsenal;
-    }    
+    }
 
     public WeaponSelector CreateWeaponSelector(Character character)
     {
@@ -95,13 +98,13 @@ public class GameFactory : IGameFactory
         return weaponSelector;
     }
 
-    public GameObject CreateConveer(GameObject at) =>
-        InstantiateRegistered(AssetsPath.ConveerPath, at.transform.position);
-
-    public void CreateConveerManager(Conveer conveerComponent)
+    public ConveerInitializer CreateConveerView(GameObject at, IIndicateUI indicator, IWindow conveerShopWindow)
     {
-        ConveerManager conveerManager = new ConveerManager(_saveLoadService, _staticData, conveerComponent);
-        Register(conveerManager);
+        ConveerInitializer conveerInitializer = InstantiateRegistered(AssetsPath.ConveerPath, at.transform.position).GetComponent<ConveerInitializer>();
+        conveerInitializer.Construct(_staticData, _conveerUpdateService);
+        conveerInitializer.ConveerView.Construct(indicator, conveerShopWindow);
+        conveerInitializer.Finisher.Construct(_progressService);
+        return conveerInitializer;
     }
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
@@ -122,7 +125,7 @@ public class GameFactory : IGameFactory
 
     private void RegisterProgressWatchers(GameObject gameObject)
     {
-        foreach (ISavedProgress progressReader in gameObject.GetComponentsInChildren<ISavedProgress>())
+        foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
             Register(progressReader);
     }
 

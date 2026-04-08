@@ -6,15 +6,11 @@ public class ÑonveerProgress
 {
     public List<ConveerLineProgress> ConveerLines;
 
-    public ÑonveerProgress()
+    public ÑonveerProgress(IStaticDataService staticData)
     {
-        ConveerLines = new List<ConveerLineProgress>()
-        {
-            new ConveerLineProgress(ConveerNumbers.Conveyor_1, true),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_2),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_3),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_4),
-            new ConveerLineProgress(ConveerNumbers.Conveyor_bonus)
-        };
+        ConveerLines = new List<ConveerLineProgress>();
+
+        foreach (ConveerStaticInfo conveer in staticData.AllConveers())        
+            ConveerLines.Add(new ConveerLineProgress(conveer.Number, conveer));        
     }
 }

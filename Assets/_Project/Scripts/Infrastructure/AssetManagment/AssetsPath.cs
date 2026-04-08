@@ -10,4 +10,7 @@ public static class AssetsPath
     public const string ConveerPath = "Conveer/Conveer";
     public const string InventoryButtonPath = "Hud/WeaponButton";
     public const string WeaponStatsPath = "ArsenalShop/WeaponStats";
+    public const string ConveerShopPath = "ConveerShop/ConveerShop";
+    public const string ConveerStatsPath = "ConveerShop/ConveerStat";
+    public const string ConveerResourcePath = "Conveer/ConveerResource";
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ConveerLine : MonoBehaviour
+public class ConveerLineMover : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _speed;

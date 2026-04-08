@@ -1,23 +1,26 @@
+using System;
 using UnityEngine;
 
-public class ConveerCreator : MonoBehaviour
+public class ConveerCubeMover : MonoBehaviour
 {
-    [SerializeField] private ConveerNumbers _numbers;
-    [SerializeField] private Transform _creatorCub;
-    [SerializeField] private ConveerResource _resource;
     [SerializeField] private Transform _createPoint;
+    [SerializeField] private Transform _creatorCub;
     [SerializeField] private Transform _creatorStartPosition;
     [SerializeField] private Transform _creatorEndPosition;
     [SerializeField] private float _speed = 0.3f;
 
-    private bool _movingToEnd = true;
-    private bool _isWorking = false;
-
+    private ConveerLine _line;
+    private float _cooldown;
     private float _cooldownTimer;
+    private bool _isWorking = false;
+    private bool _movingToEnd = true;
 
-    public ConveerNumbers Numbers => _numbers;
-    public GameObject Prefab { get; set; }
-    public float Cooldown { get; set; }
+    public event Action Create;
+
+    public Transform ResourceSpawnPoint => _createPoint;
+
+    private void OnDestroy() => 
+        _line.LineProgress.ConveerLineUpdated -= SetCooldown;
 
     private void Update()
     {
@@ -25,7 +28,7 @@ public class ConveerCreator : MonoBehaviour
         {
             _cooldownTimer += Time.deltaTime;
 
-            if (_cooldownTimer >= Cooldown)
+            if (_cooldownTimer >= _cooldown)
             {
                 _cooldownTimer = 0f;
                 _isWorking = true;
@@ -41,7 +44,7 @@ public class ConveerCreator : MonoBehaviour
 
             if (IsAtPosition(_creatorEndPosition.position))
             {
-                Spawn();
+                Create?.Invoke();
                 _movingToEnd = false;
             }
         }
@@ -51,9 +54,23 @@ public class ConveerCreator : MonoBehaviour
 
             if (IsAtPosition(_creatorStartPosition.position))
             {
-                _isWorking = false; 
+                _isWorking = false;
             }
         }
+    }
+
+    public void Construct(ConveerLine line)
+    {
+        _line = line;
+
+        _line.LineProgress.ConveerLineUpdated += SetCooldown;
+        SetCooldown(ConveerUpdateType.Cooldawn);
+    }
+
+    private void SetCooldown(ConveerUpdateType type)
+    {
+        if (type == ConveerUpdateType.Cooldawn)
+            _cooldown = _line.LineStaticInfo.GetLevelCooldowInfo(_line.LineProgress.GetLevel(type)).Value;
     }
 
     private void MoveTo(Vector3 target)
@@ -65,14 +82,6 @@ public class ConveerCreator : MonoBehaviour
         );
     }
 
-    private bool IsAtPosition(Vector3 target)
-    {
-        return Vector3.Distance(_creatorCub.position, target) < 0.01f;
-    }
-
-    private void Spawn()
-    {        
-        var pref = Instantiate(_resource, _createPoint.position, Quaternion.identity);
-        pref.SetModel(Prefab);
-    }
+    private bool IsAtPosition(Vector3 target) =>
+        Vector3.Distance(_creatorCub.position, target) < 0.01f;
 }
