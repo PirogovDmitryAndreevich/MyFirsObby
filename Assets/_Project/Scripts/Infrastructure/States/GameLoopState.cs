@@ -36,14 +36,22 @@ public class GameLoopState : IPayloaderState<LoadedScene>
         ConveerLine line1 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_1];
         line1.Opener.SetActiveState(true);
 
+        _loadedScene.Character.LineDraw.StartDraw(line1.Opener.transform);
+
         while (!line1.IsOpened) 
             yield return null;
+
+        _loadedScene.Character.LineDraw.StopDraw();
 
         ArsenalInitializer arsenal = _loadedScene.Arsenal;
         arsenal.Opener.SetActiveState(true);
 
-        while(!arsenal.IsOpened)
+        _loadedScene.Character.LineDraw.StartDraw(arsenal.Opener.transform);
+
+        while (!arsenal.IsOpened)
             yield return null;
+
+        _loadedScene.Character.LineDraw.StopDraw();
 
         foreach (var line in _loadedScene.Conveer.Lines.Values)
         {

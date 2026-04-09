@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
-[RequireComponent(typeof(Shooter), typeof(CharacterHealth))]
+[RequireComponent(typeof(Shooter), typeof(CharacterHealth), typeof(LineDraw))]
 public class Character : MonoBehaviour, IInteractable
 {
     private Shooter _shooter;
@@ -16,6 +16,7 @@ public class Character : MonoBehaviour, IInteractable
     public CharacterView CurrentView { get; private set; }
     public Transform CameraFollow { get; private set; }
     public WeaponView SelectedWeapon { get; private set; }
+    public LineDraw LineDraw { get; private set; }
 
     private void Update()
     {
@@ -42,7 +43,8 @@ public class Character : MonoBehaviour, IInteractable
         _mover = GetComponent<CharacterMove>();
 
         Health = GetComponent<CharacterHealth>();
-
+        LineDraw = GetComponent<LineDraw>();
+        
         _mover.Construct(_input);
         SetCharacterView(view);
     }
@@ -61,6 +63,8 @@ public class Character : MonoBehaviour, IInteractable
 
         CameraFollow = CurrentView.CameraFollow;
         _animation.Animator = CurrentView.Animator;
+
+        LineDraw.Construct(CurrentView.CameraFollow);
     }
 
     public void SelectWeapon(WeaponStaticData weapon, int damageLevel, int magazineLevel)
