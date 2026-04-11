@@ -20,6 +20,7 @@ public class Shooter : MonoBehaviour
     private float _nextShootTime;
 
     private int Ammunition;
+    private IPoolService _poolService;
 
     public event Action AmmunitionChanged;
 
@@ -42,6 +43,12 @@ public class Shooter : MonoBehaviour
 
     private void Start() => 
         _camera = Camera.main;
+
+    public void Construct(IPoolService poolService, IGameFactory gameFactory)
+    {
+        _poolService = poolService;
+        _poolService.RegisterFactory(() => gameFactory.CreateBullet());
+    }
 
     public void SelectWeapon(WeaponStaticData weaponData, Transform muzzle, int damageLevel, int magazineLevel)
     {
@@ -93,6 +100,8 @@ public class Shooter : MonoBehaviour
         Vector2 spread = Random.insideUnitCircle * _weaponData.Spread;
         Quaternion spreadRot = Quaternion.Euler(spread.x, spread.y, 0);
         direction = spreadRot * direction;
+
+        Bullet bullet = _poolService.Get<Bullet>();
 
         Bullet bullet = Instantiate(_weaponData.BulletPrefab, _muzzle.position, Quaternion.LookRotation(direction));
         bullet.Shot(direction * _bulletForce, _damage);

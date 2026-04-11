@@ -4,7 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Shooter), typeof(CharacterHealth), typeof(LineDraw))]
 public class Character : MonoBehaviour, IInteractable
 {
-    private Shooter _shooter;
     private CharacterAnimation _animation;
     private CharacterRotation _meshRootRotation;
     private CharacterMove _mover;
@@ -17,6 +16,7 @@ public class Character : MonoBehaviour, IInteractable
     public Transform CameraFollow { get; private set; }
     public WeaponView SelectedWeapon { get; private set; }
     public LineDraw LineDraw { get; private set; }
+    public Shooter Shooter { get; private set; }
 
     private void Update()
     {
@@ -26,8 +26,8 @@ public class Character : MonoBehaviour, IInteractable
         if (_mover.IsMoving)
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
 
-        if (_input.IsShoot && _input.GetAttackState() && _shooter.CanShootNow)
-            _shooter.TryShoot(_input.ShootPosition);
+        if (_input.IsShoot && _input.GetAttackState() && Shooter.CanShootNow)
+            Shooter.TryShoot(_input.ShootPosition);
 
         if (_currentInteract != null && Input.GetKeyDown(KeyCode.E))
             _currentInteract.Interact();
@@ -39,7 +39,7 @@ public class Character : MonoBehaviour, IInteractable
 
         _meshRootRotation = GetComponent<CharacterRotation>();
         _animation = GetComponent<CharacterAnimation>();
-        _shooter = GetComponent<Shooter>();
+        Shooter = GetComponent<Shooter>();
         _mover = GetComponent<CharacterMove>();
 
         Health = GetComponent<CharacterHealth>();
@@ -76,7 +76,7 @@ public class Character : MonoBehaviour, IInteractable
         SelectedWeapon = prefab.GetComponent<WeaponView>();
         prefab.transform.position = CurrentView.WeaponPoint.position;
 
-        _shooter.SelectWeapon(weapon, SelectedWeapon.Muzzle, damageLevel, magazineLevel);
+        Shooter.SelectWeapon(weapon, SelectedWeapon.Muzzle, damageLevel, magazineLevel);
     }
 
     public void SetInteractable(IInteractObject interact) =>

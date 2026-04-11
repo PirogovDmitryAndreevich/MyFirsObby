@@ -2,6 +2,7 @@
 
 public interface IGameFactory : IService
 {
+    Bullet CreateBullet();
     Character CreateCharacterController(Transform at);
     ArsenalInitializer CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow);
     ConveerInitializer CreateConveerView(GameObject at, IIndicateUI indicator, IWindow conveerShopWindow);

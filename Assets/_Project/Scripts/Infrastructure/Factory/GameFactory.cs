@@ -35,6 +35,7 @@ public class GameFactory : IGameFactory
         Character controller = _characterObject.GetComponent<Character>();
 
         controller.Construct(_inputService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CurrentType));
+        controller.Shooter.Construct(_poolService, this);
 
         return controller;
     }
@@ -47,6 +48,15 @@ public class GameFactory : IGameFactory
         lootPiece.Construct(_progressService.Progress.PlayerState, _saveLoadService, _poolService);
 
         return lootPiece;
+    }
+
+    public Bullet CreateBullet()
+    {
+        GameObject bullet = _assets.Instantiate(AssetsPath.BulletPath);
+        Bullet component = bullet.GetComponent<Bullet>();
+        component.Construct(_poolService);
+
+        return component;
     }
 
     public Enemy CreateMonster(MonsterTypeId typeID, Transform parent)
