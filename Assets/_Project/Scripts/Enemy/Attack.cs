@@ -8,7 +8,6 @@ public class Attack : MonoBehaviour
     [SerializeField] private EnemyAnimationEvents _animationEvents;
     [SerializeField] private LayerMask _layerMaskPlayer;
 
-    private Transform _characterTransform;
     private float _cooldownAttack = 3f;
     private float _cleavage = 1f;
     private float _effectiveDistance = 0.5f;
@@ -39,9 +38,8 @@ public class Attack : MonoBehaviour
             StartAttack();
     }
 
-    public void Construct(Transform character, float damage, float effectiveDistance, float cleavage, float cooldownAttack)
+    public void Construct(float damage, float effectiveDistance, float cleavage, float cooldownAttack)
     {
-        _characterTransform = character;
         _damage = damage;
         _effectiveDistance = effectiveDistance;
         _cleavage = cleavage;
@@ -57,8 +55,6 @@ public class Attack : MonoBehaviour
     private void StartAttack()
     {
         _isAttacking = true;
-
-        //transform.LookAt(_characterTransform);
         _animator.PlayAttack();
     }
 
@@ -67,9 +63,9 @@ public class Attack : MonoBehaviour
         if (Hit(out Collider hit))
         {
             PhysicsDebug.DrawDebug(StartPoint(), _cleavage, 1f);
+
             if (hit != null && hit.TryGetComponent(out IHealth characterHealth))
                 characterHealth.TakeDamage(_damage);
-
         }
     }
 

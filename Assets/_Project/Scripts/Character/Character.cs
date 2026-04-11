@@ -26,8 +26,8 @@ public class Character : MonoBehaviour, IInteractable
         if (_mover.IsMoving)
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
 
-        if (_input.IsShoot && _input.GetAttackState() && _shooter.CanShotNow)
-            _shooter.Shoot(_input.ShootPosition);
+        if (_input.IsShoot && _input.GetAttackState() && _shooter.CanShootNow)
+            _shooter.TryShoot(_input.ShootPosition);
 
         if (_currentInteract != null && Input.GetKeyDown(KeyCode.E))
             _currentInteract.Interact();

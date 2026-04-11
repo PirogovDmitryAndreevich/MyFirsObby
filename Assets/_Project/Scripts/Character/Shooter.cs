@@ -7,6 +7,7 @@ public class Shooter : MonoBehaviour
     [Header("Bullet setting")]
     [SerializeField] private float _bulletForce = 500f;
     [SerializeField] private float _shootDistance = 200f;
+    [SerializeField] private float _fireRate = 0.15f;
 
     private Camera _camera;
     private WeaponStaticData _weaponData;
@@ -15,14 +16,16 @@ public class Shooter : MonoBehaviour
     private int _damage;
     private int _magazineSize;
 
-    private bool CanShot = true;
+    private bool _canShoot = true;
+    private float _nextShootTime;
+
     private int Ammunition;
 
     public event Action AmmunitionChanged;
 
+    public bool CanShootNow => _canShoot && Time.time >= _nextShootTime;
     public WeaponStaticData CurrentWeapon => _weaponData;
 
-    public bool CanShotNow => CanShot;
     public int CurrentAmmunition
     {
         get => Ammunition;
@@ -37,10 +40,8 @@ public class Shooter : MonoBehaviour
     }
     public int CurrentMagazineSize => _magazineSize;
 
-    private void Start()
-    {
+    private void Start() => 
         _camera = Camera.main;
-    }
 
     public void SelectWeapon(WeaponStaticData weaponData, Transform muzzle, int damageLevel, int magazineLevel)
     {
@@ -56,9 +57,20 @@ public class Shooter : MonoBehaviour
             _magazineSize = levelStatsMagazine.Value;
 
         _muzzle = muzzle;
+
+        CurrentAmmunition = _magazineSize;
     }
 
-    public void Shoot(Vector3 shootPosition)
+    public void TryShoot(Vector3 shootPosition)
+    {
+        if (!CanShootNow)
+            return;
+
+        Shoot(shootPosition);
+        _nextShootTime = Time.time + _fireRate;
+    }
+
+    private void Shoot(Vector3 shootPosition)
     {
         if (CurrentAmmunition <= 0)
         {
@@ -68,30 +80,28 @@ public class Shooter : MonoBehaviour
 
         CurrentAmmunition--;
 
+
         Ray ray = _camera.ScreenPointToRay(shootPosition);
+        Vector3 targetPoint = ray.origin + ray.direction;
 
-        RaycastHit hit;
-        Vector3 targetPoint =
-            Physics.Raycast(ray, out hit, _shootDistance)
-            ? hit.point
-            : ray.GetPoint(_shootDistance);
+        Vector3 cameraDir = ray.direction;
+        Vector3 muzzleDir = (targetPoint - _muzzle.position).normalized;
 
-        Vector3 direction = (targetPoint - _muzzle.position).normalized;
-
+        float blend = 0.9f;
+        Vector3 direction = Vector3.Lerp(muzzleDir, cameraDir, blend).normalized;
 
         Vector2 spread = Random.insideUnitCircle * _weaponData.Spread;
-
-        direction += new Vector3(spread.x, spread.y, 0);
-        direction.Normalize();
+        Quaternion spreadRot = Quaternion.Euler(spread.x, spread.y, 0);
+        direction = spreadRot * direction;
 
         Bullet bullet = Instantiate(_weaponData.BulletPrefab, _muzzle.position, Quaternion.LookRotation(direction));
         bullet.Shot(direction * _bulletForce, _damage);
     }
 
-    protected virtual void Reload()
+    private void Reload()
     {
-        CanShot = false;
+        _canShoot = false;
         CurrentAmmunition = _magazineSize;
-        CanShot = true;
+        _canShoot = true;
     }
 }

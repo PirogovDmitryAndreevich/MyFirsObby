@@ -3,9 +3,11 @@ using UnityEngine.EventSystems;
 
 public class MobileInputService : InputService
 {
-    private Vector2 startPos;
-    private bool isDragging;
-    private float dragThreshold = 20f;
+    private Vector2 _startPos;
+    private bool _isDragging;
+    private float _dragThreshold = 20f;
+    private int _shootFingerId = -1;
+
     public override bool IsCameraMoving =>
         LookInputVector != Vector3.zero;
 
@@ -19,30 +21,48 @@ public class MobileInputService : InputService
     {
         get
         {
-            if (Input.touchCount > 0)
+            if (Input.touchCount == 0)
             {
-                Touch touch = Input.GetTouch(0);
+                _shootFingerId = -1;
+                return false;
+            }
+
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                Touch touch = Input.GetTouch(i);
 
                 if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-                    return false;
+                    continue;
 
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        startPos = touch.position;
-                        isDragging = false;
+                        _startPos = touch.position;
+                        _isDragging = false;
+                        _shootFingerId = touch.fingerId;
                         break;
 
                     case TouchPhase.Moved:
-                        if (Vector2.Distance(startPos, touch.position) > dragThreshold)
-                            isDragging = true;
+                        if (touch.fingerId == _shootFingerId)
+                        {
+                            if (Vector2.Distance(_startPos, touch.position) > _dragThreshold)
+                                _isDragging = true;
+                        }
                         break;
 
-                    case TouchPhase.Ended:
-                        if (!isDragging)
+                    case TouchPhase.Stationary:
+                        if (touch.fingerId == _shootFingerId && !_isDragging)
                         {
                             ShootPosition = touch.position;
                             return true;
+                        }
+                        break;
+
+                    case TouchPhase.Ended:
+                    case TouchPhase.Canceled:
+                        if (touch.fingerId == _shootFingerId)
+                        {
+                            _shootFingerId = -1;
                         }
                         break;
                 }

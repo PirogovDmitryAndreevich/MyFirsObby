@@ -17,17 +17,20 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, _lifeTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.TryGetComponent(out IHealth damageable))
+        print(collision.transform.name);
+
+        if (collision.collider.TryGetComponent(out IHealth damageable))
             damageable.TakeDamage(_damage);
 
         Destroy(gameObject);
     }
 
-    public void Shot(Vector3 velocity, int damage)
+    public void Shot(Vector3 force, int damage)
     {
-        _rigidbody.velocity = velocity;
         _damage = damage;
+
+        _rigidbody.velocity = force;        
     }
 }

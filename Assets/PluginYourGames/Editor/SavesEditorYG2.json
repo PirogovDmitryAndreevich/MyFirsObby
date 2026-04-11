@@ -1,0 +1,143 @@
+{
+    "intExample": 5,
+    "strExample": "Hello!",
+    "boolExample": [
+        false,
+        false,
+        false,
+        false
+    ],
+    "idSave": 32,
+    "Progress": {
+        "MainScene": "Main",
+        "PlayerState": {
+            "CurrentType": 0,
+            "IsTutorialCompleted": false,
+            "Score": 0,
+            "Cash": 827,
+            "CurrentHP": 100.0,
+            "MaxHP": 100.0
+        },
+        "Arsenal": {
+            "IsUnblocked": true,
+            "Weapons": [
+                {
+                    "Type": 3,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                },
+                {
+                    "Type": 2,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                },
+                {
+                    "Type": 5,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                },
+                {
+                    "Type": 0,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                },
+                {
+                    "Type": 6,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 2,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                },
+                {
+                    "Type": 4,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                },
+                {
+                    "Type": 7,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 1,
+                    "MaxMagazineLevel": 1,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                },
+                {
+                    "Type": 1,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3,
+                    "IsMaxDamageLevel": false,
+                    "IsMaxMagazineLevel": false
+                }
+            ]
+        },
+        "Conveers": {
+            "ConveerLines": [
+                {
+                    "Numbers": 0,
+                    "IsOpened": true,
+                    "MaxCooldownLevel": 7,
+                    "MaxLevel": 7,
+                    "CurrentCooldownLevel": 1,
+                    "CurrentLevel": 1
+                },
+                {
+                    "Numbers": 1,
+                    "IsOpened": false,
+                    "MaxCooldownLevel": 7,
+                    "MaxLevel": 7,
+                    "CurrentCooldownLevel": 1,
+                    "CurrentLevel": 1
+                },
+                {
+                    "Numbers": 2,
+                    "IsOpened": false,
+                    "MaxCooldownLevel": 7,
+                    "MaxLevel": 7,
+                    "CurrentCooldownLevel": 1,
+                    "CurrentLevel": 1
+                },
+                {
+                    "Numbers": 3,
+                    "IsOpened": false,
+                    "MaxCooldownLevel": 7,
+                    "MaxLevel": 7,
+                    "CurrentCooldownLevel": 1,
+                    "CurrentLevel": 1
+                },
+                {
+                    "Numbers": 4,
+                    "IsOpened": false,
+                    "MaxCooldownLevel": 7,
+                    "MaxLevel": 7,
+                    "CurrentCooldownLevel": 1,
+                    "CurrentLevel": 1
+                }
+            ]
+        }
+    }
+}

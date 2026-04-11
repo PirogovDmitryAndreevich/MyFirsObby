@@ -26,7 +26,7 @@ public class StandaloneInputService : InputService
     {
         get
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                     return false;
