@@ -1,17 +1,13 @@
-using System.Collections.Generic;
-
 public class LoadedScene
 {
-    public LoadedScene(Character character, ConveerInitializer conveer, ArsenalInitializer arsenal, List<SpawnPoint> enemySpawns)
+    public LoadedScene(Character character, ConveerInitializer conveer, ArsenalInitializer arsenal)
     {
         Character = character;
         Conveer = conveer;
         Arsenal = arsenal;
-        EnemySpawns = enemySpawns;
     }
 
     public Character Character { get; private set; }
     public ConveerInitializer Conveer { get; private set; }
     public ArsenalInitializer Arsenal { get; private set; }
-    public List<SpawnPoint> EnemySpawns { get; private set; }
 }

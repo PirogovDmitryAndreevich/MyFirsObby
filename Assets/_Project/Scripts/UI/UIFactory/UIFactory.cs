@@ -1,5 +1,4 @@
-using UnityEditor;
-using UnityEditor.MPE;
+using System.Linq;
 using UnityEngine;
 
 public class UIFactory : IUIFactory
@@ -54,7 +53,7 @@ public class UIFactory : IUIFactory
     {
         ArsenalShopWindow arsenalShop = _assets.Instantiate(AssetsPath.ArsenalShopPath).GetComponent<ArsenalShopWindow>();
 
-        foreach (Weapon weapon in _progressService.Progress.Arsenal.Weapons)
+        foreach (Weapon weapon in _progressService.Progress.Arsenal.Weapons.OrderBy(w => w.Type))
             CreateWeaponsStats(weapon, _staticData.ForWeaponsData(weapon.Type), arsenalShop.WeaponsStatsParent);
 
         return arsenalShop;

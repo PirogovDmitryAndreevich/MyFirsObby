@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,6 +47,8 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void OnLoaded()
     {
+        InitEnemySpawners();
+
         InitGameWorld();
         InformProgressReaders();
         _stateMachine.Enter<GameLoopState, LoadedScene>(_loadedScene);
@@ -55,8 +56,6 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InitGameWorld()
     {
-        List<SpawnPoint> enemySpawns = InitEnemySpawns();
-
         Character characterController =
             InitCharacter(at: GameObject.FindWithTag(InitialPointTag).transform);
 
@@ -72,7 +71,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         CameraFollow(characterController.CameraFollow);
 
-        _loadedScene = new LoadedScene(characterController, conveerView, arsenal, enemySpawns);
+        _loadedScene = new LoadedScene(characterController, conveerView, arsenal);
     }
 
     private ConveerShop InitConveerShop() => 
@@ -93,20 +92,14 @@ internal class LoadSceneState : IPayloaderState<string>
     private ArsenalInitializer InitArsenal(IIndicateUI indicator, IWindow arsenalWindow) => 
         _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag).transform, indicator, arsenalWindow);
 
-    private List<SpawnPoint> InitEnemySpawns()
+    private void InitEnemySpawners()
     {
-        List<SpawnPoint> enemySpawns = new();
         string sceneKey = SceneManager.GetActiveScene().name;
 
         LevelStaticData levelData = _staticData.ForLevel(sceneKey);
 
         foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
-        {
-            SpawnPoint spawn = _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeId);
-            enemySpawns.Add(spawn);
-        }
-
-        return enemySpawns;
+            _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeId);
     }
 
     private Hud InitHud(CharacterHealth characterHealth, IWeaponSelector weaponSelector) =>

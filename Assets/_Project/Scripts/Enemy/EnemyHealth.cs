@@ -33,12 +33,6 @@ public class EnemyHealth : MonoBehaviour, IHealth
         HealthChanged?.Invoke();
     }
 
-    public void ResetState()
-    {
-        Current = Max;
-        HealthChanged?.Invoke();
-    }
-
     public void Heal(float value)
     {
         
