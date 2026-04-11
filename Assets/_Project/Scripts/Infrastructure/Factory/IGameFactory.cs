@@ -8,6 +8,6 @@ public interface IGameFactory : IService
     ConveerInitializer CreateConveerView(GameObject at, IIndicateUI indicator, IWindow conveerShopWindow);
     WeaponSelector CreateWeaponSelector(Character character);
     LootPiece CreateLoot();
-    Enemy CreateMonster(MonsterTypeId monsterTypeID, Transform parent);
-    SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId);
+    void CreateMonster(MonsterTypeId monsterTypeID, Transform parent);
+    void CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId);
 }

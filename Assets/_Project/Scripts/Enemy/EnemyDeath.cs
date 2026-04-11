@@ -6,9 +6,7 @@ public class EnemyDeath : MonoBehaviour
 {
     [SerializeField] private EnemyHealth _health;
 
-    public event Action<EnemyDeath> Happened;
-
-    public bool IsDead { get; private set; } = false;
+    public event Action Happened;
 
     private void Start() => 
         _health.HealthChanged += HealthChanged;
@@ -24,7 +22,7 @@ public class EnemyDeath : MonoBehaviour
 
     private void Die()
     {
-        IsDead = true;
-        Happened?.Invoke(this);
+        Happened?.Invoke();
+        Destroy(gameObject);
     }
 }

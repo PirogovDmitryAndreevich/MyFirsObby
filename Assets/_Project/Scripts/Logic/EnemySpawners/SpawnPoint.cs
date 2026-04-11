@@ -1,32 +1,25 @@
 using UnityEngine;
 
-public class SpawnPoint : MonoBehaviour
+public class SpawnPoint : MonoBehaviour, ISavedProgressReader
 {
     public MonsterTypeId _monsterTypeID;
 
-    private IPoolService _poolService;
+    private IGameFactory _gameFactory;
 
     public string Id { get; set; }
 
-    public void Construct(IGameFactory gameFactory, IPoolService poolService)
+    public void Construct(IGameFactory gameFactory)
     {
-        _poolService = poolService;
-        _poolService.RegisterFactory(() => gameFactory.CreateMonster(_monsterTypeID, transform));
+        _gameFactory = gameFactory;
     }
 
-    public Enemy Spawn()
+    public void LoadProgress(PlayerProgress progress)
     {
-        Enemy enemy = _poolService.Get<Enemy>();
-        Warp(enemy);
-        enemy.ResetState();
-
-        return enemy;
+        Spawn();
     }
 
-    private void Warp(Enemy enemy)
+    private void Spawn()
     {
-        enemy.NavMeshAgent.enabled = false;
-        enemy.transform.position = transform.position;
-        enemy.NavMeshAgent.enabled = true;
+        _gameFactory.CreateMonster(_monsterTypeID, transform);
     }
 }
