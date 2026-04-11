@@ -12,9 +12,11 @@ public class GameFactory : IGameFactory
     private readonly ISaveLoadService _saveLoadService;
     private readonly IInputService _inputService;
     private readonly IConveerUpdaterService _conveerUpdateService;
+    private readonly IPoolService _poolService;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
-        ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService, IConveerUpdaterService conveerUpdateService)
+        ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService, IConveerUpdaterService conveerUpdateService,
+        IPoolService poolService)
     {
         _assets = assets;
         _staticData = staticData;
@@ -23,6 +25,7 @@ public class GameFactory : IGameFactory
         _saveLoadService = saveLoadService;
         _inputService = inputService;
         _conveerUpdateService = conveerUpdateService;
+        _poolService = poolService;
     }
 
     public Character CreateCharacterController(Transform at)
@@ -41,45 +44,42 @@ public class GameFactory : IGameFactory
         var lootPiece = InstantiateRegistered(AssetsPath.Loot)
             .GetComponent<LootPiece>();
 
-        lootPiece.Construct(_progressService.Progress.PlayerState, _saveLoadService);
+        lootPiece.Construct(_progressService.Progress.PlayerState, _saveLoadService, _poolService);
 
         return lootPiece;
     }
 
-    public void CreateMonster(MonsterTypeId typeID, Transform parent)
+    public Enemy CreateMonster(MonsterTypeId typeID, Transform parent)
     {
         MonsterStaticData monsterData = _staticData.ForMonster(typeID);
 
-        GameObject monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
-        EnemyHealth health = monster.GetComponent<EnemyHealth>();
+        Enemy monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent)
+            .GetComponent<Enemy>();
 
-        monster.GetComponent<HealthUI>().Construct(health);
-
-        health.Construct(monsterData.Health);
-
-        monster.GetComponent<AgentMoveToPlayer>().Construct(_characterObject.transform);
-        monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
-
-        LootSpawner lootSpawner = monster.GetComponentInChildren<LootSpawner>();
-        lootSpawner.Construct(this);
-        lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MixLoot);
-
-        monster.GetComponent<Attack>()
-            .Construct(_characterObject.transform, monsterData.Damage, monsterData.EffectiveDistance,
+        monster.Construct(_poolService);
+        monster.HealthUI.Construct(monster.EnemyHealth);
+        monster.EnemyHealth.Construct(monsterData.Health);
+        monster.AgentMoveToPlayer.Construct(_characterObject.transform);
+        monster.NavMeshAgent.speed = monsterData.MoveSpeed;
+        monster.LootSpawner.Construct(this, _poolService);
+        monster.LootSpawner.SetLoot(monsterData.MinLoot, monsterData.MixLoot);
+        monster.Attack.Construct(monsterData.Damage, monsterData.EffectiveDistance,
             monsterData.Cleavage, monsterData.CooldownAttack);
 
-        monster.GetComponent<RotateToPlayer>()?.Construct(_characterObject.transform);
+        return monster;
     }
 
-    public void CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId)
+    public SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId)
     {
         SpawnPoint spawner = InstantiateRegistered(AssetsPath.Spawner)
             .GetComponent<SpawnPoint>();
 
-        spawner.Construct(this);
+        spawner.Construct(this, _poolService);
         spawner.Id = id;
         spawner._monsterTypeID = monsterTypeId;
         spawner.transform.position = at;
+
+        return spawner;
     }
 
     public ArsenalInitializer CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow)

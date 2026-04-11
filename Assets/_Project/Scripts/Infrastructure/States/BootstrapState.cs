@@ -46,10 +46,12 @@ public class BootstrapState : IState
         _services.RegisterSingle<IConveerUpdaterService>(new ConveerUpdaterService(_services.Single<IPersistentProgressService>(), _services.Single<IStaticDataService>(),
             _services.Single<ISaveLoadService>()));
 
+        _services.RegisterSingle<IPoolService>(new PoolService());
+
         _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
             _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>(),
             _services.Single<ISavedLists>(), _services.Single<ISaveLoadService>(), _services.Single<IInputService>(),
-            _services.Single<IConveerUpdaterService>()));
+            _services.Single<IConveerUpdaterService>(), _services.Single<IPoolService>()));
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
             _services.Single<IStaticDataService>(), _services.Single<IWeaponUpdaterService>(), _services.Single<IConveerUpdaterService>()));
