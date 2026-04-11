@@ -28,6 +28,11 @@ public class GameFactory : IGameFactory
         _poolService = poolService;
     }
 
+    public void CreateWeapon(WeaponType type)
+    {
+        WeaponStaticData weapon = _staticData.ForWeaponsData(type);
+    }
+
     public Character CreateCharacterController(Transform at)
     {
         _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
@@ -111,7 +116,7 @@ public class GameFactory : IGameFactory
     public ConveerInitializer CreateConveerView(GameObject at, IIndicateUI indicator, IWindow conveerShopWindow)
     {
         ConveerInitializer conveerInitializer = InstantiateRegistered(AssetsPath.ConveerPath, at.transform.position).GetComponent<ConveerInitializer>();
-        conveerInitializer.Construct(_staticData, _conveerUpdateService);
+        conveerInitializer.Construct(_staticData, _conveerUpdateService, _poolService);
         conveerInitializer.ConveerView.Construct(indicator, conveerShopWindow);
         conveerInitializer.Finisher.Construct(_progressService);
         return conveerInitializer;

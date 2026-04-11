@@ -102,8 +102,7 @@ public class Shooter : MonoBehaviour
         direction = spreadRot * direction;
 
         Bullet bullet = _poolService.Get<Bullet>();
-
-        Bullet bullet = Instantiate(_weaponData.BulletPrefab, _muzzle.position, Quaternion.LookRotation(direction));
+        bullet.transform.position = _muzzle.position;
         bullet.Shot(direction * _bulletForce, _damage);
     }
 

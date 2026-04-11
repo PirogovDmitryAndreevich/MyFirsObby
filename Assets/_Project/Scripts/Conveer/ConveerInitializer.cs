@@ -10,16 +10,17 @@ public class ConveerInitializer : MonoBehaviour, ISavedProgressReader
     
     private IStaticDataService _staticData;
     private IConveerUpdaterService _updater;
-
+    private IPoolService _poolService;
     public Dictionary<ConveerNumbers, ConveerLine> Lines = new();
 
     public ConveerFinisher Finisher => _finisher;
     public ConveerView ConveerView => _view;
 
-    public void Construct( IStaticDataService staticData, IConveerUpdaterService updater)
+    public void Construct( IStaticDataService staticData, IConveerUpdaterService updater,IPoolService poolService)
     {
         _staticData = staticData;
         _updater = updater;
+        _poolService = poolService;
         Lines = _conveerLines.ToDictionary(x => x.Numbers, x => x);
     }
 
@@ -33,5 +34,5 @@ public class ConveerInitializer : MonoBehaviour, ISavedProgressReader
     }
 
     private void InitLine(PlayerProgress progress, ConveerLineProgress lineProgress, ConveerStaticInfo staticData) => 
-        Lines[lineProgress.Numbers].Construct(lineProgress, staticData, progress, _updater);
+        Lines[lineProgress.Numbers].Construct(lineProgress, staticData, progress, _updater, _poolService);
 }

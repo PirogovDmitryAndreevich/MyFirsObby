@@ -13,5 +13,5 @@ public static class AssetsPath
     public const string ConveerShopPath = "ConveerShop/ConveerShop";
     public const string ConveerStatsPath = "ConveerShop/ConveerStat";
     public const string ConveerResourcePath = "Conveer/ConveerResource";
-    public const string BulletPath = "Conveer/ConveerResource";
+    public const string BulletPath = "Bullets/Bullet";
 }
