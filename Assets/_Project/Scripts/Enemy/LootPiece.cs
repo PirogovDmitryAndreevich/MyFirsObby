@@ -1,20 +1,27 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class LootPiece : MonoBehaviour
 {
     private PlayerState _resources;
     private ISaveLoadService _save;
+    private IPoolService _poolService;
     private Loot _loot;
     private bool _picked;
+    public Collider Collider { get; private set; }
 
-    public void Construct(PlayerState resources, ISaveLoadService saveLoadService)
+    public void Construct(PlayerState resources, ISaveLoadService saveLoadService, IPoolService poolService)
     {
+        _poolService = poolService;
         _resources = resources;
         _save = saveLoadService;
+
+        Collider = GetComponent<Collider>();
     }
 
     public void Initialize(Loot loot)
     {
+        _picked = false;
         _loot = loot;
     }
 
@@ -34,6 +41,6 @@ public class LootPiece : MonoBehaviour
         _resources.AddCash(_loot.Value);
 
         _save.SaveProgress();
-        Destroy(gameObject);
+        _poolService.Return(this);
     }
 }

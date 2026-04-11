@@ -3,7 +3,7 @@ using UnityEngine;
 public class LootSpawner : MonoBehaviour
 {
     [SerializeField] private EnemyDeath _enemyDeath;
-    private IGameFactory _gameFactory;
+    private IPoolService _poolService;
     private int _lootMin;
     private int _lootMax;
 
@@ -13,8 +13,11 @@ public class LootSpawner : MonoBehaviour
     private void OnDestroy() => 
         _enemyDeath.Happened -= SpawnLoot;
 
-    public void Construct(IGameFactory gameFactory) => 
-        _gameFactory = gameFactory;
+    public void Construct(IGameFactory gameFactory, IPoolService poolService)
+    {
+        _poolService = poolService;
+        _poolService.RegisterFactory(() => gameFactory.CreateLoot());
+    }
 
     public void SetLoot(int min, int max)
     {
@@ -22,9 +25,9 @@ public class LootSpawner : MonoBehaviour
         _lootMax = max;
     }
 
-    private void SpawnLoot()
+    private void SpawnLoot(EnemyDeath _)
     {
-        LootPiece loot = _gameFactory.CreateLoot();
+        LootPiece loot = _poolService.Get<LootPiece>();
         loot.transform.position = transform.position;
         Loot lootItem = GenerateLoot();
 

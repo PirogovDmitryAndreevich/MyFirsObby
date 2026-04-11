@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
 
 public class GameLoopState : IPayloaderState<LoadedScene>
 {
+    private const int MaxEnemiesOnScene = 4;
+
     private readonly IPersistentProgressService _progressService;
     private readonly ICoroutineRunner _coroutineRunner;
     private LoadedScene _loadedScene;
+    private bool _isGameStarted;
+    private int _enemiesOnScene;
 
     public GameLoopState(GameStateMachine stateMachine, IPersistentProgressService progressService, ICoroutineRunner coroutineRunner)
     {
@@ -15,10 +20,11 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     public void Enter(LoadedScene loadedScene)
     {
         _loadedScene = loadedScene;
+        _isGameStarted = true;
 
         if (_progressService.Progress.PlayerState.IsTutorialCompleted)
-            StartGameLoop();
-        else        
+            _coroutineRunner.StartCoroutine(StartGameLoop());
+        else
             _coroutineRunner.StartCoroutine(StartTutorial());
     }
 
@@ -30,7 +36,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     {
         _loadedScene.Arsenal.Opener.SetActiveState(false);
 
-        foreach(var line in _loadedScene.Conveer.Lines.Values)
+        foreach (var line in _loadedScene.Conveer.Lines.Values)
             line.Opener.SetActiveState(false);
 
         ConveerLine line1 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_1];
@@ -38,7 +44,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
         _loadedScene.Character.LineDraw.StartDraw(line1.Opener.transform);
 
-        while (!line1.IsOpened) 
+        while (!line1.IsOpened)
             yield return null;
 
         _loadedScene.Character.LineDraw.StopDraw();
@@ -53,15 +59,50 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
         _loadedScene.Character.LineDraw.StopDraw();
 
+        var enemy = SpawnEnemy();
+
+        _loadedScene.Character.LineDraw.StartDraw(enemy.transform);
+
+        while (!enemy.EnemyDeath.IsDead)
+            yield return null;
+
+        _loadedScene.Character.LineDraw.StopDraw();
+
+        _coroutineRunner.StartCoroutine(StartGameLoop());
+    }
+
+    private IEnumerator StartGameLoop()
+    {
         foreach (var line in _loadedScene.Conveer.Lines.Values)
         {
-            if(!line.IsOpened)
+            if (!line.IsOpened)
                 line.Opener.SetActiveState(true);
+        }
+
+        while (_isGameStarted)
+        {
+            if (_enemiesOnScene < MaxEnemiesOnScene)
+                SpawnEnemy();
+
+            yield return null;
         }
     }
 
-    private void StartGameLoop()
+    private Enemy SpawnEnemy()
     {
+        Random random = new Random();
 
+        SpawnPoint spawner = _loadedScene.EnemySpawns[random.Next(_loadedScene.EnemySpawns.Count)];
+        Enemy enemy = spawner.Spawn();
+        enemy.EnemyDeath.Happened += EnemyDeath;
+        _enemiesOnScene++;
+
+        return enemy;
+    }
+
+    private void EnemyDeath(EnemyDeath enemyDeath)
+    {
+        enemyDeath.Happened -= EnemyDeath;
+        _enemiesOnScene--;
     }
 }
