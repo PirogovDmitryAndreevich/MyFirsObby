@@ -18,7 +18,9 @@ public abstract class InputService : IInputService
 
     public abstract bool IsCameraMoving { get; }    
 
-    public abstract bool IsShoot {  get; }   
+    public abstract bool IsShoot {  get; }
+
+    public abstract bool JumpPressed { get; }
 
     public bool GetAttackState()
     {

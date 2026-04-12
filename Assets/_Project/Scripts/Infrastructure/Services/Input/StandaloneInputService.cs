@@ -41,6 +41,8 @@ public class StandaloneInputService : InputService
 
     public override float ZoomInput => Input.GetAxis("Mouse ScrollWheel");
 
+    public override bool JumpPressed => Input.GetKeyDown(KeyCode.Space);
+
     private Vector2 UnityAxis() =>
         new Vector2
         (

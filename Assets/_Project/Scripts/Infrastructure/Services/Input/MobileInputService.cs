@@ -111,4 +111,6 @@ public class MobileInputService : InputService
             return delta * 0.01f;
         }
     }
+
+    public override bool JumpPressed => throw new System.NotImplementedException();
 }
