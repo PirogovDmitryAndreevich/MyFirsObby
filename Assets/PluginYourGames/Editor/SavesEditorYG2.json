@@ -7,19 +7,19 @@
         false,
         false
     ],
-    "idSave": 32,
+    "idSave": 2,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CurrentType": 0,
             "IsTutorialCompleted": false,
             "Score": 0,
-            "Cash": 827,
+            "Cash": 110,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
         "Arsenal": {
-            "IsUnblocked": true,
+            "IsUnblocked": false,
             "Weapons": [
                 {
                     "Type": 3,
@@ -103,7 +103,7 @@
                     "MaxCooldownLevel": 7,
                     "MaxLevel": 7,
                     "CurrentCooldownLevel": 1,
-                    "CurrentLevel": 1
+                    "CurrentLevel": 2
                 },
                 {
                     "Numbers": 1,

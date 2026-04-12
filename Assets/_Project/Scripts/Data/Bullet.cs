@@ -16,8 +16,6 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print(collision.transform.name);
-
         if (collision.collider.TryGetComponent(out IHealth damageable))
             damageable.TakeDamage(_damage);
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,8 +9,7 @@ public class SpawnerResources : MonoBehaviour
     private ConveerLine _line;
     GameObject _model;
     private IPoolService _poolService;
-    List<ConveerResource> _allResources = new();
-    
+    List<ConveerResource> _allResources = new();   
 
     private void Start() =>
         _cubeMover.Create += Spawn;
@@ -26,6 +24,8 @@ public class SpawnerResources : MonoBehaviour
     {
         _line = line;
         _poolService = poolService;
+        _model = _line.LineStaticInfo.GetLevelInfo(_line.LineProgress.GetLevel(ConveerUpdateType.Level)).Prefab;
+
         _line.LineProgress.ConveerLineUpdated += BuildResource;
         _poolService.RegisterFactory(() => CreateResource());
     }
@@ -36,7 +36,6 @@ public class SpawnerResources : MonoBehaviour
             return;
 
         _model = _line.LineStaticInfo.GetLevelInfo(_line.LineProgress.GetLevel(ConveerUpdateType.Level)).Prefab;
-        ResetResources();
     }
 
     private void Spawn()
@@ -46,19 +45,14 @@ public class SpawnerResources : MonoBehaviour
         ConveerResource resource = _poolService.Get<ConveerResource>();
         resource.transform.position = _cubeMover.ResourceSpawnPoint.position;
 
-        resource.Init(reward);
+        resource.Init(reward, _model);
     }
 
     private ConveerResource CreateResource()
     {
-        ConveerResource resource = Instantiate(_resource, _cubeMover.ResourceSpawnPoint);
+        ConveerResource resource = Instantiate(_resource, _cubeMover.ResourceSpawnPoint.position, Quaternion.identity);
+        resource.Construct(_poolService);
         _allResources.Add(resource);
         return resource;
-    }
-
-    private void ResetResources()
-    {
-        foreach (var respirce in _allResources)
-            respirce.SetModel(_model);
     }
 }
