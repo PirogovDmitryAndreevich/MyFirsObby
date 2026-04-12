@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class StandaloneInputService : InputService
 {
-    public override bool IsCameraMoving => 
+    public override bool IsCameraMoving =>
         Input.GetMouseButton(1);
 
     public override Vector2 Axis
@@ -38,6 +38,8 @@ public class StandaloneInputService : InputService
             return false;
         }
     }
+
+    public override float ZoomInput => Input.GetAxis("Mouse ScrollWheel");
 
     private Vector2 UnityAxis() =>
         new Vector2

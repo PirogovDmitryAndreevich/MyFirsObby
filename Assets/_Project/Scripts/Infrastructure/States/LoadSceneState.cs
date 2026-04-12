@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 using YG;
 
 internal class LoadSceneState : IPayloaderState<string>
@@ -120,12 +120,10 @@ internal class LoadSceneState : IPayloaderState<string>
     }
 
     private void CameraFollow(Transform cameraFollow)
-    {    
-        if (Camera.main.TryGetComponent<PlayerCamera>(out PlayerCamera playerCamera))
-            playerCamera.SetFollowTransform(cameraFollow);
-        else
-            Camera.main
-                .AddComponent<PlayerCamera>()
-                .SetFollowTransform(cameraFollow);
+    {
+        CinemachineFreeLook camera = _gameFactory.CreateCamera();
+
+        camera.Follow = cameraFollow;
+        camera.LookAt = cameraFollow;
     }
 }

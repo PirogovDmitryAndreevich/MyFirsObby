@@ -7,6 +7,8 @@ public class MobileInputService : InputService
     private bool _isDragging;
     private float _dragThreshold = 20f;
     private int _shootFingerId = -1;
+    private float _lastPinchDistance;
+    private bool _wasPinching;
 
     public override bool IsCameraMoving =>
         LookInputVector != Vector3.zero;
@@ -69,6 +71,44 @@ public class MobileInputService : InputService
             }
 
             return false;
+        }
+    }
+
+    public override float ZoomInput
+    {
+        get
+        {
+            if (Input.touchCount < 2)
+            {
+                _wasPinching = false;
+                return 0f;
+            }
+
+            Touch touch0 = Input.GetTouch(0);
+            Touch touch1 = Input.GetTouch(1);
+
+            // Игнорируем, если палец над UI
+            if (EventSystem.current.IsPointerOverGameObject(touch0.fingerId) ||
+                EventSystem.current.IsPointerOverGameObject(touch1.fingerId))
+            {
+                _wasPinching = false;
+                return 0f;
+            }
+
+            float currentDistance = Vector2.Distance(touch0.position, touch1.position);
+
+            if (!_wasPinching)
+            {
+                _lastPinchDistance = currentDistance;
+                _wasPinching = true;
+                return 0f;
+            }
+
+            float delta = currentDistance - _lastPinchDistance;
+            _lastPinchDistance = currentDistance;
+
+            // Масштабируем значение (очень важно!)
+            return delta * 0.01f;
         }
     }
 }

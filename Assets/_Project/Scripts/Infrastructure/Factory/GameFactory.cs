@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,9 +29,13 @@ public class GameFactory : IGameFactory
         _poolService = poolService;
     }
 
-    public void CreateWeapon(WeaponType type)
+    public CinemachineFreeLook CreateCamera()
     {
-        WeaponStaticData weapon = _staticData.ForWeaponsData(type);
+        CinemachineFreeLook camera = _assets.Instantiate(AssetsPath.CameraPath).GetComponent<CinemachineFreeLook>();
+        camera.GetComponent<CinemachineZoom>().Construct(_inputService);
+        camera.GetComponent<CameraRotateOnRightClick>().Construct(_inputService);
+
+        return camera;
     }
 
     public Character CreateCharacterController(Transform at)

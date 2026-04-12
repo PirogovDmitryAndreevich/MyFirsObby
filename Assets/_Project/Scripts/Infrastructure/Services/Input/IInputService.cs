@@ -9,6 +9,8 @@ public interface IInputService : IService
 
     public Vector2 ShootPosition { get; }
 
+    public float ZoomInput { get; }
+
     public bool IsCameraMoving { get; } 
 
     public bool IsShoot {  get; }

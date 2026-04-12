@@ -14,4 +14,5 @@ public static class AssetsPath
     public const string ConveerStatsPath = "ConveerShop/ConveerStat";
     public const string ConveerResourcePath = "Conveer/ConveerResource";
     public const string BulletPath = "Bullets/Bullet";
+    public const string CameraPath = "VirtualCamera/FreeLook Camera";
 }

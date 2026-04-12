@@ -4,7 +4,7 @@ public class CharacterMove : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 10f;
 
-    private PlayerCamera _playerCamera;
+    private Transform _cameraTransform;
     private CharacterController _characterController;
     private IInputService _inputService;
 
@@ -15,12 +15,12 @@ public class CharacterMove : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
 
     private void Start() =>
-        _playerCamera = Camera.main.GetComponent<PlayerCamera>();
+        _cameraTransform = Camera.main.transform;
 
     private void Update()
     {
-        Vector3 forward = _playerCamera.CameraTransform.forward;
-        Vector3 right = _playerCamera.CameraTransform.right;
+        Vector3 forward = _cameraTransform.forward;
+        Vector3 right = _cameraTransform.right;
 
         forward.y = 0;
         right.y = 0;
@@ -28,14 +28,12 @@ public class CharacterMove : MonoBehaviour
         forward.Normalize();
         right.Normalize();
 
-        MovementVector =
-            (right * _inputService.Axis.x +
-             forward * _inputService.Axis.y).normalized;
+        MovementVector = right * _inputService.Axis.x + forward * _inputService.Axis.y;
+
+        MovementVector.Normalize();
 
         MovementVector += Physics.gravity;
-
-
-        _characterController.Move(MovementVector * _movementSpeed * Time.fixedDeltaTime);
+        _characterController.Move(MovementVector * _movementSpeed * Time.deltaTime);
         //if (IsMoving)
 
     }

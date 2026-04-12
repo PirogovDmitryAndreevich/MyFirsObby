@@ -12,7 +12,9 @@ public abstract class InputService : IInputService
 
     public abstract Vector2 Axis { get; }
 
-    public abstract Vector3 LookInputVector { get; }    
+    public abstract Vector3 LookInputVector { get; }
+
+    public abstract float ZoomInput { get; }
 
     public abstract bool IsCameraMoving { get; }    
 

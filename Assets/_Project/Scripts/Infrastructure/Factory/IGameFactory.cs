@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 public interface IGameFactory : IService
 {
+    CinemachineFreeLook CreateCamera();
     Bullet CreateBullet();
     Character CreateCharacterController(Transform at);
     ArsenalInitializer CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow);
