@@ -23,6 +23,9 @@ public class Character : MonoBehaviour, IInteractable
         _animation.Run(_mover.IsMoving);
         _animation.KeepWeapon(_input.GetAttackState());
 
+        if (_input.JumpPressed)
+            _animation.Jump();
+
         if (_mover.IsMoving)
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
 

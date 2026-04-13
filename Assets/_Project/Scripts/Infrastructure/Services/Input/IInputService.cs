@@ -14,7 +14,7 @@ public interface IInputService : IService
     public bool IsCameraMoving { get; } 
 
     public bool IsShoot {  get; }
-    bool JumpPressed { get; }
+    public bool JumpPressed { get; }
 
     public bool GetAttackState();
 
