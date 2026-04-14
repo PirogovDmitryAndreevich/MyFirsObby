@@ -121,7 +121,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: b4067931510b726468c17ee347dd2f96, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 74d08ec282d251c448b5cc2935b50f72, type: 2}
 --- !u!1001 &13289947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12966,7 +12966,7 @@ GameObject:
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &2043525565
