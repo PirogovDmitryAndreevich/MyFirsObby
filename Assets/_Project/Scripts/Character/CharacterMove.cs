@@ -33,7 +33,7 @@ public class CharacterMove : MonoBehaviour
         HandleGravity();
         HandleJump();
 
-        Vector3 finalMove = MovementVector + _velocity;
+        Vector3 finalMove = MovementVector * _moveSpeed + _velocity;
         _characterController.Move(finalMove * Time.deltaTime);
     }
 
@@ -42,26 +42,33 @@ public class CharacterMove : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 input = _cameraTransform.right * _inputService.Axis.x + _cameraTransform.forward * _inputService.Axis.y;
-        input.y = 0;
-        input.Normalize();
+        Vector3 forward = _cameraTransform.forward;
+        Vector3 right = _cameraTransform.right;
 
-        MovementVector = Vector3.ClampMagnitude(input, 1f) * _moveSpeed;
+        forward.y = 0;
+        right.y = 0;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 input = right * _inputService.Axis.x + forward * _inputService.Axis.y;
+
+        MovementVector = Vector3.ClampMagnitude(input, 1f);
     }
 
     private void HandleGravity()
     {
         _isGrounded = _characterController.isGrounded;
 
-        if (_isGrounded && _velocity.y < 0)        
-            _velocity.y = -_groundStickForce;        
+        if (_isGrounded && _velocity.y < 0)
+            _velocity.y = -_groundStickForce;
 
-        _velocity += Physics.gravity * Time.deltaTime;
+        _velocity.y += Physics.gravity.y * Time.deltaTime;
     }
 
     private void HandleJump()
     {
-        if (_isGrounded && _inputService.JumpPressed)        
-            _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * Physics.gravity.y);        
+        if (_isGrounded && _inputService.JumpPressed)
+            _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * Physics.gravity.y);
     }
 }

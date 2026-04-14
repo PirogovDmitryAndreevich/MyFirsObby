@@ -32,7 +32,7 @@ public class Character : MonoBehaviour, IInteractable
         if (_input.IsShoot && _input.GetAttackState() && Shooter.CanShootNow)
             Shooter.TryShoot(_input.ShootPosition);
 
-        if (_currentInteract != null && Input.GetKeyDown(KeyCode.E))
+        if (_currentInteract != null && _input.GetInteractButtonDown())
             _currentInteract.Interact();
     }
 

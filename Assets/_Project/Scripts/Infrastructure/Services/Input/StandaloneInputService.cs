@@ -6,18 +6,8 @@ public class StandaloneInputService : InputService
     public override bool IsCameraMoving =>
         Input.GetMouseButton(1);
 
-    public override Vector2 Axis
-    {
-        get
-        {
-            Vector2 axis = SimpleInputAxis();
-
-            if (axis == Vector2.zero)
-                axis = UnityAxis();
-
-            return axis;
-        }
-    }
+    public override Vector2 Axis =>
+        UnityAxis();
 
     public override Vector3 LookInputVector =>
         MouseInputAxis();
@@ -39,9 +29,11 @@ public class StandaloneInputService : InputService
         }
     }
 
-    public override float ZoomInput => Input.GetAxis("Mouse ScrollWheel");
+    public override float ZoomInput =>
+        Input.GetAxis(ConstantsData.InputAxis.MouseScroll);
 
-    public override bool JumpPressed => Input.GetKeyDown(KeyCode.Space);
+    public override bool JumpPressed =>
+        Input.GetKeyDown(KeyCode.Space);
 
     private Vector2 UnityAxis() =>
         new Vector2
@@ -56,4 +48,7 @@ public class StandaloneInputService : InputService
                 Input.GetAxis(ConstantsData.InputAxis.MouseX),
                 Input.GetAxis(ConstantsData.InputAxis.MouseY)
             );
+
+    public override bool GetInteractButtonDown() => 
+        Input.GetKeyDown(KeyCode.E);
 }

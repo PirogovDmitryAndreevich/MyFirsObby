@@ -1,8 +1,7 @@
 using UnityEngine;
 
 public abstract class InputService : IInputService
-{
-    private const string InteractButton = "Interact";
+{    
     private const string AttackStateButton = "AttackState";
 
     private bool _isKeepWeapon = false;
@@ -24,7 +23,7 @@ public abstract class InputService : IInputService
 
     public bool GetAttackState()
     {
-        if (IsAttackStateButtonDown())
+        if (IsActionButtonDown())
         {
             if (!_attackStatePressed)
             {
@@ -45,30 +44,15 @@ public abstract class InputService : IInputService
         return true;
     }
 
-    protected bool IsAttackStateButtonDown() =>
-        AttackState();
+    protected bool IsActionButtonDown() =>
+        IsActionButton();
 
-    protected bool IsInteractButtonUp() =>
-        SimpleInput.GetButtonDown(InteractButton);
-
-    protected Vector2 SimpleInputAxis() =>
-        new Vector2
-        (
-            SimpleInput.GetAxis(ConstantsData.InputAxis.HorizontalAxis),
-            SimpleInput.GetAxis(ConstantsData.InputAxis.VerticalAxis)
-        );
-
-    protected Vector2 SimpleInputMouseAxis() =>
-        new Vector2
-        (
-            SimpleInput.GetAxis(ConstantsData.InputAxis.MouseRigth),
-            SimpleInput.GetAxis(ConstantsData.InputAxis.MouseUp)
-        );
+    public abstract bool GetInteractButtonDown();       
 
     private void SwitchState() => 
         _isKeepWeapon = !_isKeepWeapon;
 
-    private bool AttackState() =>
+    private bool IsActionButton() =>
         SimpleInput.GetButtonDown(AttackStateButton);
 
 }

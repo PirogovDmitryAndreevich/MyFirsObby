@@ -3,12 +3,15 @@ using UnityEngine.EventSystems;
 
 public class MobileInputService : InputService
 {
+    private const string InteractButton = "Interact";
+    private const string JumpButton = "Jump";
+
     private Vector2 _startPos;
     private bool _isDragging;
     private float _dragThreshold = 20f;
     private int _shootFingerId = -1;
-    private float _lastPinchDistance;
-    private bool _wasPinching;
+    //private float _lastPinchDistance;
+    //private bool _wasPinching;
 
     public override bool IsCameraMoving =>
         LookInputVector != Vector3.zero;
@@ -79,38 +82,32 @@ public class MobileInputService : InputService
         get
         {
             if (Input.touchCount < 2)
-            {
-                _wasPinching = false;
                 return 0f;
-            }
 
-            Touch touch0 = Input.GetTouch(0);
-            Touch touch1 = Input.GetTouch(1);
-
-            // Игнорируем, если палец над UI
-            if (EventSystem.current.IsPointerOverGameObject(touch0.fingerId) ||
-                EventSystem.current.IsPointerOverGameObject(touch1.fingerId))
-            {
-                _wasPinching = false;
+            if(Axis != Vector2.zero)
                 return 0f;
-            }
 
-            float currentDistance = Vector2.Distance(touch0.position, touch1.position);
-
-            if (!_wasPinching)
-            {
-                _lastPinchDistance = currentDistance;
-                _wasPinching = true;
-                return 0f;
-            }
-
-            float delta = currentDistance - _lastPinchDistance;
-            _lastPinchDistance = currentDistance;
-
-            // Масштабируем значение (очень важно!)
-            return delta * 0.01f;
+            return -SimpleInput.GetAxis(ConstantsData.InputAxis.MouseRigth);
         }
     }
 
-    public override bool JumpPressed => throw new System.NotImplementedException();
+    public override bool JumpPressed =>
+        SimpleInput.GetButtonDown(JumpButton);
+
+    private Vector2 SimpleInputMouseAxis() =>
+        new Vector2
+        (
+            SimpleInput.GetAxis(ConstantsData.InputAxis.MouseRigth),
+            SimpleInput.GetAxis(ConstantsData.InputAxis.MouseUp)
+        );
+
+    private Vector2 SimpleInputAxis() =>
+        new Vector2
+        (
+            SimpleInput.GetAxis(ConstantsData.InputAxis.HorizontalAxis),
+            SimpleInput.GetAxis(ConstantsData.InputAxis.VerticalAxis)
+        );
+
+    public override bool GetInteractButtonDown() => 
+        SimpleInput.GetButtonDown(InteractButton);
 }
