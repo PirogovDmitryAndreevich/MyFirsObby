@@ -1,29 +1,26 @@
-using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Attack))]
 public class CheckAttackRange : MonoBehaviour
 {
-    [SerializeField] private Attack _attack;
     [SerializeField] private TriggerObserver _triggerObserver;
 
-    private void Start()
+    public bool AttackRange { get; private set; }
+
+    private void OnEnable()
     {
         _triggerObserver.TriggerEnter += TriggerEnter;
         _triggerObserver.TriggerExit += TriggerExit;
-
-        _attack.DisableAttack();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _triggerObserver.TriggerExit -= TriggerExit;
         _triggerObserver.TriggerEnter -= TriggerEnter;
     }
 
-    private void TriggerEnter(Collider collider) => 
-        _attack.EnableAttack();
+    private void TriggerEnter(Collider collider) =>
+        AttackRange = true;
 
     private void TriggerExit(Collider collider) => 
-        _attack.DisableAttack();
+        AttackRange = false;
 }

@@ -14,28 +14,21 @@ public class Attack : MonoBehaviour
     private float _damage = 10f;
 
     private float _cooldownAttackTime;
-    private bool _isAttacking;
     private bool _attackIsActive;
     private Collider[] _hits = new Collider[1];
 
-    private void Start()
+    public bool IsAttacking { get; private set; }
+
+    private void OnEnable()
     {
         _animationEvents.Attack += OnAttack;
         _animationEvents.AttackEnded += OnAttackEnded;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _animationEvents.Attack -= OnAttack;
         _animationEvents.AttackEnded -= OnAttackEnded;
-    }
-
-    private void Update()
-    {
-        UpdateCooldown();
-
-        if (CanAttack())
-            StartAttack();
     }
 
     public void Construct(float damage, float effectiveDistance, float cleavage, float cooldownAttack)
@@ -46,16 +39,19 @@ public class Attack : MonoBehaviour
         _cooldownAttack = cooldownAttack;
     }
 
-    public void DisableAttack() =>
-        _attackIsActive = false;
+    public bool CanAttack() =>
+        !IsAttacking && CooldownIsUp();
 
-    public void EnableAttack() =>
-        _attackIsActive = true;
-
-    private void StartAttack()
+    public void StartAttack()
     {
-        _isAttacking = true;
+        IsAttacking = true;
         _animator.PlayAttack();
+    }
+
+    public void UpdateCooldown()
+    {
+        if (!CooldownIsUp())
+            _cooldownAttackTime -= Time.deltaTime;
     }
 
     private void OnAttack()
@@ -71,7 +67,7 @@ public class Attack : MonoBehaviour
 
     private void OnAttackEnded()
     {
-        _isAttacking = false;
+        IsAttacking = false;
         _cooldownAttackTime = _cooldownAttack;
     }
 
@@ -86,16 +82,7 @@ public class Attack : MonoBehaviour
 
     private Vector3 StartPoint() =>
         new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z)
-        + transform.forward * _effectiveDistance;
-
-    private void UpdateCooldown()
-    {
-        if (!CooldownIsUp())
-            _cooldownAttackTime -= Time.deltaTime;
-    }
-
-    private bool CanAttack() =>
-        _attackIsActive && !_isAttacking && CooldownIsUp();
+        + transform.forward * _effectiveDistance;    
 
     private bool CooldownIsUp() =>
         _cooldownAttackTime <= 0;

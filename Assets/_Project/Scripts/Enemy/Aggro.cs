@@ -1,21 +1,16 @@
-using System.Collections;
 using UnityEngine;
 
 public class Aggro : MonoBehaviour
 {
     [SerializeField] private TriggerObserver _triggerObserver;
-    [SerializeField] private Follow _followComponent;
-    [SerializeField] private float _followCooldown;
 
-    private bool _hasAggroTarget;
-    private Coroutine _cooldownCoroutine;
+    public bool HasAggroTarget { get; private set; }
+    public Transform CharacterTransform { get; private set; }
 
     private void Start()
     {
         _triggerObserver.TriggerEnter += TriggerEnter;
         _triggerObserver.TriggerExit += TriggerExit;
-
-        SwitchFollowOff();
     }
 
     private void OnDestroy()
@@ -26,43 +21,22 @@ public class Aggro : MonoBehaviour
 
     private void TriggerEnter(Collider collider)
     {
-        if (_hasAggroTarget)
+        if (HasAggroTarget)
             return;
 
-            _hasAggroTarget = true;
-
-            StopAggroCoroutine();
-            SwitchFollowOn();
-    }   
+        if (collider.TryGetComponent<Character>(out Character character))
+        {
+            HasAggroTarget = true;
+            CharacterTransform = character.transform;
+        }
+    }
 
     private void TriggerExit(Collider collider)
     {
-        if (!_hasAggroTarget)
+        if (!HasAggroTarget)
             return;
-        
-            _hasAggroTarget = false;
-            _cooldownCoroutine = StartCoroutine(SwitchFollowOffAfterCooldown()); 
-    }
 
-    private void SwitchFollowOff() => 
-        _followComponent.enabled = false;
-
-    private void SwitchFollowOn() => 
-        _followComponent.enabled = true;
-
-    private void StopAggroCoroutine()
-    {
-        if (_cooldownCoroutine != null)
-        {
-            StopCoroutine(_cooldownCoroutine);
-            _cooldownCoroutine = null;
-        }       
-    }
-
-    private IEnumerator SwitchFollowOffAfterCooldown()
-    {
-        yield return new WaitForSeconds(_followCooldown);
-
-        SwitchFollowOff();
+        HasAggroTarget = false;
+        CharacterTransform = null;
     }
 }

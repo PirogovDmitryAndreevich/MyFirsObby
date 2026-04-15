@@ -598,13 +598,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0c0d31966dacc419922e8199c7e12d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _waitTime: 2
+  _minimalDistance: 1.5
   _attack: {fileID: 4917456740736805855}
+  _attackRange: {fileID: 6830101639158370120}
   _enemyHealth: {fileID: 4267764530317301311}
   _healthUI: {fileID: 2568558587967817768}
-  _agentMoveToPlayer: {fileID: 6613072094619068031}
+  _agentMoveToTarget: {fileID: 6613072094619068031}
   _navMeshAgent: {fileID: 787939664661011019}
   _lootSpawner: {fileID: 7810372993801663013}
   _enemyDeath: {fileID: 5578594548924154869}
+  _enemyAnimator: {fileID: 108749402642580005}
+  _aggro: {fileID: 6901580187899382399}
 --- !u!114 &108749402642580005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,8 +662,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _triggerObserver: {fileID: 3693349964115562756}
-  _followComponent: {fileID: 6613072094619068031}
-  _followCooldown: 3
 --- !u!114 &8153670370448622255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +703,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b22e19033c2c6814b864126c9c0ca2b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attack: {fileID: 4917456740736805855}
   _triggerObserver: {fileID: 6679618834878774023}
 --- !u!114 &4267764530317301311
 MonoBehaviour:
