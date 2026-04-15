@@ -37,6 +37,7 @@ public class BootstrapState : IState
         _services.RegisterSingle<IAssets>(new AssetProvider());
         _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
         _services.RegisterSingle<ISavedLists>(new SavedLists());
+        _services.RegisterSingle<IWaypointChangerService>(new WaypointChangerService());
 
         _services.RegisterSingle<IPoolService>(new PoolService());
 
@@ -51,7 +52,7 @@ public class BootstrapState : IState
         _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
             _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>(),
             _services.Single<ISavedLists>(), _services.Single<ISaveLoadService>(), _services.Single<IInputService>(),
-            _services.Single<IConveerUpdaterService>(), _services.Single<IPoolService>()));
+            _services.Single<IConveerUpdaterService>(), _services.Single<IPoolService>(), _services.Single<IWaypointChangerService>()));
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
             _services.Single<IStaticDataService>(), _services.Single<IWeaponUpdaterService>(), _services.Single<IConveerUpdaterService>()));

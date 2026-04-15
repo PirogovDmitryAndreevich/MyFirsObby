@@ -57,6 +57,8 @@ internal class LoadSceneState : IPayloaderState<string>
     {
         List<SpawnPoint> enemySpawns = InitEnemySpawns();
 
+        InitWaypoints();
+
         Character characterController =
             InitCharacter(at: GameObject.FindWithTag(InitialPointTag).transform);
 
@@ -108,6 +110,16 @@ internal class LoadSceneState : IPayloaderState<string>
         }
 
         return enemySpawns;
+    }
+
+    private void InitWaypoints()
+    {
+        string sceneKey = SceneManager.GetActiveScene().name;
+
+        LevelStaticData levelData = _staticData.ForLevel(sceneKey);
+
+        foreach (EnemyWaypointData waypointData in levelData.EnemyWaypoints)        
+            _gameFactory.CreateWaypoint(at: waypointData.Position);
     }
 
     private Hud InitHud(CharacterHealth characterHealth, IWeaponSelector weaponSelector) =>

@@ -1,6 +1,5 @@
 using Cinemachine;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class GameFactory : IGameFactory
 {
@@ -14,10 +13,11 @@ public class GameFactory : IGameFactory
     private readonly IInputService _inputService;
     private readonly IConveerUpdaterService _conveerUpdateService;
     private readonly IPoolService _poolService;
+    private readonly IWaypointChangerService _waypointsChanger;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
         ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService, IConveerUpdaterService conveerUpdateService,
-        IPoolService poolService)
+        IPoolService poolService, IWaypointChangerService waypointsChanger)
     {
         _assets = assets;
         _staticData = staticData;
@@ -27,6 +27,7 @@ public class GameFactory : IGameFactory
         _inputService = inputService;
         _conveerUpdateService = conveerUpdateService;
         _poolService = poolService;
+        _waypointsChanger = waypointsChanger;
     }
 
     public CinemachineFreeLook CreateCamera()
@@ -76,10 +77,9 @@ public class GameFactory : IGameFactory
         Enemy monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent)
             .GetComponent<Enemy>();
 
-        monster.Construct(_poolService);
+        monster.Construct(_poolService, _waypointsChanger);
         monster.HealthUI.Construct(monster.EnemyHealth);
         monster.EnemyHealth.Construct(monsterData.Health);
-        monster.AgentMoveToPlayer.Construct(_characterObject.transform);
         monster.NavMeshAgent.speed = monsterData.MoveSpeed;
         monster.LootSpawner.Construct(this, _poolService);
         monster.LootSpawner.SetLoot(monsterData.MinLoot, monsterData.MixLoot);
@@ -87,6 +87,17 @@ public class GameFactory : IGameFactory
             monsterData.Cleavage, monsterData.CooldownAttack);
 
         return monster;
+    }
+
+    public Waypoint CreateWaypoint(Vector3 at)
+    {
+        Waypoint waypoint = _assets.Instantiate(AssetsPath.WaypointPath)
+            .GetComponent<Waypoint>();
+
+        waypoint.transform.position = at;
+        _waypointsChanger.AddNewPoint(waypoint);
+
+        return waypoint;
     }
 
     public SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId)

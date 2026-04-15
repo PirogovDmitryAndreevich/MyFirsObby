@@ -19,6 +19,11 @@ public class LevelStaticDataEditor : Editor
                 .Select(x => new EnemySpawnerData(x.GetComponent<UniqueId>().Id, x.MonsterTypeID, x.transform.position))
                 .ToList();
 
+            levelData.EnemyWaypoints =
+                FindObjectsOfType<WaypointMarker>()
+                .Select(x => new EnemyWaypointData(x.GetComponent<UniqueId>().Id, x.transform.position))
+                .ToList();
+
             levelData.LevelKey = SceneManager.GetActiveScene().name;
         }
 

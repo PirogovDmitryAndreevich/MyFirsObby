@@ -16,13 +16,34 @@ MonoBehaviour:
   EnemySpawners:
   - Id: Main_76691496-26da-404f-a082-a7fb9b750782
     MonsterTypeId: 0
-    Position: {x: 10.19, y: 0.00000047683716, z: 11.71}
-  - Id: Main_003cf4f3-de2c-445b-bc97-bd153ae4ed78
-    MonsterTypeId: 0
-    Position: {x: -13.81, y: 0.00000047683716, z: 11.71}
-  - Id: Main_338cb635-0589-449d-b3d0-dda4489375ac
-    MonsterTypeId: 0
-    Position: {x: -19.47, y: 0.00000047683716, z: -8.694143}
+    Position: {x: 10.19, y: 0, z: 11.71}
   - Id: Main_93a94da0-b3e5-4349-9c96-92e837e9f62c
     MonsterTypeId: 0
-    Position: {x: 16.58, y: 0.00000047683716, z: -8.694143}
+    Position: {x: 16.58, y: 0, z: -8.694144}
+  - Id: Main_338cb635-0589-449d-b3d0-dda4489375ac
+    MonsterTypeId: 0
+    Position: {x: -19.470001, y: 0, z: -8.694144}
+  - Id: Main_003cf4f3-de2c-445b-bc97-bd153ae4ed78
+    MonsterTypeId: 0
+    Position: {x: -13.81, y: 0, z: 11.71}
+  EnemyWaypoints:
+  - Id: Main_1f8469d9-26bb-4a51-b9ad-d3a273ef8e50
+    Position: {x: 22.59, y: 0, z: 19.3}
+  - Id: Main_b9a1403b-c5e3-445f-98cf-5dfaa7c8bce4
+    Position: {x: 22.59, y: 0, z: 0.70000076}
+  - Id: Main_efc4aa68-27f4-4427-ad35-83f7043e16f0
+    Position: {x: 22.59, y: 0, z: -13.240002}
+  - Id: Main_c3017d1f-e2cb-48d3-b4b0-dcc6c8224503
+    Position: {x: -24.07, y: 0, z: -13.240002}
+  - Id: Main_3c3ddb0c-f274-4afb-b37e-8293056fad35
+    Position: {x: -24.07, y: 0, z: -3.08}
+  - Id: Main_3e154a25-1f83-48c4-971d-3441f61174f6
+    Position: {x: -20.439999, y: 0, z: 18.1}
+  - Id: Main_16dce45b-b939-4476-917e-22e1e807328b
+    Position: {x: -3.6800003, y: 0, z: 18.1}
+  - Id: Main_ea5b0dbc-6f23-47a3-afaa-30fe795165e5
+    Position: {x: -3.6800003, y: 0, z: 5.1000004}
+  - Id: Main_1d3bf383-a3ff-4c0d-afd8-b41e71da6bf0
+    Position: {x: 5, y: 0, z: -6.4300003}
+  - Id: Main_b0539b8b-b2df-4189-a32e-1e0ab6db687e
+    Position: {x: -10.692707, y: 0, z: -6.4300003}
