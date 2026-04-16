@@ -860,7 +860,6 @@ GameObject:
   - component: {fileID: 8698147564098254517}
   - component: {fileID: 8738606794904903258}
   - component: {fileID: 8852240652987272393}
-  - component: {fileID: 6319485942906159396}
   m_Layer: 5
   m_Name: Indicate
   m_TagString: Untagged
@@ -925,18 +924,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6319485942906159396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3483379290986534050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c2450aafe9b4f46bb9a2a1ae2be7a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4106301232152378889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,7 +1455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lootCounter: {fileID: 7697944143341411981}
   _healthUI: {fileID: 654193295384206830}
-  _indicateUI: {fileID: 6319485942906159396}
+  _indicateUI: {fileID: 8015614207038356187}
   _inventoryView: {fileID: 1585483140665777616}
 --- !u!1 &6469134480682500761
 GameObject:
@@ -1556,6 +1543,7 @@ GameObject:
   - component: {fileID: 5563654703223754687}
   - component: {fileID: 3341622608405339809}
   - component: {fileID: 559659729774282186}
+  - component: {fileID: 8015614207038356187}
   m_Layer: 5
   m_Name: Indicate
   m_TagString: Untagged
@@ -1621,6 +1609,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8015614207038356187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013848853432770671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2450aafe9b4f46bb9a2a1ae2be7a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7075591661987179887
 GameObject:
   m_ObjectHideFlags: 0

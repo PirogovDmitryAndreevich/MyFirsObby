@@ -7,19 +7,18 @@
         false,
         false
     ],
-    "idSave": 2,
+    "idSave": 9,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CurrentType": 0,
-            "IsTutorialCompleted": false,
             "Score": 0,
-            "Cash": 110,
+            "Cash": 1055,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
         "Arsenal": {
-            "IsUnblocked": false,
+            "IsUnblocked": true,
             "Weapons": [
                 {
                     "Type": 3,
@@ -95,6 +94,7 @@
                 }
             ]
         },
+        "BuildProgress": {},
         "Conveers": {
             "ConveerLines": [
                 {
