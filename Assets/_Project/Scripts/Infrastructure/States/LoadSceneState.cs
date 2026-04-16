@@ -6,9 +6,7 @@ using YG;
 
 internal class LoadSceneState : IPayloaderState<string>
 {
-    private const string InitialPointTag = "InitialPoint";
-    private const string ArsnalPointTag = "ArsenalPoint";
-    private const string ConveerPointTag = "ConveerPoint";
+    private const string BuildPointTag = "BuildInitialPoint";
 
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -55,12 +53,16 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InitGameWorld()
     {
-        List<SpawnPoint> enemySpawns = InitEnemySpawns();
+        LevelStaticData levelData = GetLevelData();
 
-        InitWaypoints();
+        List<SpawnPoint> enemySpawns = InitEnemySpawns(levelData);
+
+        InitWaypoints(levelData);
+
+        Build build = InitBuild(levelData);
 
         Character characterController =
-            InitCharacter(at: GameObject.FindWithTag(InitialPointTag).transform);
+            InitCharacter(at: build.PlayerInitialPoint);
 
         IWeaponSelector weaponSelector = InitWeaponSelector(characterController);
 
@@ -69,39 +71,51 @@ internal class LoadSceneState : IPayloaderState<string>
         ArsenalShopWindow arsenalWindow = InitArsenalShop();
         ConveerShop conveerShop = InitConveerShop();
 
-        ConveerInitializer conveerView = InitConveerView(hud.IndicateUI, conveerShop);
-        ArsenalInitializer arsenal = InitArsenal(hud.IndicateUI, arsenalWindow);
+        ConveerInitializer conveerView = InitConveerView(build.ConveerInitialPoint, hud.IndicateUI, conveerShop);
+        ArsenalInitializer arsenal = InitArsenal(build.ArsenalInitialPoint, hud.IndicateUI, arsenalWindow);
 
         CameraFollow(characterController.CameraFollow);
 
         _loadedScene = new LoadedScene(characterController, conveerView, arsenal, enemySpawns);
     }
 
-    private ConveerShop InitConveerShop() => 
+    private LevelStaticData GetLevelData()
+    {
+        string sceneKey = SceneManager.GetActiveScene().name;
+        LevelStaticData levelData = _staticData.ForLevel(sceneKey);
+
+        return levelData;
+    }
+
+    private Build InitBuild(LevelStaticData levelData) =>
+        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData);
+
+    private ConveerShop InitConveerShop() =>
         _uiFactory.CreateConveerShop();
 
-    private ConveerInitializer InitConveerView(IIndicateUI indicator, IWindow conveerShopWindow) => 
-        _gameFactory.CreateConveerView(at: GameObject.FindWithTag(ConveerPointTag), indicator, conveerShopWindow);
+    private ConveerInitializer InitConveerView(Transform at, IIndicateUI indicator, IWindow conveerShopWindow) =>
+        _gameFactory.CreateConveerView(at: at, indicator, conveerShopWindow);
 
     private Character InitCharacter(Transform at) =>
         _gameFactory.CreateCharacterController(at: at);
 
-    private ArsenalShopWindow InitArsenalShop() => 
+    private ArsenalShopWindow InitArsenalShop() =>
         _uiFactory.CreateArsenalShopWindow();
 
     private WeaponSelector InitWeaponSelector(Character character) =>
         _gameFactory.CreateWeaponSelector(character);
 
-    private ArsenalInitializer InitArsenal(IIndicateUI indicator, IWindow arsenalWindow) => 
-        _gameFactory.CreateArsenal(at: GameObject.FindWithTag(ArsnalPointTag).transform, indicator, arsenalWindow);
+    private ArsenalInitializer InitArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow)
+    {
+        string sceneKey = SceneManager.GetActiveScene().name;
+        LevelStaticData levelData = _staticData.ForLevel(sceneKey);
 
-    private List<SpawnPoint> InitEnemySpawns()
+        return _gameFactory.CreateArsenal(at: at, levelData, indicator, arsenalWindow);
+    }
+
+    private List<SpawnPoint> InitEnemySpawns(LevelStaticData levelData)
     {
         List<SpawnPoint> enemySpawns = new();
-
-        string sceneKey = SceneManager.GetActiveScene().name;
-
-        LevelStaticData levelData = _staticData.ForLevel(sceneKey);
 
         foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
         {
@@ -112,13 +126,9 @@ internal class LoadSceneState : IPayloaderState<string>
         return enemySpawns;
     }
 
-    private void InitWaypoints()
+    private void InitWaypoints(LevelStaticData levelData)
     {
-        string sceneKey = SceneManager.GetActiveScene().name;
-
-        LevelStaticData levelData = _staticData.ForLevel(sceneKey);
-
-        foreach (EnemyWaypointData waypointData in levelData.EnemyWaypoints)        
+        foreach (EnemyWaypointData waypointData in levelData.EnemyWaypoints)
             _gameFactory.CreateWaypoint(at: waypointData.Position);
     }
 
@@ -127,8 +137,8 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InformProgressReaders()
     {
-        foreach (ISavedProgressReader progressReader in _savedLists.ProgressReaders)        
-            progressReader.LoadProgress(_progressService.Progress);        
+        foreach (ISavedProgressReader progressReader in _savedLists.ProgressReaders)
+            progressReader.LoadProgress(_progressService.Progress);
     }
 
     private void CameraFollow(Transform cameraFollow)

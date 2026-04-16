@@ -34,30 +34,35 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private IEnumerator StartTutorial()
     {
-        _loadedScene.Arsenal.Opener.SetActiveState(false);
+        ArsenalInitializer arsenal = _loadedScene.Arsenal;
+        arsenal.Opener.gameObject.SetActive(false);
 
         foreach (var line in _loadedScene.Conveer.Lines.Values)
-            line.Opener.SetActiveState(false);
+            line.Opener.gameObject.SetActive(false);
 
         ConveerLine line1 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_1];
-        line1.Opener.SetActiveState(true);
 
-        _loadedScene.Character.LineDraw.StartDraw(line1.Opener.transform);
+        if (!line1.IsOpened)
+        {
+            line1.Opener.gameObject.SetActive(true);
+            _loadedScene.Character.LineDraw.StartDraw(line1.Opener.transform);
 
-        while (!line1.IsOpened)
-            yield return null;
+            while (!line1.IsOpened)
+                yield return null;
 
-        _loadedScene.Character.LineDraw.StopDraw();
+            _loadedScene.Character.LineDraw.StopDraw();
+        }
 
-        ArsenalInitializer arsenal = _loadedScene.Arsenal;
-        arsenal.Opener.SetActiveState(true);
+        if (!arsenal.IsOpened)
+        {
+            arsenal.Opener.gameObject.SetActive(true);
+            _loadedScene.Character.LineDraw.StartDraw(arsenal.Opener.transform);
 
-        _loadedScene.Character.LineDraw.StartDraw(arsenal.Opener.transform);
+            while (!arsenal.IsOpened)
+                yield return null;
 
-        while (!arsenal.IsOpened)
-            yield return null;
-
-        _loadedScene.Character.LineDraw.StopDraw();
+            _loadedScene.Character.LineDraw.StopDraw();
+        }
 
         var enemy = SpawnEnemy();
 
@@ -68,6 +73,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
         _loadedScene.Character.LineDraw.StopDraw();
 
+        _progressService.Progress.PlayerState.CompleteTutorial();
         _coroutineRunner.StartCoroutine(StartGameLoop());
     }
 
@@ -76,7 +82,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
         foreach (var line in _loadedScene.Conveer.Lines.Values)
         {
             if (!line.IsOpened)
-                line.Opener.SetActiveState(true);
+                line.Opener.gameObject.SetActive(true);
         }
 
         while (_isGameStarted)

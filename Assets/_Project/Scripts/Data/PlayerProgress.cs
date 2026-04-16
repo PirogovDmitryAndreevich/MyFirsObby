@@ -7,49 +7,33 @@ public class PlayerProgress
 
     public PlayerState PlayerState;
     public Arsenal Arsenal;
+    public BuildProgress BuildProgress;
     public ÑonveerProgress Conveers;
 
     public PlayerProgress(IStaticDataService staticData)
     {
         PlayerState = new PlayerState();
         Arsenal = new Arsenal(staticData);
+        BuildProgress = new BuildProgress();
         Conveers = new ÑonveerProgress(staticData);
     }
 }
 
 [Serializable]
-public class PlayerState
+public class BuildProgress
 {
-    public CharacterType CurrentType;
-    public bool IsTutorialCompleted;
-    public int Score;
-    public int Cash;
-    public float CurrentHP;
-    public float MaxHP;
+    public bool IsWallOpened { get; private set; }
+    public bool IsFloorOpened { get; private set; }
 
-    public PlayerState()
+    public BuildProgress()
     {
-        CurrentType = CharacterType.Sad;
-        Score = 0;
-        Cash = 500;
-        MaxHP = 100;
-        CurrentHP = MaxHP;
-        IsTutorialCompleted = false;
+        IsWallOpened = false;
+        IsFloorOpened = false;
     }
 
-    public event Action ValueChanged;
+    public void OpenWall() => 
+        IsWallOpened = true;
 
-    public void ResetHP() => CurrentHP = MaxHP;
-
-    public void AddCash(int cash)
-    {
-        Cash += cash;
-        ValueChanged?.Invoke();
-    }
-
-    public void SpendCash(int cash)
-    {
-        Cash -= cash;
-        ValueChanged?.Invoke();
-    }
+    public void OpenFloor() => 
+        IsFloorOpened = true;
 }

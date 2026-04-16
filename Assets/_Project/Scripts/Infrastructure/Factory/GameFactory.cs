@@ -39,6 +39,16 @@ public class GameFactory : IGameFactory
         return camera;
     }
 
+    public Build CreateBuild(Transform at, LevelStaticData levelStaticData)
+    {
+        Build build = InstantiateRegistered(AssetsPath.BuildPath, at.position).GetComponent<Build>();
+
+        build.FloorOpener.Construct(_saveLoadService,_progressService,levelStaticData);
+        build.WallOpener.Construct(_saveLoadService, _progressService, levelStaticData);
+
+        return build;
+    }
+
     public Character CreateCharacterController(Transform at)
     {
         _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
@@ -113,11 +123,11 @@ public class GameFactory : IGameFactory
         return spawner;
     }
 
-    public ArsenalInitializer CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow)
+    public ArsenalInitializer CreateArsenal(Transform at, LevelStaticData levelData, IIndicateUI indicator, IWindow arsenalWindow)
     {
         ArsenalInitializer arsenal = InstantiateRegistered(AssetsPath.Arsenal, at.transform.position).GetComponent<ArsenalInitializer>();
         arsenal.ArsenalView.Construct(indicator, arsenalWindow);
-        arsenal.Opener.Construct(_progressService);
+        arsenal.Opener.Construct(_saveLoadService ,_progressService,levelData);
         return arsenal;
     }
 
@@ -129,9 +139,9 @@ public class GameFactory : IGameFactory
         return weaponSelector;
     }
 
-    public ConveerInitializer CreateConveerView(GameObject at, IIndicateUI indicator, IWindow conveerShopWindow)
+    public ConveerInitializer CreateConveerView(Transform at, IIndicateUI indicator, IWindow conveerShopWindow)
     {
-        ConveerInitializer conveerInitializer = InstantiateRegistered(AssetsPath.ConveerPath, at.transform.position).GetComponent<ConveerInitializer>();
+        ConveerInitializer conveerInitializer = InstantiateRegistered(AssetsPath.ConveerPath, at.position).GetComponent<ConveerInitializer>();
         conveerInitializer.Construct(_staticData, _conveerUpdateService, _poolService);
         conveerInitializer.ConveerView.Construct(indicator, conveerShopWindow);
         conveerInitializer.Finisher.Construct(_progressService);

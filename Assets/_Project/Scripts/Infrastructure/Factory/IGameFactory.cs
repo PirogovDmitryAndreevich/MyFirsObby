@@ -4,10 +4,11 @@ using UnityEngine;
 public interface IGameFactory : IService
 {
     CinemachineFreeLook CreateCamera();
+    Build CreateBuild(Transform at, LevelStaticData levelStaticData);
     Bullet CreateBullet();
     Character CreateCharacterController(Transform at);
-    ArsenalInitializer CreateArsenal(Transform at, IIndicateUI indicator, IWindow arsenalWindow);
-    ConveerInitializer CreateConveerView(GameObject at, IIndicateUI indicator, IWindow conveerShopWindow);
+    ArsenalInitializer CreateArsenal(Transform at, LevelStaticData levelData, IIndicateUI indicator, IWindow arsenalWindow);
+    ConveerInitializer CreateConveerView(Transform at, IIndicateUI indicator, IWindow conveerShopWindow);
     WeaponSelector CreateWeaponSelector(Character character);
     LootPiece CreateLoot();
     Enemy CreateMonster(MonsterTypeId monsterTypeID, Transform parent);
