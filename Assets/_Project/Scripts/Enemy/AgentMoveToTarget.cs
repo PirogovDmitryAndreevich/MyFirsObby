@@ -10,8 +10,16 @@ public class AgentMoveToTarget : MonoBehaviour
     {
         if (target != null)
         {
+            _agent.isStopped = false;
             _agent.updateRotation = true;
             _agent.destination = target.position;
         }
-    }    
+    }
+
+    public void StopMove()
+    {
+        _agent.isStopped = true;
+        _agent.ResetPath();
+        _agent.velocity = Vector3.zero;
+    }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class EnemyStateMachine
 {
@@ -41,7 +40,5 @@ public class EnemyStateMachine
             CurrentState = newState;
             CurrentState.Enter();
         }
-
-        Debug.Log($"{typeof(TState)}");
     }
 }

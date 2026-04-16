@@ -6,7 +6,6 @@ public class Shooter : MonoBehaviour
 {
     [Header("Bullet setting")]
     [SerializeField] private float _bulletForce = 500f;
-    [SerializeField] private float _shootDistance = 200f;
     [SerializeField] private float _fireRate = 0.15f;
 
     private Camera _camera;

@@ -10,20 +10,23 @@ public class AttackState : EnemyState
         };
     }
 
-    public override void Enter() => 
+    public override void Enter()
+    {
+        Enemy.AgentMoveToTarget.StopMove();
         Enemy.EnemyAnimator.Move(false);
+    }
 
     public override void Update()
     {
         Enemy.Attack.UpdateCooldown();
 
-        if (Enemy.Attack.CanAttack() && Enemy.CheckAttackRange.AttackRange)
+        if (!Enemy.Attack.IsAttacking && Enemy.CheckAttackRange.IsAttackZone)
             Enemy.Attack.StartAttack();
     }
 
     public override void TryTransit()
     {
-        if (!Enemy.Attack.IsAttacking)
+        if (!Enemy.CheckAttackRange.IsAttackZone)
             base.TryTransit();
     }
 }

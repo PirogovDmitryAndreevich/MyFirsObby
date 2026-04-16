@@ -14,7 +14,6 @@ public class Attack : MonoBehaviour
     private float _damage = 10f;
 
     private float _cooldownAttackTime;
-    private bool _attackIsActive;
     private Collider[] _hits = new Collider[1];
 
     public bool IsAttacking { get; private set; }
@@ -39,9 +38,6 @@ public class Attack : MonoBehaviour
         _cooldownAttack = cooldownAttack;
     }
 
-    public bool CanAttack() =>
-        !IsAttacking && CooldownIsUp();
-
     public void StartAttack()
     {
         IsAttacking = true;
@@ -51,7 +47,7 @@ public class Attack : MonoBehaviour
     public void UpdateCooldown()
     {
         if (!CooldownIsUp())
-            _cooldownAttackTime -= Time.deltaTime;
+            _cooldownAttackTime -= Time.deltaTime;            
     }
 
     private void OnAttack()
@@ -82,7 +78,7 @@ public class Attack : MonoBehaviour
 
     private Vector3 StartPoint() =>
         new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z)
-        + transform.forward * _effectiveDistance;    
+        + transform.forward * _effectiveDistance;
 
     private bool CooldownIsUp() =>
         _cooldownAttackTime <= 0;

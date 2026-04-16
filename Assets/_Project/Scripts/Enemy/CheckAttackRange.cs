@@ -4,7 +4,7 @@ public class CheckAttackRange : MonoBehaviour
 {
     [SerializeField] private TriggerObserver _triggerObserver;
 
-    public bool AttackRange { get; private set; }
+    public bool IsAttackZone { get; private set; }
 
     private void OnEnable()
     {
@@ -19,8 +19,8 @@ public class CheckAttackRange : MonoBehaviour
     }
 
     private void TriggerEnter(Collider collider) =>
-        AttackRange = true;
+        IsAttackZone = true;
 
     private void TriggerExit(Collider collider) => 
-        AttackRange = false;
+        IsAttackZone = false;
 }
