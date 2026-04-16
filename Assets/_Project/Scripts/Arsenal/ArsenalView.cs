@@ -36,9 +36,7 @@ public class ArsenalView : MonoBehaviour, IInteractObject
     {
         _indicator.Show();
 
-        if (collider.gameObject.TryGetComponent(out IInteractable interactable))
-        {
-            interactable.SetInteractable(this);
-        }
+        if (collider.gameObject.TryGetComponent(out IInteractable interactable))        
+            interactable.SetInteractable(this);        
     }
 }

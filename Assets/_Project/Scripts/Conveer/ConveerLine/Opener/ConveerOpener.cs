@@ -1,45 +1,40 @@
 using UnityEngine;
 
-public class ConveerOpener : MonoBehaviour
+public class ConveerOpener : Opener
 {
-    [SerializeField] private ConveerOpenerView _view;    
-
     private ConveerLine _line;
-    private PlayerProgress _progress;
     private IConveerUpdaterService _opener;
 
     private void OnDestroy()
     {
+        UnsubscribeCash();
         _line.LineProgress.ConveerOpened -= SetCurrentViewState;
-        _view.TriggerObserver.TriggerEnter -= TriggerEnter;
     }
 
     public void Construct(ConveerLine line, PlayerProgress progress, IConveerUpdaterService opener)
     {
-        _progress = progress;
         _opener = opener;
         _line = line;
 
-        _view.Construct(line, progress);
+        Progress = progress;
+        Price = _line.LineStaticInfo.UnblockPrice;
 
-        _view.TriggerObserver.TriggerEnter += TriggerEnter;
+        SetState();
+        SetText();
+
+        SubscribeCash();
         _line.LineProgress.ConveerOpened += SetCurrentViewState;
 
-        _view.gameObject.SetActive(!line.LineProgress.IsOpened);
+        SetCurrentViewState();
     }
 
-    public void SetActiveState(bool isActive) => 
-        _view.gameObject.SetActive(isActive);
+    protected override void OnTrigger()
+    {
+        base.OnTrigger();
+        _opener.UnblockConveer(_line.LineProgress);
+    }
 
     private void SetCurrentViewState() =>
-        _view.gameObject.SetActive(!_line.LineProgress.IsOpened);
-
-    private void TriggerEnter(Collider collider)
-    {
-        if (_progress.PlayerState.Cash < _line.LineStaticInfo.UnblockPrice)
-            return;
-
-        if (collider.TryGetComponent(out Character character))
-            _opener.UnblockConveer(_line.LineProgress);
-    }    
+        gameObject.SetActive(!_line.LineProgress.IsOpened);
+   
 }

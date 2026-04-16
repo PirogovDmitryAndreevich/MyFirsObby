@@ -6,7 +6,6 @@ public class ArsenalInitializer : MonoBehaviour, ISavedProgressReader
 {
     [Header("Arsenal")]
     [SerializeField] private ArsenalView _arsenalView;
-    [SerializeField] private int _unblockPrice;
     [Header("Opener")]
     [SerializeField] private ArsenalOpener _arsenalOpener;
     [Header("Weapons")]
@@ -15,7 +14,6 @@ public class ArsenalInitializer : MonoBehaviour, ISavedProgressReader
     private Arsenal _arsenalProgress;
     private Dictionary<WeaponType, WeaponIntoArsenal> _weapons = new();
 
-    public int UnblockPrice => _unblockPrice;
     public bool IsOpened { get; private set; }
     public ArsenalView ArsenalView => _arsenalView;
     public ArsenalOpener Opener => _arsenalOpener;
@@ -31,7 +29,7 @@ public class ArsenalInitializer : MonoBehaviour, ISavedProgressReader
         InitWeapons(_arsenalProgress);
 
         ArsenalView.SetActiveView(_arsenalProgress.IsUnblocked);
-        Opener.SetActiveState(!_arsenalProgress.IsUnblocked);
+        Opener.gameObject.SetActive(!_arsenalProgress.IsUnblocked);
         _arsenalProgress.ArsenalUnblocked += SetActiveState;
 
         SetActiveState();
@@ -41,7 +39,7 @@ public class ArsenalInitializer : MonoBehaviour, ISavedProgressReader
     {
         IsOpened = _arsenalProgress.IsUnblocked;
         _arsenalView.gameObject.SetActive(IsOpened);
-        Opener.SetActiveState(!_arsenalProgress.IsUnblocked);
+        Opener.gameObject.SetActive(!_arsenalProgress.IsUnblocked);
     }
 
     private void InitWeapons(Arsenal arsenalProgress)
