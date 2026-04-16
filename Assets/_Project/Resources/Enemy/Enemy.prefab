@@ -578,7 +578,7 @@ NavMeshAgent:
   m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 1600
-  m_StoppingDistance: 1.5
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -599,7 +599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waitTime: 2
-  _minimalDistance: 1.5
+  _minimalDistance: 0.5
   _attack: {fileID: 4917456740736805855}
   _attackRange: {fileID: 6830101639158370120}
   _enemyHealth: {fileID: 4267764530317301311}
@@ -818,7 +818,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0.68, z: 0.22}
+  m_Center: {x: 0, y: 0.68, z: 0}
 --- !u!114 &6679618834878774023
 MonoBehaviour:
   m_ObjectHideFlags: 0
