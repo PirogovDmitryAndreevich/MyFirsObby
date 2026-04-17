@@ -12,21 +12,35 @@ public class Build : MonoBehaviour, ISavedProgressReader
 
     private BuildProgress _progress;
 
+    public bool IsWallOpened { get; private set; }
+    public bool IsFloorOpened { get; private set; }
     public OpenerFloor FloorOpener => _openerFloor;
     public OpenerWall WallOpener => _openerWall;
     public Transform PlayerInitialPoint => _playerInitialPoint;
     public Transform ConveerInitialPoint => _conveerInitialPoint;
     public Transform ArsenalInitialPoint => _arsenalInitialPoint;
 
+    private void OnDestroy()
+    {
+        _progress.WallOpened -= OnWallOpened;
+        _progress.FloorOpened -= OnFloorOpened;
+    }
+
     public void LoadProgress(PlayerProgress progress)
     {
         _progress = progress.BuildProgress;
 
-        _floorView.gameObject.SetActive(_progress.IsFloorOpened);
+        IsWallOpened = _progress.IsFloorOpened;
+        IsFloorOpened = _progress.IsWallOpened;
+
+        _floorView.gameObject.SetActive(IsFloorOpened);
         FloorOpener.gameObject.SetActive(false);
 
-        _wallView.gameObject.SetActive(_progress.IsWallOpened);
+        _wallView.gameObject.SetActive(IsWallOpened);
         WallOpener.gameObject.SetActive(false);
+
+        _progress.WallOpened += OnWallOpened;
+        _progress.FloorOpened += OnFloorOpened;
     }
 
     public void ShowFloorOpener() =>
@@ -34,4 +48,10 @@ public class Build : MonoBehaviour, ISavedProgressReader
 
     public void ShowWallOpener() =>
         WallOpener.gameObject.SetActive(true);
+
+    private void OnWallOpened() =>
+        IsWallOpened = _progress.IsWallOpened;
+
+    private void OnFloorOpened() =>
+        IsFloorOpened = _progress.IsFloorOpened;
 }

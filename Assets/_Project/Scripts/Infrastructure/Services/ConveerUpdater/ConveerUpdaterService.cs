@@ -24,7 +24,6 @@ public class ConveerUpdaterService : IConveerUpdaterService
             _progress.Progress.PlayerState.SpendCash(data.UnblockPrice);
             _saveService.SaveProgress();
         }
-
     }
 
     public void UpdateConveer(ConveerLineProgress progressLine, ConveerUpdateType type)

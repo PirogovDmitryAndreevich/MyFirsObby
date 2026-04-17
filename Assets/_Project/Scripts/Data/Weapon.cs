@@ -5,15 +5,12 @@ public class Weapon
 {
     public WeaponType Type;
 
-    public bool IsUnblocked { get; private set; }
+    public bool IsUnblocked;
 
     public int MagazineLevel;
     public int DamageLevel;
     public int MaxDamageLevel;
     public int MaxMagazineLevel;
-
-    public bool IsMaxDamageLevel;
-    public bool IsMaxMagazineLevel;
 
     public event Action<WeaponsUpdateType> WeaponsUpdate;
     public event Action StatusChanged;

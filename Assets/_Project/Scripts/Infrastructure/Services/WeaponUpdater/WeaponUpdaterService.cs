@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class WeaponUpdaterService : IWeaponUpdaterService
 {
     private readonly IPersistentProgressService _progress;
@@ -24,7 +26,6 @@ public class WeaponUpdaterService : IWeaponUpdaterService
             _progress.Progress.PlayerState.SpendCash(price);
             _saveService.SaveProgress();
         }
-
     }
 
     public void UpdateWeapon(WeaponsUpdateType type, Weapon weapon)
@@ -35,7 +36,7 @@ public class WeaponUpdaterService : IWeaponUpdaterService
         int price = _statickData.ForWeaponsData(weapon.Type).GeLevelInfo(weapon.GetLevel(type), type).Price;
 
         if (_progress.Progress.PlayerState.Cash >= price)
-        {
+        {            
             weapon.UpdateLevel(type);
             _progress.Progress.PlayerState.SpendCash(price);
             _saveService.SaveProgress();

@@ -76,7 +76,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         CameraFollow(characterController.CameraFollow);
 
-        _loadedScene = new LoadedScene(characterController, conveerView, arsenal, enemySpawns);
+        _loadedScene = new LoadedScene(characterController, conveerView, arsenal, enemySpawns, build);
     }
 
     private LevelStaticData GetLevelData()

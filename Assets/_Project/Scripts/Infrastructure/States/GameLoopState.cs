@@ -7,14 +7,17 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private readonly IPersistentProgressService _progressService;
     private readonly ICoroutineRunner _coroutineRunner;
+    private readonly ITutorialCompleterService _tutorialCompleter;
     private LoadedScene _loadedScene;
     private bool _isGameStarted;
     private int _enemiesOnScene;
 
-    public GameLoopState(GameStateMachine stateMachine, IPersistentProgressService progressService, ICoroutineRunner coroutineRunner)
+    public GameLoopState(GameStateMachine stateMachine, IPersistentProgressService progressService, ICoroutineRunner coroutineRunner,
+        ITutorialCompleterService tutorialCompleter)
     {
         _progressService = progressService;
         _coroutineRunner = coroutineRunner;
+        _tutorialCompleter = tutorialCompleter;
     }
 
     public void Enter(LoadedScene loadedScene)
@@ -73,20 +76,34 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
         _loadedScene.Character.LineDraw.StopDraw();
 
-        _progressService.Progress.PlayerState.CompleteTutorial();
+        _tutorialCompleter.TutorialComplete();
         _coroutineRunner.StartCoroutine(StartGameLoop());
     }
 
     private IEnumerator StartGameLoop()
     {
-        foreach (var line in _loadedScene.Conveer.Lines.Values)
-        {
-            if (!line.IsOpened)
-                line.Opener.gameObject.SetActive(true);
-        }
+        ConveerLine line2 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_2];
+        ConveerLine line3 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_3];
+        ConveerLine line4 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_4];
+        ConveerLine lineBonus = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_bonus];
+
+        if (!line2.IsOpened)
+            line2.Opener.gameObject.SetActive(true);
 
         while (_isGameStarted)
         {
+            if (line2.IsOpened && !line3.IsOpened)
+                line3.Opener.gameObject.SetActive(true);
+
+            if (line2.IsOpened && !_loadedScene.Build.IsWallOpened)
+                _loadedScene.Build.WallOpener.gameObject.SetActive(true);
+
+            if(_loadedScene.Build.IsWallOpened && !_loadedScene.Build.IsFloorOpened)
+                _loadedScene.Build.FloorOpener.gameObject.SetActive(true);
+
+            if (line3.IsOpened && !line4.IsOpened)
+                line4.Opener.gameObject.SetActive(true);
+
             if (_enemiesOnScene < MaxEnemiesOnScene)
                 SpawnEnemy();
 

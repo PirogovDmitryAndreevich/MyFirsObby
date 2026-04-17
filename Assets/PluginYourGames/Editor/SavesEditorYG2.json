@@ -7,13 +7,13 @@
         false,
         false
     ],
-    "idSave": 9,
+    "idSave": 4,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CurrentType": 0,
             "Score": 0,
-            "Cash": 1055,
+            "Cash": 100,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
@@ -25,72 +25,56 @@
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 3
                 },
                 {
                     "Type": 2,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 3
                 },
                 {
                     "Type": 5,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 3
                 },
                 {
                     "Type": 0,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 3
                 },
                 {
                     "Type": 6,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 2,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 2
                 },
                 {
                     "Type": 4,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 3
                 },
                 {
                     "Type": 7,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 1,
-                    "MaxMagazineLevel": 1,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 1
                 },
                 {
                     "Type": 1,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3,
-                    "IsMaxDamageLevel": false,
-                    "IsMaxMagazineLevel": false
+                    "MaxMagazineLevel": 3
                 }
             ]
         },
@@ -103,7 +87,7 @@
                     "MaxCooldownLevel": 7,
                     "MaxLevel": 7,
                     "CurrentCooldownLevel": 1,
-                    "CurrentLevel": 2
+                    "CurrentLevel": 1
                 },
                 {
                     "Numbers": 1,

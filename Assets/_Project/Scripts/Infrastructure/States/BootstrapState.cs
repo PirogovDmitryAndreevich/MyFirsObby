@@ -43,6 +43,9 @@ public class BootstrapState : IState
 
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
 
+        _services.RegisterSingle<ITutorialCompleterService>
+            (new TutorialCompleterService(_services.Single<IPersistentProgressService>(), _services.Single<ISaveLoadService>()));
+
         _services.RegisterSingle<IWeaponUpdaterService>(new WeaponUpdaterService(_services.Single<IPersistentProgressService>(), _services.Single<IStaticDataService>(),
             _services.Single<ISaveLoadService>()));
 

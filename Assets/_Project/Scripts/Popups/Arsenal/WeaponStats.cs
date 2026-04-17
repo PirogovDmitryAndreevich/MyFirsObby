@@ -46,8 +46,8 @@ public class WeaponStats : MonoBehaviour
     private void OnDestroy() => 
         _weapon.StatusChanged -= SetUnblockView;
 
-    private void OnUnblockButton() => 
-       _progressService.Progress.Arsenal.UnblockWeapon(_weapon);
+    private void OnUnblockButton() =>
+       _updaters.UnblockWeapon(_weapon);
 
     private void SetBlockView()
     {
