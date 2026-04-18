@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 0
   Name: M1911
   UnblockPrice: 100
-  Icon: {fileID: 21300000, guid: 138465927537a82458e1a8c8bff32c3c, type: 3}
+  Icon: {fileID: 21300000, guid: 8cf80accf917a0e40bdd824ffbab3230, type: 3}
   Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
   BulletPrefab: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
   Spread: 0

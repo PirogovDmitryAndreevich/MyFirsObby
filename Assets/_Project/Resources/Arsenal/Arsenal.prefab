@@ -241,7 +241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _arsenalView: {fileID: 3455467974870351895}
-  _unblockPrice: 150
   _arsenalOpener: {fileID: 7976001302199638619}
   _weaponsView:
   - {fileID: 520242928089330772}
@@ -593,7 +592,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 3970903986856613577}
   _collider: {fileID: 7735981705012403351}
-  _arsenal: {fileID: 7817963854809365334}
   _name: {fileID: 5530572806262222233}
 --- !u!65 &7735981705012403351 stripped
 BoxCollider:

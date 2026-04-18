@@ -46,7 +46,7 @@ public class UIFactory : IUIFactory
         InventoryButton button =
                         _assets.Instantiate(AssetsPath.InventoryButtonPath, _hud.InventoryView).GetComponent<InventoryButton>();
 
-        button.Construct(weaponSelector, type);
+        button.Construct(weaponSelector, type, _staticData.ForWeaponsData(type).Icon);
     }
 
     public ArsenalShopWindow CreateArsenalShopWindow()

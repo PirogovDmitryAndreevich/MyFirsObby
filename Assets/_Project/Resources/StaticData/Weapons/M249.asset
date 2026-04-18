@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 6
   Name: M249
   UnblockPrice: 2000
-  Icon: {fileID: 21300000, guid: 138465927537a82458e1a8c8bff32c3c, type: 3}
+  Icon: {fileID: 21300000, guid: affb87b71a3c6874ca361c67e4305419, type: 3}
   Prefab: {fileID: 1261748888023320, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
   BulletPrefab: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
   Spread: 1.5

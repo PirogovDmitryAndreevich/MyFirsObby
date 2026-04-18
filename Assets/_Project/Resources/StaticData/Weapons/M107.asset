@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 5
   Name: M107
   UnblockPrice: 1200
-  Icon: {fileID: 21300000, guid: 138465927537a82458e1a8c8bff32c3c, type: 3}
+  Icon: {fileID: 21300000, guid: 7f2ba03c6b716eb42805fa3509f9b427, type: 3}
   Prefab: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
   BulletPrefab: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
   Spread: 0
