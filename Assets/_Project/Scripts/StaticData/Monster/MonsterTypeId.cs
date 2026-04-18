@@ -4,4 +4,6 @@ using System;
 public enum MonsterTypeId
 {
     Noob,
+    LittleNoob,
+    BigNoob
 }
