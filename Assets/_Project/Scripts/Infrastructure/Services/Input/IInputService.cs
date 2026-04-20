@@ -17,7 +17,5 @@ public interface IInputService : IService
 
     public bool JumpPressed { get; }
 
-    public bool GetAttackState();
-
     public bool GetInteractButtonDown();
 }

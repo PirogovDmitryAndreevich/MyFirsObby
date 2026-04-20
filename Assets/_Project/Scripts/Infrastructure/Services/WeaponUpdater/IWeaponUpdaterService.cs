@@ -1,5 +1,5 @@
 ﻿public interface IWeaponUpdaterService : IService
 {
-    void UnblockWeapon(Weapon weapon);
-    void UpdateWeapon(WeaponsUpdateType type, Weapon weapon);
+    void UnblockWeapon(WeaponProgress weapon);
+    void UpdateWeapon(WeaponsUpdateType type, WeaponProgress weapon);
 }

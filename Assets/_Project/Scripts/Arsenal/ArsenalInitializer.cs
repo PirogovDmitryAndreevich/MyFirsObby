@@ -44,13 +44,13 @@ public class ArsenalInitializer : MonoBehaviour, ISavedProgressReader
 
     private void InitWeapons(Arsenal arsenalProgress)
     {
-        foreach (Weapon weapon in arsenalProgress.Weapons)
+        foreach (WeaponProgress weapon in arsenalProgress.Weapons)
         {
             if (_weapons.ContainsKey(weapon.Type))
                 InitWeapon(weapon);
         }
     }
 
-    private void InitWeapon(Weapon weapon) => 
+    private void InitWeapon(WeaponProgress weapon) => 
         _weapons[weapon.Type].Initialize(weapon);
 }

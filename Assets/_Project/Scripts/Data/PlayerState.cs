@@ -4,7 +4,7 @@ using System;
 public class PlayerState
 {
     public CharacterType CurrentType;
-    public bool IsTutorialCompleted { get; private set; }
+    public bool IsTutorialCompleted;
     public int Score;
     public int Cash;
     public float CurrentHP;

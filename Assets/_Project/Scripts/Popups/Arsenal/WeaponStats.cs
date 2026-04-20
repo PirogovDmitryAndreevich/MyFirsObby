@@ -11,14 +11,14 @@ public class WeaponStats : MonoBehaviour
     [SerializeField] private WeaponStatsButton _damageButton;
     [SerializeField] private WeaponStatsButton _magazineButton;
 
-    private Weapon _weapon;
+    private WeaponProgress _weapon;
     private IPersistentProgressService _progressService;
     private WeaponStaticData _weaponStaticData;
     private IWeaponUpdaterService _updaters;
 
     public WeaponType Type { get; private set; }
 
-    public void Construct(Weapon weapon, WeaponStaticData weaponStaticData, IPersistentProgressService progressService, IWeaponUpdaterService updaters)
+    public void Construct(WeaponProgress weapon, WeaponStaticData weaponStaticData, IPersistentProgressService progressService, IWeaponUpdaterService updaters)
     {
         _weapon = weapon;
         _progressService = progressService;

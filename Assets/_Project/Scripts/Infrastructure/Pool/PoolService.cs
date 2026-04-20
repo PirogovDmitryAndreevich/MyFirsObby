@@ -8,8 +8,15 @@ public class PoolService : IPoolService
 
     private readonly Dictionary<Type, Func<Component>> _factories = new();
 
-    public void RegisterFactory<TPoolObject>(Func<TPoolObject> factory) where TPoolObject : Component => 
-        _factories[typeof(TPoolObject)] = () => factory();
+    public void RegisterFactory<TPoolObject>(Func<TPoolObject> factory) where TPoolObject : Component
+    {
+        var type = typeof(TPoolObject);
+
+        if (_factories.ContainsKey(type))
+            return;
+
+        _factories[type] = () => factory();
+    }
 
     public TPoolObject Get<TPoolObject>() where TPoolObject : Component
     {

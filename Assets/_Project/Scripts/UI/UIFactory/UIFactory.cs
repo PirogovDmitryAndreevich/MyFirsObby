@@ -20,7 +20,7 @@ public class UIFactory : IUIFactory
         _conveerUpdater = conveerUpdater;
     }
 
-    public Hud CreateHod(bool isMobile, IWeaponSelector weaponSelector, CharacterHealth characterHealth)
+    public Hud CreateHod(bool isMobile, IWeaponSelector weaponSelector, CharacterHealth characterHealth, Shooter shooter)
     {
         GameObject hud = isMobile
             ? CreateHudMobile()
@@ -31,8 +31,9 @@ public class UIFactory : IUIFactory
         _hud.Construct(weaponSelector,this,_progressService);
         _hud.LootCounter.Construct(_progressService.Progress.PlayerState);
         _hud.HealthUI.Construct(characterHealth);
+        _hud.ArmorCounter.Construct(shooter);
 
-        foreach (Weapon weapon in _progressService.Progress.Arsenal.Weapons)
+        foreach (WeaponProgress weapon in _progressService.Progress.Arsenal.Weapons)
         {
             if (weapon.IsUnblocked)
                 CreateInventoryButton(weaponSelector, weapon.Type);
@@ -53,7 +54,7 @@ public class UIFactory : IUIFactory
     {
         ArsenalShopWindow arsenalShop = _assets.Instantiate(AssetsPath.ArsenalShopPath).GetComponent<ArsenalShopWindow>();
 
-        foreach (Weapon weapon in _progressService.Progress.Arsenal.Weapons.OrderBy(w => w.Type))
+        foreach (WeaponProgress weapon in _progressService.Progress.Arsenal.Weapons.OrderBy(w => w.Type))
             CreateWeaponsStats(weapon, _staticData.ForWeaponsData(weapon.Type), arsenalShop.WeaponsStatsParent);
 
         return arsenalShop;
@@ -75,7 +76,7 @@ public class UIFactory : IUIFactory
         conveerStat.Construct(_progressService, _conveerUpdater, _staticData.ForConveers(progressLine.Numbers), progressLine);
     }
 
-    private void CreateWeaponsStats(Weapon weapon, WeaponStaticData staticData, Transform parent)
+    private void CreateWeaponsStats(WeaponProgress weapon, WeaponStaticData staticData, Transform parent)
     {
         WeaponStats weaponStats = _assets.Instantiate(AssetsPath.WeaponStatsPath, parent).GetComponent<WeaponStats>();
         weaponStats.Construct(weapon, staticData, _progressService, _weaponUpdater);

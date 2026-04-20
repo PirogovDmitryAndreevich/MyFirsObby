@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class LootCounter : MonoBehaviour
+public class CashCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _counterText;
 

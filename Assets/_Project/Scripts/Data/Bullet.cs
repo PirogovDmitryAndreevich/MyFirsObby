@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour
 
     private void ReturnToPool()
     {
-        StopAllCoroutines(); // важно!
+        StopAllCoroutines();
 
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;

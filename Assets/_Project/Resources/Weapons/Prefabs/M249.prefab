@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cb98f44e5cb3f4596eec636120e35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 6
+  Type: 7
   Muzzle: {fileID: 4494781654250357650}
 --- !u!1 &1564110021164438
 GameObject:

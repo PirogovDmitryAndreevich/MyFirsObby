@@ -3,18 +3,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponData", menuName = "StaticData/Weapon")]
 public class WeaponStaticData : ScriptableObject
 {
+    [Header("Type")]
     public WeaponType Type;
 
+    [Header("View Settings")]
     public string Name;
     public int UnblockPrice;
     public Sprite Icon;
-
-    [Header("Setting")]
     public GameObject Prefab;
     public Bullet BulletPrefab;
 
     [Header("Gun stats")]
     public float Spread = 0f;
+    public float ReloadTime = 0.3f;
+    public int BulletsPerTap = 1;
+    public float TimeBetweenShot = 0.2f;
 
     public WeaponLevels MagazineSizeLevels;
     public WeaponLevels DamageLevels;
@@ -26,7 +29,7 @@ public class WeaponStaticData : ScriptableObject
         return LevelInfo(nextLevelIndex, type);
     }
 
-    public PriceWeaponLevels GeLevelInfo(int currentLevel, WeaponsUpdateType type)
+    public PriceWeaponLevels GetLevelInfo(int currentLevel, WeaponsUpdateType type)
     {
         int levelIndex = currentLevel - 1;
         return LevelInfo(levelIndex, type);

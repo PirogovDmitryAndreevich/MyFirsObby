@@ -186,8 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cb98f44e5cb3f4596eec636120e35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 1
-  TargetPoint: {fileID: 3498565634609406605}
+  Type: 2
   Muzzle: {fileID: 3705598826247716288}
 --- !u!1 &1382682361031114
 GameObject:

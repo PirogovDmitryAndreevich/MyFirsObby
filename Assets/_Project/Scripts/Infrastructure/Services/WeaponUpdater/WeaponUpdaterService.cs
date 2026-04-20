@@ -13,7 +13,7 @@ public class WeaponUpdaterService : IWeaponUpdaterService
         _saveService = saveService;
     }
 
-    public void UnblockWeapon(Weapon weapon)
+    public void UnblockWeapon(WeaponProgress weapon)
     {
         if (weapon.IsUnblocked)
             return;
@@ -28,12 +28,12 @@ public class WeaponUpdaterService : IWeaponUpdaterService
         }
     }
 
-    public void UpdateWeapon(WeaponsUpdateType type, Weapon weapon)
+    public void UpdateWeapon(WeaponsUpdateType type, WeaponProgress weapon)
     {
         if (!weapon.CanUpgrade(type))
             return;
 
-        int price = _statickData.ForWeaponsData(weapon.Type).GeLevelInfo(weapon.GetLevel(type), type).Price;
+        int price = _statickData.ForWeaponsData(weapon.Type).GetLevelInfo(weapon.GetLevel(type), type).Price;
 
         if (_progress.Progress.PlayerState.Cash >= price)
         {            

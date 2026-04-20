@@ -1,8 +1,7 @@
 using System;
-using UnityEngine;
 
 [Serializable]
-public class Weapon
+public class WeaponProgress
 {
     public WeaponType Type;
 
@@ -16,7 +15,7 @@ public class Weapon
     public event Action<WeaponsUpdateType> WeaponsUpdate;
     public event Action StatusChanged;
 
-    public Weapon(WeaponStaticData staticData)
+    public WeaponProgress(WeaponStaticData staticData)
     {
         Type = staticData.Type;
         MaxDamageLevel = staticData.DamageLevels.Levels.Length;
@@ -89,7 +88,7 @@ public class Weapon
 
     private void UpdateDamageLevel()
     {
-        if (MagazineLevel < MaxDamageLevel)        
+        if (DamageLevel < MaxDamageLevel)        
             DamageLevel++;
     }
 }

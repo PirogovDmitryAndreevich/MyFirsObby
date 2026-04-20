@@ -4,35 +4,53 @@ public class WeaponSelector : IWeaponSelector
 {
     private Character _character;
 
-    private IStaticDataService _staticData;
     private IPersistentProgressService _progress;
+    private readonly IGameFactory _gameFactory;
 
-    public Dictionary<WeaponType, Weapon> OpenedWeapons { get; private set; }
+    public Weapon CurrentWeapon { get; private set; }
 
-    public void Construct(Character character, IStaticDataService staticData, IPersistentProgressService progress)
+    public WeaponSelector(Character character, IGameFactory gameFactory, IPersistentProgressService progress)
     {
+        Weapons = new Dictionary<WeaponType, Weapon>();
+
         _character = character;
-        _staticData = staticData;
+        _gameFactory = gameFactory;
         _progress = progress;
 
-        OpenedWeapons = new Dictionary<WeaponType, Weapon>();
-
-        foreach (Weapon weapon in _progress.Progress.Arsenal.Weapons)
+        foreach (WeaponProgress weapon in _progress.Progress.Arsenal.Weapons)
         {
-            if (weapon.IsUnblocked && !OpenedWeapons.ContainsKey(weapon.Type))
-                OpenedWeapons.Add(weapon.Type, weapon);
+            if (weapon.IsUnblocked)
+                AddWeapon(weapon.Type, weapon);
         }
 
         _progress.Progress.Arsenal.WeaponUnblocked += OpenedNewWeapon;
     }
 
-    public void SelectWeapon(WeaponType type) =>
-        _character.SelectWeapon(_staticData.ForWeaponsData(type), OpenedWeapons[type].DamageLevel, OpenedWeapons[type].MagazineLevel);
-
-
-    private void OpenedNewWeapon(Weapon weapon)
+    public void Unsubscribe()
     {
-        if (!OpenedWeapons.ContainsKey(weapon.Type))
-            OpenedWeapons.Add(weapon.Type, weapon);
+        foreach (Weapon weapon in Weapons.Values)
+            weapon.RuntimeState.Unsubscribe();
+
+        _progress.Progress.Arsenal.WeaponUnblocked -= OpenedNewWeapon;
     }
+
+    public Dictionary<WeaponType, Weapon> Weapons { get; private set; }
+
+    public void AddWeapon(WeaponType type, WeaponProgress weapon) =>
+        Weapons.Add(type, _gameFactory.CreateWeapon(weapon));
+
+    public void SelectWeapon(WeaponType type)
+    {
+        CurrentWeapon = Weapons[type];
+        _character.SelectWeapon(CurrentWeapon);
+    }
+
+    public void UnselectWeapon()
+    {
+        CurrentWeapon = null;
+        _character.UnselectWeapon();
+    }
+
+    private void OpenedNewWeapon(WeaponProgress weapon) =>
+        AddWeapon(weapon.Type, weapon);
 }

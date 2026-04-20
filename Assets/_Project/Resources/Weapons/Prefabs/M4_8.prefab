@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cb98f44e5cb3f4596eec636120e35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 4
-  Muzzle: {fileID: 4886225909495156}
+  Type: 5
+  Muzzle: {fileID: 8073389128442853450}
 --- !u!1 &1426050648627750
 GameObject:
   m_ObjectHideFlags: 0

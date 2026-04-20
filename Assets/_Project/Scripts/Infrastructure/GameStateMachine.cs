@@ -11,7 +11,7 @@ public partial class GameStateMachine
     {
         _states = new Dictionary<Type, IExcitableState>()
         {
-            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
+            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services, coroutineRunner),
 
             [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IUIFactory>(),
             services.Single<IPersistentProgressService>(), services.Single<ISavedLists>(), services.Single<IStaticDataService>()),

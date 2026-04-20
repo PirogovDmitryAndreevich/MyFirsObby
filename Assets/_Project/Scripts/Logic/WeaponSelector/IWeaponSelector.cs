@@ -2,7 +2,9 @@
 
 public interface IWeaponSelector
 {
-    public Dictionary<WeaponType, Weapon> OpenedWeapons { get; }
-
+    Weapon CurrentWeapon { get; }
+    Dictionary<WeaponType, Weapon> Weapons { get; }
     void SelectWeapon(WeaponType type);
+    void UnselectWeapon();
+    public void Unsubscribe();
 }

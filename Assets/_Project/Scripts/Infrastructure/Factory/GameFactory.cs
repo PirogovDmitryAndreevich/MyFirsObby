@@ -14,10 +14,11 @@ public class GameFactory : IGameFactory
     private readonly IConveerUpdaterService _conveerUpdateService;
     private readonly IPoolService _poolService;
     private readonly IWaypointChangerService _waypointsChanger;
+    private readonly ICoroutineRunner _coroutineRunner;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
         ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService, IConveerUpdaterService conveerUpdateService,
-        IPoolService poolService, IWaypointChangerService waypointsChanger)
+        IPoolService poolService, IWaypointChangerService waypointsChanger, ICoroutineRunner coroutineRunner)
     {
         _assets = assets;
         _staticData = staticData;
@@ -28,6 +29,7 @@ public class GameFactory : IGameFactory
         _conveerUpdateService = conveerUpdateService;
         _poolService = poolService;
         _waypointsChanger = waypointsChanger;
+        _coroutineRunner = coroutineRunner;
     }
 
     public CinemachineFreeLook CreateCamera()
@@ -43,7 +45,7 @@ public class GameFactory : IGameFactory
     {
         Build build = InstantiateRegistered(AssetsPath.BuildPath, at.position).GetComponent<Build>();
 
-        build.FloorOpener.Construct(_saveLoadService,_progressService,levelStaticData);
+        build.FloorOpener.Construct(_saveLoadService, _progressService, levelStaticData);
         build.WallOpener.Construct(_saveLoadService, _progressService, levelStaticData);
 
         return build;
@@ -56,7 +58,6 @@ public class GameFactory : IGameFactory
         Character controller = _characterObject.GetComponent<Character>();
 
         controller.Construct(_inputService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CurrentType));
-        controller.Shooter.Construct(_poolService, this);
 
         return controller;
     }
@@ -127,17 +128,15 @@ public class GameFactory : IGameFactory
     {
         ArsenalInitializer arsenal = InstantiateRegistered(AssetsPath.Arsenal, at.transform.position).GetComponent<ArsenalInitializer>();
         arsenal.ArsenalView.Construct(indicator, arsenalWindow);
-        arsenal.Opener.Construct(_saveLoadService ,_progressService,levelData);
+        arsenal.Opener.Construct(_saveLoadService, _progressService, levelData);
         return arsenal;
     }
 
-    public WeaponSelector CreateWeaponSelector(Character character)
-    {
-        WeaponSelector weaponSelector = new WeaponSelector();
-        weaponSelector.Construct(character, _staticData, _progressService);
+    public WeaponSelector CreateWeaponSelector(Character character) =>
+         new WeaponSelector(character, this, _progressService);
 
-        return weaponSelector;
-    }
+    public Weapon CreateWeapon(WeaponProgress weaponProgress) =>
+        new Weapon(_staticData.ForWeaponsData(weaponProgress.Type), weaponProgress, _poolService, _assets, _coroutineRunner);
 
     public ConveerInitializer CreateConveerView(Transform at, IIndicateUI indicator, IWindow conveerShopWindow)
     {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
@@ -21,7 +22,7 @@ public class Character : MonoBehaviour, IInteractable
     private void Update()
     {
         _animation.Run(_mover.IsMoving);
-        _animation.KeepWeapon(_input.GetAttackState());
+        _animation.KeepWeapon(Shooter.IsWeaponSelected);
 
         if (_input.JumpPressed)
             _animation.Jump();
@@ -29,7 +30,7 @@ public class Character : MonoBehaviour, IInteractable
         if (_mover.IsMoving)
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
 
-        if (_input.IsShoot && _input.GetAttackState() && Shooter.CanShootNow)
+        if (_input.IsShoot && Shooter.IsWeaponSelected && Shooter.CurrentWeapon.RuntimeState.CanShoot)
             Shooter.TryShoot(_input.ShootPosition);
 
         if (_currentInteract != null && _input.GetInteractButtonDown())
@@ -70,18 +71,26 @@ public class Character : MonoBehaviour, IInteractable
         LineDraw.Construct(CurrentView.CameraFollow);
     }
 
-    public void SelectWeapon(WeaponStaticData weapon, int damageLevel, int magazineLevel)
+    public void SelectWeapon(Weapon weapon)
     {
         if (SelectedWeapon != null)
             Destroy(SelectedWeapon.gameObject);
 
-        GameObject prefab = Instantiate(weapon.Prefab, CurrentView.WeaponPoint);
+        GameObject prefab = Instantiate(weapon.StaticData.Prefab, CurrentView.WeaponPoint);
         SelectedWeapon = prefab.GetComponent<WeaponView>();
         prefab.transform.position = CurrentView.WeaponPoint.position;
 
-        Shooter.SelectWeapon(weapon, SelectedWeapon.Muzzle, damageLevel, magazineLevel);
+        Shooter.SelectWeapon(weapon, SelectedWeapon.Muzzle);
     }
 
     public void SetInteractable(IInteractObject interact) =>
         _currentInteract = interact;
+
+    public void UnselectWeapon()
+    {
+        if (SelectedWeapon != null)
+            Destroy(SelectedWeapon.gameObject);
+
+        Shooter.UnselectWeapon();
+    }
 }

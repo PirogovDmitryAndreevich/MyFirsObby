@@ -8,12 +8,14 @@ public class BootstrapState : IState
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly AllServices _services;
+    private readonly ICoroutineRunner _coroutineRunner;
 
-    public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
+    public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services, ICoroutineRunner coroutineRunner)
     {
         _stateMachine = stateMachine;
         _sceneLoader = sceneLoader;
         _services = services;
+        _coroutineRunner = coroutineRunner;
         RegisterServices();
     }
 
@@ -55,7 +57,7 @@ public class BootstrapState : IState
         _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
             _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>(),
             _services.Single<ISavedLists>(), _services.Single<ISaveLoadService>(), _services.Single<IInputService>(),
-            _services.Single<IConveerUpdaterService>(), _services.Single<IPoolService>(), _services.Single<IWaypointChangerService>()));
+            _services.Single<IConveerUpdaterService>(), _services.Single<IPoolService>(), _services.Single<IWaypointChangerService>(), _coroutineRunner));
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
             _services.Single<IStaticDataService>(), _services.Single<IWeaponUpdaterService>(), _services.Single<IConveerUpdaterService>()));

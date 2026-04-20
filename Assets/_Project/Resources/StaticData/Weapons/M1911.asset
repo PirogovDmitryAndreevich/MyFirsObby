@@ -19,6 +19,9 @@ MonoBehaviour:
   Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
   BulletPrefab: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
   Spread: 0
+  ReloadTime: 1.5
+  BulletsPerTap: 1
+  TimeBetweenShot: 0.7
   MagazineSizeLevels:
     Levels:
     - Level: 1

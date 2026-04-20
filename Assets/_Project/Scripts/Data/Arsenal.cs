@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class Arsenal
 {
     public bool IsUnblocked;
-    public List<Weapon> Weapons;
+    public List<WeaponProgress> Weapons;
 
     public event Action ArsenalUnblocked;
-    public event Action<Weapon> WeaponUnblocked;
+    public event Action<WeaponProgress> WeaponUnblocked;
 
     public Arsenal(IStaticDataService staticData)
     {
@@ -16,7 +16,7 @@ public class Arsenal
         Weapons = new();
 
         foreach (WeaponStaticData weaponStaticData in staticData.AllWeapons())
-            Weapons.Add(new Weapon(weaponStaticData));
+            Weapons.Add(new WeaponProgress(weaponStaticData));
     }
 
     public void UnblockArsenal()
@@ -25,7 +25,7 @@ public class Arsenal
         ArsenalUnblocked?.Invoke();
     }
 
-    public void UnblockWeapon(Weapon weapon)
+    public void UnblockWeapon(WeaponProgress weapon)
     {
         weapon.Unblock();
         WeaponUnblocked?.Invoke(weapon);

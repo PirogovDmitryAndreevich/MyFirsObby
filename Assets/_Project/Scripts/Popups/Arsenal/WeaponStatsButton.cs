@@ -9,7 +9,7 @@ public class WeaponStatsButton : MonoBehaviour
     [SerializeField] private TMP_Text _price;
 
     private WeaponStaticData _weaponStaticData;
-    private Weapon _weapon;
+    private WeaponProgress _weapon;
     private IPersistentProgressService _progressService;
     private IWeaponUpdaterService _updaters;
 
@@ -30,7 +30,7 @@ public class WeaponStatsButton : MonoBehaviour
         _button.onClick.RemoveListener(OnLevelUpdate);
     }
 
-    public void Construct(Weapon weapon, IPersistentProgressService progressService, IWeaponUpdaterService updaters,WeaponStaticData staticData)
+    public void Construct(WeaponProgress weapon, IPersistentProgressService progressService, IWeaponUpdaterService updaters,WeaponStaticData staticData)
     {
         _weaponStaticData = staticData;
         _weapon = weapon;

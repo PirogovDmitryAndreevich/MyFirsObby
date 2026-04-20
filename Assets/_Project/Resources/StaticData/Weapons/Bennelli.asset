@@ -18,7 +18,10 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: b16aec80e91602f4c9785e22e8893b4a, type: 3}
   Prefab: {fileID: 1236257789494122, guid: 8b0b86b42def11849a8eba21f4a6a684, type: 3}
   BulletPrefab: {fileID: 4084732438852458509, guid: 411744b43509cfb4cae9580aaa548aaa, type: 3}
-  Spread: 1.5
+  Spread: 2
+  ReloadTime: 2
+  BulletsPerTap: 3
+  TimeBetweenShot: 1
   MagazineSizeLevels:
     Levels:
     - Level: 1

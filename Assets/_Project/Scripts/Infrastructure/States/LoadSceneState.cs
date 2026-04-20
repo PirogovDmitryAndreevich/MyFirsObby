@@ -66,7 +66,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         IWeaponSelector weaponSelector = InitWeaponSelector(characterController);
 
-        Hud hud = InitHud(characterController.Health, weaponSelector);
+        Hud hud = InitHud(characterController.Health, characterController.Shooter, weaponSelector);
 
         ArsenalShopWindow arsenalWindow = InitArsenalShop();
         ConveerShop conveerShop = InitConveerShop();
@@ -132,8 +132,8 @@ internal class LoadSceneState : IPayloaderState<string>
             _gameFactory.CreateWaypoint(at: waypointData.Position);
     }
 
-    private Hud InitHud(CharacterHealth characterHealth, IWeaponSelector weaponSelector) =>
-        _uiFactory.CreateHod(YG2.envir.isMobile, weaponSelector, characterHealth);
+    private Hud InitHud(CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector) =>
+        _uiFactory.CreateHod(YG2.envir.isMobile, weaponSelector, characterHealth, shooter);
 
     private void InformProgressReaders()
     {

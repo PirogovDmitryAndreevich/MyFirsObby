@@ -19,4 +19,7 @@ public class AssetProvider : IAssets
         GameObject prefab = Resources.Load<GameObject>(path);
         return Object.Instantiate(prefab, parent);
     }
+
+    public TObject Instantiate<TObject>(TObject prefab)  where TObject : Object =>
+        Object.Instantiate(prefab);
 }

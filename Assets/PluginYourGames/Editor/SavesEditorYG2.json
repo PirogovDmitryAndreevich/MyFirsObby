@@ -7,13 +7,14 @@
         false,
         false
     ],
-    "idSave": 7,
+    "idSave": 15,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CurrentType": 0,
+            "IsTutorialCompleted": true,
             "Score": 0,
-            "Cash": 44,
+            "Cash": 15542,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
@@ -22,7 +23,7 @@
             "Weapons": [
                 {
                     "Type": 3,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -30,7 +31,7 @@
                 },
                 {
                     "Type": 2,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -38,7 +39,7 @@
                 },
                 {
                     "Type": 5,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -54,7 +55,7 @@
                 },
                 {
                     "Type": 6,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -62,7 +63,7 @@
                 },
                 {
                     "Type": 4,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -78,7 +79,7 @@
                 },
                 {
                     "Type": 1,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,

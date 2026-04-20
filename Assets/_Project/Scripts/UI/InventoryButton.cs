@@ -5,23 +5,52 @@ using UnityEngine.UI;
 public class InventoryButton : MonoBehaviour
 {
     [SerializeField] private Image _icon;
+    [SerializeField] private Image _reload;
 
     private Button _button;
+    private Weapon _weapon;
     private WeaponType _type;
-    private IWeaponSelector _inventory;
+    private IWeaponSelector _weaponSelector;
 
-    public void Construct(IWeaponSelector inventory, WeaponType type, Sprite icon)
+    public void Construct(IWeaponSelector weaponSelector, WeaponType type, Sprite icon)
     {
         _type = type;
-        _inventory = inventory;
+        _weaponSelector = weaponSelector;
         _icon.sprite = icon;
+        _weapon = _weaponSelector.Weapons[type];
         _button = GetComponent<Button>();
+        OnReloadFinished();
+
         _button.onClick.AddListener(OnPressed);
+
+        _weapon.RuntimeState.ReloadStarted += OnReloadStarted;
+        _weapon.RuntimeState.ReloadFinished += OnReloadFinished;
+        _weapon.RuntimeState.ReloadProgressChanged += OnReloading;
     }
 
-    private void OnDestroy() => 
+    private void OnDestroy()
+    {
         _button.onClick.RemoveListener(OnPressed);
 
-    private void OnPressed() => 
-      _inventory.SelectWeapon(_type);
+        _weapon.RuntimeState.ReloadStarted -= OnReloadStarted;
+        _weapon.RuntimeState.ReloadFinished -= OnReloadFinished;
+        _weapon.RuntimeState.ReloadProgressChanged -= OnReloading;
+    }
+
+    private void OnPressed()
+    {
+        if (_weaponSelector.CurrentWeapon != null && _weaponSelector.CurrentWeapon.Type == _type)
+            _weaponSelector.UnselectWeapon();
+        else
+            _weaponSelector.SelectWeapon(_type);
+    }
+
+    private void OnReloadStarted() =>
+        _reload.gameObject.SetActive(true);
+
+    private void OnReloadFinished() =>
+        _reload.gameObject.SetActive(false);
+
+    private void OnReloading(float value) =>
+        _reload.fillAmount = value;
 }
