@@ -92,11 +92,11 @@ public class GameFactory : IGameFactory
         return atm;
     }
 
-    public Enemy CreateMonster(MonsterTypeId typeID, Transform parent)
+    public Enemy CreateMonster(MonsterTypeId typeID)
     {
         MonsterStaticData monsterData = _staticData.ForMonster(typeID);
 
-        Enemy monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent)
+        Enemy monster = Object.Instantiate(monsterData.Prefab)
             .GetComponent<Enemy>();
 
         monster.Construct(_poolService, _waypointsChanger);

@@ -67,7 +67,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
-        var enemy = SpawnEnemy();
+        var enemy = SpawnEnemy(MonsterTypeId.Noob);
 
         _loadedScene.Character.LineDraw.StartDraw(enemy.transform);
 
@@ -105,18 +105,18 @@ public class GameLoopState : IPayloaderState<LoadedScene>
                 line4.Opener.gameObject.SetActive(true);
 
             if (_enemiesOnScene < MaxEnemiesOnScene)
-                SpawnEnemy();
+                SpawnEnemy(MonsterTypeId.Noob);                         ////////////////
 
             yield return null;
         }
     }
 
-    private Enemy SpawnEnemy()
+    private Enemy SpawnEnemy(MonsterTypeId type)
     {
         Random random = new Random();
 
         SpawnPoint spawner = _loadedScene.EnemySpawns[random.Next(_loadedScene.EnemySpawns.Count)];
-        Enemy enemy = spawner.Spawn();
+        Enemy enemy = spawner.Spawn(type);
         enemy.EnemyDeath.Happened += EnemyDeath;
         _enemiesOnScene++;
 

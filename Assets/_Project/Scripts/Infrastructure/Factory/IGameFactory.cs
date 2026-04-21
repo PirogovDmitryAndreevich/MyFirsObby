@@ -13,7 +13,7 @@ public interface IGameFactory : IService
     WeaponSelector CreateWeaponSelector(Character character);
     Weapon CreateWeapon(WeaponProgress weaponProgress);
     LootPiece CreateLoot();
-    Enemy CreateMonster(MonsterTypeId monsterTypeID, Transform parent);
+    Enemy CreateMonster(MonsterTypeId monsterTypeID);
     SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId);
     public Waypoint CreateWaypoint(Vector3 at);
 }

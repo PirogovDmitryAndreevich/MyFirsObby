@@ -76,11 +76,8 @@ public class ATM : MonoBehaviour
     private void UpdateText(int value) =>
         _text.text = FormatCash(value);
 
-    private void SetState()
-    {
-        Debug.Log($"[ATM] SetState - IsCashCollected({isCashCollected}) - cash({_cash})");
+    private void SetState() => 
         _collider.SetInteract(!isCashCollected && _cash > 0);
-    }
 
     private string FormatCash(int value)
     {
