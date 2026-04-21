@@ -5,6 +5,7 @@ public class Build : MonoBehaviour, ISavedProgressReader
     [SerializeField] private Transform _playerInitialPoint;
     [SerializeField] private Transform _conveerInitialPoint;
     [SerializeField] private Transform _arsenalInitialPoint;
+    [SerializeField] private Transform _ATMInitialPoint;
     [SerializeField] private Transform _floorView;
     [SerializeField] private Transform _wallView;
     [SerializeField] private OpenerFloor _openerFloor;
@@ -19,6 +20,7 @@ public class Build : MonoBehaviour, ISavedProgressReader
     public Transform PlayerInitialPoint => _playerInitialPoint;
     public Transform ConveerInitialPoint => _conveerInitialPoint;
     public Transform ArsenalInitialPoint => _arsenalInitialPoint;
+    public Transform ATMInitialPoint => _ATMInitialPoint;
 
     private void OnDestroy()
     {

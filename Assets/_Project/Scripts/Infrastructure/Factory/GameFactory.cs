@@ -1,4 +1,5 @@
 using Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameFactory : IGameFactory
@@ -81,6 +82,16 @@ public class GameFactory : IGameFactory
         return component;
     }
 
+    public ATM CreateATM(Transform at)
+    {
+        ATM atm = _assets.Instantiate(AssetsPath.ATMPath, at.position)
+            .GetComponent<ATM>();
+
+        atm.Construct(_progressService, _saveLoadService);
+
+        return atm;
+    }
+
     public Enemy CreateMonster(MonsterTypeId typeID, Transform parent)
     {
         MonsterStaticData monsterData = _staticData.ForMonster(typeID);
@@ -138,12 +149,12 @@ public class GameFactory : IGameFactory
     public Weapon CreateWeapon(WeaponProgress weaponProgress) =>
         new Weapon(_staticData.ForWeaponsData(weaponProgress.Type), weaponProgress, _poolService, _assets, _coroutineRunner);
 
-    public ConveerInitializer CreateConveerView(Transform at, IIndicateUI indicator, IWindow conveerShopWindow)
+    public ConveerInitializer CreateConveerView(Transform at, ATM atm, IIndicateUI indicator, IWindow conveerShopWindow)
     {
         ConveerInitializer conveerInitializer = InstantiateRegistered(AssetsPath.ConveerPath, at.position).GetComponent<ConveerInitializer>();
         conveerInitializer.Construct(_staticData, _conveerUpdateService, _poolService);
         conveerInitializer.ConveerView.Construct(indicator, conveerShopWindow);
-        conveerInitializer.Finisher.Construct(_progressService);
+        conveerInitializer.Finisher.Construct(atm);
         return conveerInitializer;
     }
 

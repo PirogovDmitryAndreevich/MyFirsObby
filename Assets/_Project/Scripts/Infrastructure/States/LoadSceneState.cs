@@ -64,6 +64,8 @@ internal class LoadSceneState : IPayloaderState<string>
         Character characterController =
             InitCharacter(at: build.PlayerInitialPoint);
 
+        ATM atm = CreateATM(build.ATMInitialPoint);
+
         IWeaponSelector weaponSelector = InitWeaponSelector(characterController);
 
         Hud hud = InitHud(characterController.Health, characterController.Shooter, weaponSelector);
@@ -71,13 +73,16 @@ internal class LoadSceneState : IPayloaderState<string>
         ArsenalShopWindow arsenalWindow = InitArsenalShop();
         ConveerShop conveerShop = InitConveerShop();
 
-        ConveerInitializer conveerView = InitConveerView(build.ConveerInitialPoint, hud.IndicateUI, conveerShop);
+        ConveerInitializer conveerView = InitConveerView(build.ConveerInitialPoint, atm, hud.IndicateUI, conveerShop);
         ArsenalInitializer arsenal = InitArsenal(build.ArsenalInitialPoint, hud.IndicateUI, arsenalWindow);
 
         CameraFollow(characterController.CameraFollow);
 
         _loadedScene = new LoadedScene(characterController, conveerView, arsenal, enemySpawns, build);
     }
+
+    private ATM CreateATM(Transform ATMInitialPoint) =>
+        _gameFactory.CreateATM(at: ATMInitialPoint);
 
     private LevelStaticData GetLevelData()
     {
@@ -93,8 +98,8 @@ internal class LoadSceneState : IPayloaderState<string>
     private ConveerShop InitConveerShop() =>
         _uiFactory.CreateConveerShop();
 
-    private ConveerInitializer InitConveerView(Transform at, IIndicateUI indicator, IWindow conveerShopWindow) =>
-        _gameFactory.CreateConveerView(at: at, indicator, conveerShopWindow);
+    private ConveerInitializer InitConveerView(Transform at, ATM atm, IIndicateUI indicator, IWindow conveerShopWindow) =>
+        _gameFactory.CreateConveerView(at: at, atm, indicator, conveerShopWindow);
 
     private Character InitCharacter(Transform at) =>
         _gameFactory.CreateCharacterController(at: at);
