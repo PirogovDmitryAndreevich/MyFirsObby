@@ -7,14 +7,14 @@
         false,
         false
     ],
-    "idSave": 3,
+    "idSave": 7,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
-            "CurrentType": 0,
-            "IsTutorialCompleted": false,
+            "CharacterViewType": 0,
+            "IsTutorialCompleted": true,
             "Score": 0,
-            "Cash": 300,
+            "Cash": 58,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
@@ -22,32 +22,16 @@
             "IsUnblocked": true,
             "Weapons": [
                 {
+                    "Type": 4,
+                    "IsUnblocked": false,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3
+                },
+                {
                     "Type": 3,
                     "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 2,
-                    "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 5,
-                    "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 0,
-                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -59,11 +43,11 @@
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 2
+                    "MaxMagazineLevel": 3
                 },
                 {
-                    "Type": 4,
-                    "IsUnblocked": false,
+                    "Type": 1,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -74,11 +58,27 @@
                     "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 2
+                },
+                {
+                    "Type": 5,
+                    "IsUnblocked": false,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
+                    "MaxDamageLevel": 3,
+                    "MaxMagazineLevel": 3
+                },
+                {
+                    "Type": 8,
+                    "IsUnblocked": false,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
                     "MaxDamageLevel": 1,
                     "MaxMagazineLevel": 1
                 },
                 {
-                    "Type": 1,
+                    "Type": 2,
                     "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,

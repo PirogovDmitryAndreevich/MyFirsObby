@@ -21,7 +21,16 @@ public class ArsenalOpener : Opener
     protected override void OnTrigger()
     {
         base.OnTrigger();
-        Progress.Arsenal.UnblockArsenal();
-        _save.SaveProgress();
-    }  
+        UnblockArsenal();        
+    }
+
+    private void UnblockArsenal()
+    {
+        if (Progress.PlayerState.Cash >= Price)
+        {
+            Progress.PlayerState.SpendCash(Price);
+            Progress.Arsenal.UnblockArsenal();
+            _save.SaveProgress();
+        }
+    }
 }

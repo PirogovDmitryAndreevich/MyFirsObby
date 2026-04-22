@@ -10,4 +10,5 @@ public interface IStaticDataService : IService
     public List<WeaponStaticData> AllWeapons();
     public List<ConveerStaticInfo> AllConveers();
     public void Load();
+    CharacterStartData GetCharacterStartData();
 }

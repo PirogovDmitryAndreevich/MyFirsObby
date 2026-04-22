@@ -17,7 +17,7 @@ public class ConveerStatButton : MonoBehaviour
     {
         _button.onClick.AddListener(OnLevelUpdate);
         _progressLine.ConveerLineUpdated += UpdatePrice;
-        _progress.Progress.PlayerState.ValueChanged += UpdateState;
+        _progress.Progress.PlayerState.CashChanged += UpdateState;
 
         UpdateState();
         UpdatePrice(_type);
@@ -27,7 +27,7 @@ public class ConveerStatButton : MonoBehaviour
     {
         _button.onClick.RemoveListener(OnLevelUpdate);
         _progressLine.ConveerLineUpdated -= UpdatePrice;
-        _progress.Progress.PlayerState.ValueChanged -= UpdateState;
+        _progress.Progress.PlayerState.CashChanged -= UpdateState;
     }
 
     public void Construct(IPersistentProgressService progress, IConveerUpdaterService updaterService, ConveerLineProgress progressLine ,ConveerStaticInfo staticData)

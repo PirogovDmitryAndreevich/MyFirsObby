@@ -3,11 +3,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
 [RequireComponent(typeof(Shooter), typeof(CharacterHealth), typeof(LineDraw))]
+[RequireComponent(typeof(CharacterDeath))]
 public class Character : MonoBehaviour, IInteractable
 {
     private CharacterAnimation _animation;
     private CharacterRotation _meshRootRotation;
     private CharacterMove _mover;
+    private Transform _resetPoint;
 
     private IInputService _input;
     private IInteractObject _currentInteract;
@@ -18,6 +20,7 @@ public class Character : MonoBehaviour, IInteractable
     public WeaponView SelectedWeapon { get; private set; }
     public LineDraw LineDraw { get; private set; }
     public Shooter Shooter { get; private set; }
+    public CharacterDeath CharacterDeath { get; private set; }
 
     private void Update()
     {
@@ -37,9 +40,15 @@ public class Character : MonoBehaviour, IInteractable
             _currentInteract.Interact();
     }
 
-    public void Construct(IInputService inputService, CharacterView view)
+    private void OnDestroy()
+    {
+        CharacterDeath.CharacterDead -= Death;
+    }
+
+    public void Construct(IInputService inputService, CharacterView view, Transform resetPoint)
     {
         _input = inputService;
+        _resetPoint = resetPoint;
 
         _meshRootRotation = GetComponent<CharacterRotation>();
         _animation = GetComponent<CharacterAnimation>();
@@ -47,8 +56,11 @@ public class Character : MonoBehaviour, IInteractable
         _mover = GetComponent<CharacterMove>();
 
         Health = GetComponent<CharacterHealth>();
+        CharacterDeath = GetComponent<CharacterDeath>();
         LineDraw = GetComponent<LineDraw>();
-        
+
+        CharacterDeath.CharacterDead += Death;
+
         _mover.Construct(_input);
         SetCharacterView(view);
     }
@@ -92,5 +104,18 @@ public class Character : MonoBehaviour, IInteractable
             Destroy(SelectedWeapon.gameObject);
 
         Shooter.UnselectWeapon();
+    }
+
+    private void Death()
+    {
+        Health.ResetHealth();
+        Warp();
+    }
+
+    private void Warp()
+    {
+        _mover.Controller.enabled = false;
+        transform.position = _resetPoint.position;
+        _mover.Controller.enabled = true;
     }
 }

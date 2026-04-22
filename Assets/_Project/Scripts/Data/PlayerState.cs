@@ -3,37 +3,46 @@ using System;
 [Serializable]
 public class PlayerState
 {
-    public CharacterType CurrentType;
+    public CharacterType CharacterViewType;
     public bool IsTutorialCompleted;
     public int Score;
     public int Cash;
     public float CurrentHP;
     public float MaxHP;
 
-    public PlayerState()
+    public PlayerState(IStaticDataService staticData)
     {
-        CurrentType = CharacterType.Sad;
-        Score = 0;
-        Cash = 500;
-        MaxHP = 100;
+        CharacterStartData startData = staticData.GetCharacterStartData();
+
+        CharacterViewType = startData.CharacterViewType;
+        Score = startData.Score;
+        Cash = startData.Cash;
+        MaxHP = startData.MaxHP;
         CurrentHP = MaxHP;
         IsTutorialCompleted = false;
     }
 
-    public event Action ValueChanged;
+    public event Action CashChanged;
+    public event Action ScoreChanged;
 
     public void ResetHP() => CurrentHP = MaxHP;
+
+    public void AddScore(int score)
+    {
+        Score += score;
+        ScoreChanged?.Invoke();
+    }
 
     public void AddCash(int cash)
     {
         Cash += cash;
-        ValueChanged?.Invoke();
+        CashChanged?.Invoke();
     }
 
     public void SpendCash(int cash)
     {
         Cash -= cash;
-        ValueChanged?.Invoke();
+        CashChanged?.Invoke();
     }
 
     public void CompleteTutorial() =>

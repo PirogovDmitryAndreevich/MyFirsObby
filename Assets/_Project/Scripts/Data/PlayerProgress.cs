@@ -12,7 +12,7 @@ public class PlayerProgress
 
     public PlayerProgress(IStaticDataService staticData)
     {
-        PlayerState = new PlayerState();
+        PlayerState = new PlayerState(staticData);
         Arsenal = new Arsenal(staticData);
         BuildProgress = new BuildProgress();
         Conveers = new ÑonveerProgress(staticData);

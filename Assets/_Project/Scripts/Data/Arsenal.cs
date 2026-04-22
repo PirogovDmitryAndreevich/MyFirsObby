@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [Serializable]
 public class Arsenal
@@ -30,4 +31,7 @@ public class Arsenal
         weapon.Unblock();
         WeaponUnblocked?.Invoke(weapon);
     }
+
+    public WeaponProgress GetWeaponProgress(WeaponType type) => 
+        Weapons.First(w => w.Type == type);
 }

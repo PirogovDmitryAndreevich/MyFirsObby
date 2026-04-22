@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c78edbab6b7b40469d1074d13ab3432, type: 3}
   m_Name: RPG
   m_EditorClassIdentifier: 
-  Type: 7
+  Type: 8
   Name: RPG
   UnblockPrice: 300
   Icon: {fileID: 21300000, guid: ab3bbf752b9eadd4cb23fc322fc91ed7, type: 3}
   Prefab: {fileID: 1411512464560164, guid: 02baef62b1bfedf40bb369fb7542b9e7, type: 3}
   BulletPrefab: {fileID: 8652092493682576013, guid: 25794fc1ee472334898cc98e8dda030b, type: 3}
   Spread: 0
+  ReloadTime: 0.3
+  BulletsPerTap: 1
+  TimeBetweenShot: 0.2
   MagazineSizeLevels:
     Levels:
     - Level: 1

@@ -56,7 +56,7 @@ public class WeaponStats : MonoBehaviour
 
         _unblockButton.gameObject.SetActive(true);
         _unblockButton.onClick.AddListener(OnUnblockButton);
-        _progressService.Progress.PlayerState.ValueChanged += SetInteractButton;
+        _progressService.Progress.PlayerState.CashChanged += SetInteractButton;
 
         _unblockPriceText.text = _weaponStaticData.UnblockPrice.ToString();
     }
@@ -65,7 +65,7 @@ public class WeaponStats : MonoBehaviour
     {
         _unblockButton.gameObject.SetActive(false);
         _unblockButton.onClick.RemoveListener(OnUnblockButton);
-        _progressService.Progress.PlayerState.ValueChanged -= SetInteractButton;
+        _progressService.Progress.PlayerState.CashChanged -= SetInteractButton;
 
         _damageButton.gameObject.SetActive(true);
         _magazineButton.gameObject.SetActive(true);

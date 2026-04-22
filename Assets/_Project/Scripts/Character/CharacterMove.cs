@@ -12,17 +12,17 @@ public class CharacterMove : MonoBehaviour
     [SerializeField] private float _groundStickForce = 2f;
 
     private Transform _cameraTransform;
-    private CharacterController _characterController;
     private IInputService _inputService;
 
     private Vector3 _velocity;
     private bool _isGrounded;
 
+    public CharacterController Controller { get; private set; }
     public Vector3 MovementVector { get; private set; }
     public bool IsMoving => _inputService.Axis.sqrMagnitude > ConstantsData.Epsilon;
 
     private void Awake() =>
-        _characterController = GetComponent<CharacterController>();
+        Controller = GetComponent<CharacterController>();
 
     private void Start() =>
         _cameraTransform = Camera.main.transform;
@@ -34,7 +34,7 @@ public class CharacterMove : MonoBehaviour
         HandleJump();
 
         Vector3 finalMove = MovementVector * _moveSpeed + _velocity;
-        _characterController.Move(finalMove * Time.deltaTime);
+        Controller.Move(finalMove * Time.deltaTime);
     }
 
     public void Construct(IInputService inputService) =>
@@ -58,7 +58,7 @@ public class CharacterMove : MonoBehaviour
 
     private void HandleGravity()
     {
-        _isGrounded = _characterController.isGrounded;
+        _isGrounded = Controller.isGrounded;
 
         if (_isGrounded && _velocity.y < 0)
             _velocity.y = -_groundStickForce;

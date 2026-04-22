@@ -37,11 +37,11 @@ public class Opener : MonoBehaviour
 
     protected void UnsubscribeCash()
     {
-        Progress.PlayerState.ValueChanged -= SetState;
+        Progress.PlayerState.CashChanged -= SetState;
     }
 
     protected void SubscribeCash() => 
-        Progress.PlayerState.ValueChanged += SetState;
+        Progress.PlayerState.CashChanged += SetState;
 
     protected void SetInteract(bool isActive)
     {

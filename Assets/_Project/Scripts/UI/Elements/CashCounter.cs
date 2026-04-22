@@ -13,12 +13,12 @@ public class CashCounter : MonoBehaviour
     }
 
     private void OnDestroy() => 
-        _resources.ValueChanged -= UpdateCounter;
+        _resources.CashChanged -= UpdateCounter;
 
     public void Construct(PlayerState resources)
     {
         _resources = resources;
-        _resources.ValueChanged += UpdateCounter;
+        _resources.CashChanged += UpdateCounter;
     }
 
     private void UpdateCounter()

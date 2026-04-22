@@ -2,7 +2,7 @@ public class OpenerWall : Opener
 {
     private ISaveLoadService _save;
 
-    private void OnDestroy() => 
+    private void OnDestroy() =>
         UnsubscribeCash();
 
     public void Construct(ISaveLoadService save, IPersistentProgressService progress, LevelStaticData staticData)
@@ -16,7 +16,7 @@ public class OpenerWall : Opener
         SetText();
 
         SubscribeCash();
-    }    
+    }
 
     protected override void OnTrigger()
     {
@@ -26,7 +26,11 @@ public class OpenerWall : Opener
 
     private void OpenWall()
     {
-        Progress.BuildProgress.OpenWall();
-        _save.SaveProgress();
+        if (Progress.PlayerState.Cash >= Price)
+        {
+            Progress.PlayerState.SpendCash(Price);
+            Progress.BuildProgress.OpenWall();
+            _save.SaveProgress();
+        }
     }
 }

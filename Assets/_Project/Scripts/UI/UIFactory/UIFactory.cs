@@ -32,6 +32,7 @@ public class UIFactory : IUIFactory
         _hud.LootCounter.Construct(_progressService.Progress.PlayerState);
         _hud.HealthUI.Construct(characterHealth);
         _hud.ArmorCounter.Construct(shooter);
+        _hud.ScoreCounter.Construct(_progressService.Progress.PlayerState);
 
         foreach (WeaponProgress weapon in _progressService.Progress.Arsenal.Weapons)
         {

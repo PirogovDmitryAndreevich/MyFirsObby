@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c78edbab6b7b40469d1074d13ab3432, type: 3}
   m_Name: Uzi
   m_EditorClassIdentifier: 
-  Type: 1
+  Type: 2
   Name: Uzi
   UnblockPrice: 200
   Icon: {fileID: 21300000, guid: 17f9ca5e37bba134285eec742a184b0c, type: 3}

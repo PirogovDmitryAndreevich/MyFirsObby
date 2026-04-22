@@ -7,8 +7,10 @@ public class LaserAttack : Attack
     [SerializeField] private Transform _firePoint;
     [SerializeField] private float _laserDuration = 1f;
     [SerializeField] private float _attackOffset = 0.5f;
+    [SerializeField] private float _rotateSpeed = 5f;
 
     private Transform _character;
+    private Vector3 _currentDirection;
     private float _laserTimer;
 
     public override void StartAttack()
@@ -19,9 +21,13 @@ public class LaserAttack : Attack
         IsAttacking = true;
 
         _character = _aggro.CharacterTransform;
+
+        Vector3 targetPoint = _character.position + Vector3.up * _attackOffset;
+        _currentDirection = (targetPoint - _firePoint.position).normalized;
+
         _laserTimer = _laserDuration;
 
-        _lineRenderer.enabled = true;        
+        _lineRenderer.enabled = true;
     }
 
     public override void StopAttack()
@@ -61,13 +67,17 @@ public class LaserAttack : Attack
             return;
 
         Vector3 targetPoint = _character.position + Vector3.up * _attackOffset;
+        Vector3 targetDirection = (targetPoint - _firePoint.position).normalized;
 
-        Vector3 direction = (targetPoint - _firePoint.position).normalized;
-        float distanceToTarget = Vector3.Distance(_firePoint.position, targetPoint);
+        _currentDirection = Vector3.Lerp(
+        _currentDirection,
+        targetDirection,
+        Time.deltaTime * _rotateSpeed
+    ).normalized;
 
-        Ray ray = new Ray(_firePoint.position, direction);
+        Ray ray = new Ray(_firePoint.position, _currentDirection);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, distanceToTarget, LayerMaskPlayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMaskPlayer))
         {
             if (hit.collider.TryGetComponent(out IHealth health))
                 health.TakeDamage(Damage * Time.deltaTime);
@@ -76,14 +86,10 @@ public class LaserAttack : Attack
         }
         else
         {
-            if (Physics.Raycast(ray, out RaycastHit obstacleHit, Mathf.Infinity))
-            {
-                DrawLaser(_firePoint.position, obstacleHit.point);
-            }
-            else
-            {
-                DrawLaser(_firePoint.position, _firePoint.position + direction * 100f);
-            }
+            if (Physics.Raycast(ray, out RaycastHit obstacleHit, Mathf.Infinity))            
+                DrawLaser(_firePoint.position, obstacleHit.point);            
+            else            
+                DrawLaser(_firePoint.position, _firePoint.position + _currentDirection * 100f);            
         }
     }
 

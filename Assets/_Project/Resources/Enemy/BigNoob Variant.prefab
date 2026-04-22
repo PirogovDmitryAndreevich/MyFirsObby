@@ -250,7 +250,7 @@ PrefabInstance:
       addedObject: {fileID: 8323998047314204648}
     - targetCorrespondingSourceObject: {fileID: 7420081185380296935, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1576254336575592478}
+      addedObject: {fileID: 2730667409564726692}
   m_SourcePrefab: {fileID: 100100000, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
 --- !u!114 &621550953924405344 stripped
 MonoBehaviour:
@@ -312,8 +312,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7420081185380296935, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
   m_PrefabInstance: {fileID: 6298116754650817055}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &1576254336575592478
-CapsuleCollider:
+--- !u!65 &2730667409564726692
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -330,11 +330,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.65
-  m_Height: 10.5
-  m_Direction: 2
-  m_Center: {x: 0, y: 0.6, z: 5}
+  serializedVersion: 3
+  m_Size: {x: 6, y: 1.5, z: 10}
+  m_Center: {x: 0, y: 0.2, z: 4.5}
 --- !u!1 &3792242746789191552 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7189899491515710879, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
@@ -386,6 +384,7 @@ MonoBehaviour:
   _firePoint: {fileID: 4143154787353827358}
   _laserDuration: 5
   _attackOffset: 0.5
+  _rotateSpeed: 1.5
 --- !u!4 &4143154787353827358 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7933115492008131073, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}

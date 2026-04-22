@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33092926340133414}
   - component: {fileID: 23100547221564144}
   - component: {fileID: 7233072476920875746}
+  - component: {fileID: 7569881322462703021}
   m_Layer: 0
   m_Name: RPG7
   m_TagString: Untagged
@@ -100,9 +101,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cb98f44e5cb3f4596eec636120e35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 7
-  TargetPoint: {fileID: 5168616901437513058}
+  Type: 8
   Muzzle: {fileID: 3707638787046057567}
+--- !u!114 &7569881322462703021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411512464560164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316318c98d470304fb7da3d22aba8342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 8
 --- !u!1 &1922950281920760
 GameObject:
   m_ObjectHideFlags: 0

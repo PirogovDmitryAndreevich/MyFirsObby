@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33699190840813150}
   - component: {fileID: 23280471604157296}
   - component: {fileID: 369309624386078945}
+  - component: {fileID: 7528052211880650754}
   m_Layer: 0
   m_Name: M4_8
   m_TagString: Untagged
@@ -104,6 +105,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 5
   Muzzle: {fileID: 8073389128442853450}
+--- !u!114 &7528052211880650754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117582899397640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316318c98d470304fb7da3d22aba8342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 5
 --- !u!1 &1426050648627750
 GameObject:
   m_ObjectHideFlags: 0

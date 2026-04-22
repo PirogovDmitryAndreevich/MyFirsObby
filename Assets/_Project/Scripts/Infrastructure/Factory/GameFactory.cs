@@ -58,7 +58,7 @@ public class GameFactory : IGameFactory
 
         Character controller = _characterObject.GetComponent<Character>();
 
-        controller.Construct(_inputService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CurrentType));
+        controller.Construct(_inputService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CharacterViewType), at);
 
         return controller;
     }

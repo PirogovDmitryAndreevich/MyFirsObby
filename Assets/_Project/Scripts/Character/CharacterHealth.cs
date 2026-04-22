@@ -50,4 +50,10 @@ public class CharacterHealth : MonoBehaviour, ISavedProgressReader, IHealth
 
         Current -= damage;
     }
+
+    public void ResetHealth()
+    {
+        Current = Max;
+        HealthChanged?.Invoke();
+    }
 }

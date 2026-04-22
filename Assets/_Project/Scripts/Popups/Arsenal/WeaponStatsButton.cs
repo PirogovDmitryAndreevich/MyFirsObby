@@ -16,7 +16,7 @@ public class WeaponStatsButton : MonoBehaviour
     private void OnEnable()
     {
         _weapon.WeaponsUpdate += UpdatePrice;
-        _progressService.Progress.PlayerState.ValueChanged += UpdateState;
+        _progressService.Progress.PlayerState.CashChanged += UpdateState;
         _button.onClick.AddListener(OnLevelUpdate);
 
         UpdatePrice(_type);
@@ -26,7 +26,7 @@ public class WeaponStatsButton : MonoBehaviour
     private void OnDisable()
     {
         _weapon.WeaponsUpdate -= UpdatePrice;
-        _progressService.Progress.PlayerState.ValueChanged -= UpdateState;
+        _progressService.Progress.PlayerState.CashChanged -= UpdateState;
         _button.onClick.RemoveListener(OnLevelUpdate);
     }
 

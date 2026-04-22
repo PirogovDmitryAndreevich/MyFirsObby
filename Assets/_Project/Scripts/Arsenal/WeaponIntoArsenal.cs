@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class WeaponIntoArsenal : MonoBehaviour
@@ -9,16 +8,21 @@ public class WeaponIntoArsenal : MonoBehaviour
 
     public WeaponType Type => _type;
 
-    private void OnDestroy() => 
-        _weapon.StatusChanged -= SetActiveState;
+    private void OnDestroy()
+    {
+        if (_weapon != null)
+            _weapon.StatusChanged -= SetActiveState;
+    }
 
     public void Initialize(WeaponProgress weapon)
     {
         _weapon = weapon;
+        Debug.Log($"{_weapon.Type.ToString()} initialized");
+
         _weapon.StatusChanged += SetActiveState;
         SetActiveState();
     }
 
-    private void SetActiveState() => 
+    private void SetActiveState() =>
         gameObject.SetActive(_weapon.IsUnblocked);
 }

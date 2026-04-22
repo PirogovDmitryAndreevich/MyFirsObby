@@ -8,8 +8,10 @@ public class StaticDataService : IStaticDataService
     private const string LevelsPath = "StaticData/Levels";
     private const string WeaponsPath = "StaticData/Weapons";
     private const string ConveerPath = "StaticData/Conveer/ConveerData";
-    private const string CharactersPath = "StaticData/CharactersView/Characters";
+    private const string CharactersViewPath = "StaticData/CharactersView/Characters";
+    private const string CharacterDataPath = "StaticData/CharacterData/CharacterData";
 
+    private CharacterStartData _characterStartData;
     private Dictionary<MonsterTypeId, MonsterStaticData> _monsters;
     private Dictionary<string, LevelStaticData> _levels;
     private Dictionary<WeaponType, WeaponStaticData> _weaponsData;
@@ -30,8 +32,10 @@ public class StaticDataService : IStaticDataService
         Conveers = Resources.Load<ConveerStaticData>(ConveerPath)
             .StaticInfo.ToDictionary(x => x.Number, x => x);
 
-        _charactersView = Resources.Load<CharacterViewStaticData>(CharactersPath)
+        _charactersView = Resources.Load<CharacterViewStaticData>(CharactersViewPath)
             .Characters.ToDictionary(x=>x.Type, x => x);
+
+        _characterStartData = Resources.Load<CharacterStartData>(CharacterDataPath);
     }
 
     public MonsterStaticData ForMonster(MonsterTypeId typeId) =>
@@ -64,4 +68,7 @@ public class StaticDataService : IStaticDataService
 
     public List<ConveerStaticInfo> AllConveers() =>
         Conveers.Values.ToList();
+
+    public CharacterStartData GetCharacterStartData() =>
+        _characterStartData;
 }

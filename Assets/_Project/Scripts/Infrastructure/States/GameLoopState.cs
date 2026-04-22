@@ -38,6 +38,8 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     private IEnumerator StartTutorial()
     {
         ArsenalInitializer arsenal = _loadedScene.Arsenal;
+        WeaponProgress weapon = _progressService.Progress.Arsenal.GetWeaponProgress(WeaponType.M1911);
+
         arsenal.Opener.gameObject.SetActive(false);
 
         foreach (var line in _loadedScene.Conveer.Lines.Values)
@@ -67,7 +69,17 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
-        var enemy = SpawnEnemy(MonsterTypeId.Noob);
+        if (!weapon.IsUnblocked)
+        {
+            _loadedScene.Character.LineDraw.StartDraw(arsenal.transform);
+
+            while (!weapon.IsUnblocked)
+                yield return null;
+
+            _loadedScene.Character.LineDraw.StopDraw();
+        }
+
+        var enemy = SpawnEnemy(MonsterTypeId.BigNoob);
 
         _loadedScene.Character.LineDraw.StartDraw(enemy.transform);
 
