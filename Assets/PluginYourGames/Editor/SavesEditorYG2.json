@@ -7,14 +7,14 @@
         false,
         false
     ],
-    "idSave": 24,
+    "idSave": 3,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CurrentType": 0,
-            "IsTutorialCompleted": true,
+            "IsTutorialCompleted": false,
             "Score": 0,
-            "Cash": 15672,
+            "Cash": 300,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
@@ -23,7 +23,7 @@
             "Weapons": [
                 {
                     "Type": 3,
-                    "IsUnblocked": true,
+                    "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -31,7 +31,7 @@
                 },
                 {
                     "Type": 2,
-                    "IsUnblocked": true,
+                    "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -39,7 +39,7 @@
                 },
                 {
                     "Type": 5,
-                    "IsUnblocked": true,
+                    "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -55,7 +55,7 @@
                 },
                 {
                     "Type": 6,
-                    "IsUnblocked": true,
+                    "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -63,7 +63,7 @@
                 },
                 {
                     "Type": 4,
-                    "IsUnblocked": true,
+                    "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -79,7 +79,7 @@
                 },
                 {
                     "Type": 1,
-                    "IsUnblocked": true,
+                    "IsUnblocked": false,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,

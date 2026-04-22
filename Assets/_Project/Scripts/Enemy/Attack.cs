@@ -4,19 +4,19 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAnimationEvents), typeof(EnemyAnimator))]
 public class Attack : MonoBehaviour
 {
-    [SerializeField] private EnemyAnimator _animator;
+    [SerializeField] protected LayerMask LayerMaskPlayer;
+    [SerializeField] protected EnemyAnimator Animator;
     [SerializeField] private EnemyAnimationEvents _animationEvents;
-    [SerializeField] private LayerMask _layerMaskPlayer;
 
-    private float _cooldownAttack = 3f;
+    protected float Damage = 10f;
+    protected float CooldownAttackTime;
+    protected float CooldownAttack = 3f;
     private float _cleavage = 1f;
     private float _effectiveDistance = 0.5f;
-    private float _damage = 10f;
 
-    private float _cooldownAttackTime;
     private Collider[] _hits = new Collider[1];
 
-    public bool IsAttacking { get; private set; }
+    public bool IsAttacking { get; protected set; }
 
     private void OnEnable()
     {
@@ -32,44 +32,52 @@ public class Attack : MonoBehaviour
 
     public void Construct(float damage, float effectiveDistance, float cleavage, float cooldownAttack)
     {
-        _damage = damage;
+        Damage = damage;
         _effectiveDistance = effectiveDistance;
         _cleavage = cleavage;
-        _cooldownAttack = cooldownAttack;
+        CooldownAttack = cooldownAttack;
     }
 
-    public void StartAttack()
+    public virtual void StartAttack()
     {
         IsAttacking = true;
-        _animator.PlayAttack();
+        Animator.PlayAttack();
     }
 
-    public void UpdateCooldown()
+    public virtual void UpdateAttack()
     {
         if (!CooldownIsUp())
-            _cooldownAttackTime -= Time.deltaTime;            
+            CooldownAttackTime -= Time.deltaTime;            
     }
 
-    private void OnAttack()
+    public virtual void StopAttack()
+    {
+        OnAttackEnded();
+    }
+
+    protected virtual void OnAttack()
     {
         if (Hit(out Collider hit))
         {
             PhysicsDebug.DrawDebug(StartPoint(), _cleavage, 1f);
 
             if (hit != null && hit.TryGetComponent(out IHealth characterHealth))
-                characterHealth.TakeDamage(_damage);
+                characterHealth.TakeDamage(Damage);
         }
     }
 
-    private void OnAttackEnded()
+    protected virtual void OnAttackEnded()
     {
         IsAttacking = false;
-        _cooldownAttackTime = _cooldownAttack;
+        CooldownAttackTime = CooldownAttack;
     }
+
+    protected bool CooldownIsUp() =>
+        CooldownAttackTime <= 0;
 
     private bool Hit(out Collider hit)
     {
-        int hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), _cleavage, _hits, _layerMaskPlayer);
+        int hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), _cleavage, _hits, LayerMaskPlayer);
 
         hit = _hits.FirstOrDefault();
 
@@ -79,7 +87,4 @@ public class Attack : MonoBehaviour
     private Vector3 StartPoint() =>
         new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z)
         + transform.forward * _effectiveDistance;
-
-    private bool CooldownIsUp() =>
-        _cooldownAttackTime <= 0;
 }

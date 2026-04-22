@@ -20,5 +20,5 @@ MonoBehaviour:
   MoveSpeed: 0.5
   EffectiveDistance: 0.5
   Cleavage: 0.3
-  CooldownAttack: 0.5
+  CooldownAttack: 3
   Prefab: {fileID: 3792242746789191552, guid: c60eb2ba47905914c9922b2171cf748d, type: 3}

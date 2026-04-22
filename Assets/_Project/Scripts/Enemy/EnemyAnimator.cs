@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
 {
     private static readonly int Attack = Animator.StringToHash("IsAttack");
+    private static readonly int AttackEnded = Animator.StringToHash("IsAttackEnded");
     private static readonly int IsWalk = Animator.StringToHash("IsWalk");
 
     private readonly int Attacking = Animator.StringToHash("Attack");
@@ -23,6 +24,9 @@ public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
 
     public void PlayAttack() => 
         _animator.SetTrigger(Attack);
+
+    public void PlayAttackEnded() =>
+        _animator.SetTrigger(AttackEnded);
 
     public void Move(bool isWalk) => 
         _animator.SetBool(IsWalk, isWalk);

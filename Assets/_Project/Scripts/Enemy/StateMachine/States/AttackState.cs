@@ -16,9 +16,14 @@ public class AttackState : EnemyState
         Enemy.EnemyAnimator.Move(false);
     }
 
+    public override void Exit()
+    {
+        Enemy.Attack.StopAttack();
+    }
+
     public override void Update()
     {
-        Enemy.Attack.UpdateCooldown();
+        Enemy.Attack.UpdateAttack();
 
         if (!Enemy.Attack.IsAttacking && Enemy.CheckAttackRange.IsAttackZone)
             Enemy.Attack.StartAttack();
