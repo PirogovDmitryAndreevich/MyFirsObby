@@ -38,6 +38,9 @@ public class Attack : MonoBehaviour
         CooldownAttack = cooldownAttack;
     }
 
+    public void SetNewDamage(float newDamage) => 
+        Damage = newDamage;
+
     public virtual void StartAttack()
     {
         IsAttacking = true;

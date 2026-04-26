@@ -15,6 +15,7 @@ MonoBehaviour:
   MonsterTypeID: 2
   Health: 200
   Damage: 10
+  RewardScores: 150
   MinLoot: 5
   MixLoot: 10
   MoveSpeed: 0.5

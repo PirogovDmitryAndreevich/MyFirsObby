@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
@@ -10,7 +9,7 @@ public class Character : MonoBehaviour, IInteractable
     private CharacterRotation _meshRootRotation;
     private CharacterMove _mover;
     private Transform _resetPoint;
-
+    private IDifficultyService _difficulty;
     private IInputService _input;
     private IInteractObject _currentInteract;
 
@@ -45,10 +44,11 @@ public class Character : MonoBehaviour, IInteractable
         CharacterDeath.CharacterDead -= Death;
     }
 
-    public void Construct(IInputService inputService, CharacterView view, Transform resetPoint)
+    public void Construct(IInputService inputService, IDifficultyService difficulty, CharacterView view, Transform resetPoint)
     {
         _input = inputService;
         _resetPoint = resetPoint;
+        _difficulty = difficulty;
 
         _meshRootRotation = GetComponent<CharacterRotation>();
         _animation = GetComponent<CharacterAnimation>();
@@ -109,6 +109,7 @@ public class Character : MonoBehaviour, IInteractable
     private void Death()
     {
         Health.ResetHealth();
+        _difficulty.CharacterDeath();
         Warp();
     }
 

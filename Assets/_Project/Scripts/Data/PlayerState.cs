@@ -7,6 +7,7 @@ public class PlayerState
     public bool IsTutorialCompleted;
     public int Score;
     public int Cash;
+    public int Multiplier;
     public float CurrentHP;
     public float MaxHP;
 
@@ -24,6 +25,7 @@ public class PlayerState
 
     public event Action CashChanged;
     public event Action ScoreChanged;
+    public event Action MultiplierChanged;
 
     public void ResetHP() => CurrentHP = MaxHP;
 
@@ -47,4 +49,7 @@ public class PlayerState
 
     public void CompleteTutorial() =>
         IsTutorialCompleted = true;
+
+    public void ChangeMultiplier(int value) =>
+        Multiplier = value;
 }

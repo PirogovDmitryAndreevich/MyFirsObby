@@ -8,8 +8,9 @@ public class MonsterStaticData : ScriptableObject
     public int Health;
     public float Damage;
 
+    public int RewardScores;
     public int MinLoot;
-    public int MixLoot;
+    public int MaxLoot;
 
     public float MoveSpeed;
 

@@ -19,7 +19,8 @@ public partial class GameStateMachine
             [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>(),
             services.Single<IStaticDataService>()),
 
-            [typeof(GameLoopState)] = new GameLoopState(this, services.Single<IPersistentProgressService>(), coroutineRunner, services.Single<ITutorialCompleterService>())
+            [typeof(GameLoopState)] = new GameLoopState(this, services.Single<IPersistentProgressService>(), coroutineRunner,
+            services.Single<ITutorialCompleterService>(), services.Single<IDifficultyService>())
         };
     }
 

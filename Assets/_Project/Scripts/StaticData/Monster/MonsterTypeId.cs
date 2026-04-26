@@ -5,5 +5,5 @@ public enum MonsterTypeId
 {
     Noob,
     LittleNoob,
-    BigNoob
+    NoobBoss
 }

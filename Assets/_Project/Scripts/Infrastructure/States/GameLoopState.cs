@@ -1,29 +1,39 @@
-using System;
 using System.Collections;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameLoopState : IPayloaderState<LoadedScene>
 {
-    private const int MaxEnemiesOnScene = 4;
-
     private readonly IPersistentProgressService _progressService;
     private readonly ICoroutineRunner _coroutineRunner;
     private readonly ITutorialCompleterService _tutorialCompleter;
+    private readonly IDifficultyService _difficultyService;
     private LoadedScene _loadedScene;
+    private LevelStaticData _levelStaticData;
     private bool _isGameStarted;
     private int _enemiesOnScene;
+    private float _timerBetweenBossTimer;
+    private bool _isBossLife;
+    private bool _isBossTimeStarted;
+    private float _nextSpawnTime;
 
     public GameLoopState(GameStateMachine stateMachine, IPersistentProgressService progressService, ICoroutineRunner coroutineRunner,
-        ITutorialCompleterService tutorialCompleter)
+        ITutorialCompleterService tutorialCompleter, IDifficultyService difficultyService)
     {
         _progressService = progressService;
         _coroutineRunner = coroutineRunner;
         _tutorialCompleter = tutorialCompleter;
+        _difficultyService = difficultyService;
     }
 
     public void Enter(LoadedScene loadedScene)
     {
         _loadedScene = loadedScene;
+        _levelStaticData = _loadedScene.LevelData;
         _isGameStarted = true;
+        _timerBetweenBossTimer = Time.time + _levelStaticData.TimeBetweenBoss;
+
+        _difficultyService.Initialize(_loadedScene.LevelData);
 
         if (_progressService.Progress.PlayerState.IsTutorialCompleted)
             _coroutineRunner.StartCoroutine(StartGameLoop());
@@ -33,6 +43,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     public void Exit()
     {
+        _isGameStarted = false;
     }
 
     private IEnumerator StartTutorial()
@@ -79,7 +90,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
-        var enemy = SpawnEnemy(MonsterTypeId.BigNoob);
+        var enemy = SpawnEnemy(MonsterTypeId.Noob);
 
         _loadedScene.Character.LineDraw.StartDraw(enemy.transform);
 
@@ -110,27 +121,96 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             if (line2.IsOpened && !_loadedScene.Build.IsWallOpened)
                 _loadedScene.Build.WallOpener.gameObject.SetActive(true);
 
-            if(_loadedScene.Build.IsWallOpened && !_loadedScene.Build.IsFloorOpened)
+            if (_loadedScene.Build.IsWallOpened && !_loadedScene.Build.IsFloorOpened)
                 _loadedScene.Build.FloorOpener.gameObject.SetActive(true);
 
             if (line3.IsOpened && !line4.IsOpened)
                 line4.Opener.gameObject.SetActive(true);
 
-            if (_enemiesOnScene < MaxEnemiesOnScene)
-                SpawnEnemy(MonsterTypeId.Noob);                         ////////////////
+            SpawnLoopEnemy();
+            SpawnLoopBoss();
+
+            _difficultyService.CheckUpGameMultiplier();
 
             yield return null;
         }
     }
 
+    private void SpawnLoopBoss()
+    {
+        if (!_isBossLife && !_isBossTimeStarted && Time.time >= _timerBetweenBossTimer
+                        && _progressService.Progress.PlayerState.Score > _levelStaticData.ToBossScore)
+        {
+            _isBossTimeStarted = true;
+            _coroutineRunner.StartCoroutine(StartBossTimer());
+        }
+    }
+
+    private void SpawnLoopEnemy()
+    {
+        if (Time.time < _nextSpawnTime)
+            return;
+
+        if (_enemiesOnScene >= _levelStaticData.MaxEnemiesOnScene)
+            return;
+
+        SpawnEnemyInternal();
+
+        _nextSpawnTime = Time.time + _levelStaticData.EnemySpawningTimer;
+    }
+
+    private void SpawnEnemyInternal()
+    {
+        MonsterTypeId type;
+
+        if (_progressService.Progress.PlayerState.Score > _levelStaticData.ToRandomEnemyScore)
+            type = GetRandomEnemy();
+        else
+            type = MonsterTypeId.Noob;
+
+        var enemy = SpawnEnemy(type);
+
+        _enemiesOnScene++;
+    }
+
+    private void SpawnBoss() => 
+        SpawnEnemy(MonsterTypeId.NoobBoss);
+
+    private MonsterTypeId GetRandomEnemy()
+    {
+        MonsterTypeId type;
+
+        if (_levelStaticData.LittleNoobPercent >= Random.Range(0, 100))
+            type = MonsterTypeId.LittleNoob;
+        else
+            type = MonsterTypeId.Noob;
+
+        return type;
+    }
+
+    private IEnumerator StartBossTimer()
+    {
+        _loadedScene.Hud.ShowBossTimer();
+        float timerToBoss = Time.time + _levelStaticData.BossSpawningTimer;
+
+        while (timerToBoss > Time.time)
+        {
+            float timeLeft = timerToBoss - Time.time;
+            _loadedScene.Hud.UpdateBossTimer(timeLeft);
+
+            yield return null;
+        }
+
+        _isBossLife = true;
+        _isBossTimeStarted = false;
+        SpawnBoss();
+    }
+
     private Enemy SpawnEnemy(MonsterTypeId type)
     {
-        Random random = new Random();
-
-        SpawnPoint spawner = _loadedScene.EnemySpawns[random.Next(_loadedScene.EnemySpawns.Count)];
+        SpawnPoint spawner = _loadedScene.EnemySpawns[Random.Range(0, _loadedScene.EnemySpawns.Count)];
         Enemy enemy = spawner.Spawn(type);
-        enemy.EnemyDeath.Happened += EnemyDeath;
-        _enemiesOnScene++;
+        enemy.EnemyDeath.Happened += EnemyDeath;        
 
         return enemy;
     }
@@ -138,6 +218,15 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     private void EnemyDeath(EnemyDeath enemyDeath)
     {
         enemyDeath.Happened -= EnemyDeath;
-        _enemiesOnScene--;
+
+        if (enemyDeath.TryGetComponent(out BigNoob _))
+        {
+            _isBossLife = false;
+            _timerBetweenBossTimer = Time.time + _levelStaticData.TimeBetweenBoss;
+        }
+        else
+        {
+            _enemiesOnScene = Mathf.Max(0, _enemiesOnScene - 1);
+        }
     }
 }

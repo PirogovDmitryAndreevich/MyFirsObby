@@ -36,7 +36,7 @@ public class SpawnPoint : MonoBehaviour
                 return _poolService.Get<Noob>();
             case MonsterTypeId.LittleNoob:
                 return _poolService.Get<LittleNoob>();
-            case MonsterTypeId.BigNoob:
+            case MonsterTypeId.NoobBoss:
                 return _poolService.Get<BigNoob>();
             default:
                 return null;
@@ -57,5 +57,5 @@ public class SpawnPoint : MonoBehaviour
         _gameFactory.CreateMonster(MonsterTypeId.LittleNoob) as LittleNoob;
 
     private BigNoob CreateBigNoob() =>
-        _gameFactory.CreateMonster(MonsterTypeId.BigNoob) as BigNoob;
+        _gameFactory.CreateMonster(MonsterTypeId.NoobBoss) as BigNoob;
 }

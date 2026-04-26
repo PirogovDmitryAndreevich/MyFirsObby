@@ -78,7 +78,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         CameraFollow(characterController.CameraFollow);
 
-        _loadedScene = new LoadedScene(characterController, conveerView, arsenal, enemySpawns, build);
+        _loadedScene = new LoadedScene(levelData, characterController, conveerView, arsenal, enemySpawns, build, hud);
     }
 
     private ATM CreateATM(Transform ATMInitialPoint) =>

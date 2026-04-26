@@ -1892,7 +1892,7 @@ MonoBehaviour:
   _healthUI: {fileID: 654193295384206830}
   _indicateUI: {fileID: 8015614207038356187}
   _inventoryView: {fileID: 1585483140665777616}
-  _scoreCounter: {fileID: 0}
+  _scoreCounter: {fileID: 3932844789305588088}
 --- !u!1 &6469134480682500761
 GameObject:
   m_ObjectHideFlags: 0

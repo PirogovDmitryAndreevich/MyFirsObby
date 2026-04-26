@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,8 +19,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Aggro _aggro;
 
     private EnemyStateMachine _stateMachine;
+    private MonsterStaticData _staticData;
     private IPoolService _poolService;
     private IWaypointChangerService _waypointChanger;
+    private IPersistentProgressService _progress;
+    private ISaveLoadService _save;
 
     public Attack Attack => _attack;
     public EnemyHealth EnemyHealth => _enemyHealth;
@@ -34,39 +39,52 @@ public class Enemy : MonoBehaviour
     public float WaitTime => _waitTime;
     public float MinimalDistance => _minimalDistance;
 
-    private void OnEnable()
-    {
+    private void OnEnable() => 
         EnemyDeath.Happened += OnDeath;
-        ResetState();
-    }
 
-    private void OnDisable()
-    {
+    private void OnDisable() => 
         EnemyDeath.Happened -= OnDeath;
-    }
 
 
-    private void Start() => 
+    private void Start() =>
         _stateMachine = new EnemyStateMachine(this);
 
-    private void Update() => 
+    private void Update() =>
         _stateMachine.Update();
 
-    public void Construct(IPoolService poolService, IWaypointChangerService waypointChanger)
+    public void Construct(MonsterStaticData staticData, IPoolService poolService, IWaypointChangerService waypointChanger, IPersistentProgressService progress, ISaveLoadService save)
     {
+        _staticData = staticData;
+        _progress = progress;
+        _save = save;
         _poolService = poolService;
         _waypointChanger = waypointChanger;
     }
 
-    public void ResetState() =>
-        EnemyHealth.ResetState();
+    public void ResetState()
+    {
+        int multiplier = _progress.Progress.PlayerState.Multiplier;
 
-    public void SetTarget(Transform target) => 
+        EnemyHealth.Max = _staticData.Health * multiplier;
+        LootSpawner.SetLoot(_staticData.MinLoot * multiplier, _staticData.MaxLoot * multiplier);
+        EnemyHealth.ResetState();
+    }
+
+    public void SetTarget(Transform target) =>
         CurrentTarget = target;
 
-    public void ChangeWaypoint() => 
+    public void ChangeWaypoint() =>
         CurrentTarget = _waypointChanger.GetNextPoint().transform;
 
-    private void OnDeath(EnemyDeath _) =>
+    private void OnDeath(EnemyDeath _)
+    {
+        AddScore();
         _poolService.Return(this);
+    }
+
+    private void AddScore()
+    {
+        _progress.Progress.PlayerState.AddScore(_staticData.RewardScores * _progress.Progress.PlayerState.Multiplier);
+        _save.SaveProgress();
+    }
 }

@@ -16,10 +16,12 @@ public class GameFactory : IGameFactory
     private readonly IPoolService _poolService;
     private readonly IWaypointChangerService _waypointsChanger;
     private readonly ICoroutineRunner _coroutineRunner;
+    private readonly IDifficultyService _difficultyService;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
         ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService, IConveerUpdaterService conveerUpdateService,
-        IPoolService poolService, IWaypointChangerService waypointsChanger, ICoroutineRunner coroutineRunner)
+        IPoolService poolService, IWaypointChangerService waypointsChanger, ICoroutineRunner coroutineRunner,
+        IDifficultyService difficultyService)
     {
         _assets = assets;
         _staticData = staticData;
@@ -31,6 +33,7 @@ public class GameFactory : IGameFactory
         _poolService = poolService;
         _waypointsChanger = waypointsChanger;
         _coroutineRunner = coroutineRunner;
+        _difficultyService = difficultyService;
     }
 
     public CinemachineFreeLook CreateCamera()
@@ -58,7 +61,7 @@ public class GameFactory : IGameFactory
 
         Character controller = _characterObject.GetComponent<Character>();
 
-        controller.Construct(_inputService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CharacterViewType), at);
+        controller.Construct(_inputService, _difficultyService, _staticData.ForCharacterView(_progressService.Progress.PlayerState.CharacterViewType), at);
 
         return controller;
     }
@@ -99,12 +102,12 @@ public class GameFactory : IGameFactory
         Enemy monster = Object.Instantiate(monsterData.Prefab)
             .GetComponent<Enemy>();
 
-        monster.Construct(_poolService, _waypointsChanger);
+        monster.Construct(monsterData, _poolService, _waypointsChanger, _progressService, _saveLoadService);
         monster.HealthUI.Construct(monster.EnemyHealth);
         monster.EnemyHealth.Construct(monsterData.Health);
         monster.NavMeshAgent.speed = monsterData.MoveSpeed;
         monster.LootSpawner.Construct(this, _poolService);
-        monster.LootSpawner.SetLoot(monsterData.MinLoot, monsterData.MixLoot);
+        monster.LootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
         monster.Attack.Construct(monsterData.Damage, monsterData.EffectiveDistance,
             monsterData.Cleavage, monsterData.CooldownAttack);
 
