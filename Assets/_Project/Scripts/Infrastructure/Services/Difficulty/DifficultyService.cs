@@ -28,7 +28,7 @@ public class DifficultyService : IDifficultyService
     private void CheckUpDifficulty()
     {
         int score = _progressService.Progress.PlayerState.Score;
-        int stage = score / _levelStaticData.ScoreUpdate;
+        int stage = score / _levelStaticData.ScoreToUpdateMultiplier;
 
         if (stage > _lastProcessedStage)
         {

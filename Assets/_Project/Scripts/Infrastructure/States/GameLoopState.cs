@@ -190,13 +190,13 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private IEnumerator StartBossTimer()
     {
-        _loadedScene.Hud.ShowBossTimer();
+        _loadedScene.Hud.BossTimer.ShowBossTimer();
         float timerToBoss = Time.time + _levelStaticData.BossSpawningTimer;
 
         while (timerToBoss > Time.time)
         {
             float timeLeft = timerToBoss - Time.time;
-            _loadedScene.Hud.UpdateBossTimer(timeLeft);
+            _loadedScene.Hud.BossTimer.UpdateBossTimer(timeLeft);
 
             yield return null;
         }
@@ -204,6 +204,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
         _isBossLife = true;
         _isBossTimeStarted = false;
         SpawnBoss();
+        _loadedScene.Hud.BossTimer.HideBossTimer();
     }
 
     private Enemy SpawnEnemy(MonsterTypeId type)

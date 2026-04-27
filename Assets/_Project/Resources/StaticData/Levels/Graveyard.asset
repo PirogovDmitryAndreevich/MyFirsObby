@@ -12,6 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7729ba9e8835b3441aef5693a4c801ae, type: 3}
   m_Name: Graveyard
   m_EditorClassIdentifier: 
+  EnemySpawningTimer: 1
+  BossSpawningTimer: 180
+  TimeBetweenBoss: 300
+  MaxEnemiesOnScene: 4
+  LittleNoobPercent: 30
+  ToRandomEnemyScore: 50
+  ToBossScore: 100
+  ScoreToUpdateMultiplier: 10
+  MultiplierChangeValue: 2
+  DecreaseDelay: 30
   UnblockArsenalPrice: 100
   UnblockWallPrice: 300
   UnblockFloorPrice: 500

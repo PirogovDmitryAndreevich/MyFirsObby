@@ -686,11 +686,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef1ebbb2226ce34b80efe5b5ea56d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 108749402642580005}
-  _animationEvents: {fileID: 8153670370448622255}
-  _layerMaskPlayer:
+  LayerMaskPlayer:
     serializedVersion: 2
     m_Bits: 2048
+  Animator: {fileID: 108749402642580005}
+  _animationEvents: {fileID: 8153670370448622255}
 --- !u!114 &6830101639158370120
 MonoBehaviour:
   m_ObjectHideFlags: 0

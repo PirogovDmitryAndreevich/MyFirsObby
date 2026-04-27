@@ -12,7 +12,7 @@ public class LevelStaticData : ScriptableObject
     public float LittleNoobPercent;
     public int ToRandomEnemyScore;
     public int ToBossScore;
-    public int ScoreUpdate;
+    public int ScoreToUpdateMultiplier;
     public int MultiplierChangeValue;
     public float DecreaseDelay;
 

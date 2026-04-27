@@ -42,9 +42,9 @@ public class BootstrapState : IState
 
         _services.RegisterSingle<IPoolService>(new PoolService());
 
-        _services.RegisterSingle<IDifficultyService>(new DifficultyService(_services.Single<ISaveLoadService>(), _services.Single<IPersistentProgressService>()));
-
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
+
+        _services.RegisterSingle<IDifficultyService>(new DifficultyService(_services.Single<ISaveLoadService>(), _services.Single<IPersistentProgressService>()));
 
         _services.RegisterSingle<ITutorialCompleterService>
             (new TutorialCompleterService(_services.Single<IPersistentProgressService>(), _services.Single<ISaveLoadService>()));

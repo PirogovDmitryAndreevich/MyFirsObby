@@ -21,6 +21,7 @@ public class PlayerState
         MaxHP = startData.MaxHP;
         CurrentHP = MaxHP;
         IsTutorialCompleted = false;
+        Multiplier = 1;
     }
 
     public event Action CashChanged;

@@ -9,6 +9,7 @@ public class Hud : MonoBehaviour
     [SerializeField] private IndicateUI _indicateUI;
     [SerializeField] private Transform _inventoryView;
     [SerializeField] private ScoreCounter _scoreCounter;
+    [SerializeField] private BossTimer _bossTimer;
 
     private IWeaponSelector _weaponSelector;
     private IUIFactory _uiFactory;
@@ -20,6 +21,7 @@ public class Hud : MonoBehaviour
     public HealthUI HealthUI => _healthUI;
     public IndicateUI IndicateUI => _indicateUI;
     public Transform InventoryView => _inventoryView;
+    public BossTimer BossTimer => _bossTimer;
 
     private void OnDestroy()
     {

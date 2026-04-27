@@ -46,7 +46,10 @@ public class CharacterHealth : MonoBehaviour, ISavedProgressReader, IHealth
     public void TakeDamage(float damage)
     {
         if (Current <= 0)
+        {
+            HealthChanged?.Invoke();
             return;
+        }
 
         Current -= damage;
     }

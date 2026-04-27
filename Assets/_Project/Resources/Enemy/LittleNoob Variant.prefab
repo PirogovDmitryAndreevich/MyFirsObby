@@ -64,6 +64,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4917456740736805855, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
+      propertyPath: Animator
+      value: 
+      objectReference: {fileID: 3555688348327980218}
+    - target: {fileID: 4917456740736805855, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
+      propertyPath: LayerMaskPlayer.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
     - target: {fileID: 7189899491515710879, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
       propertyPath: m_Name
       value: LittleNoob Variant
