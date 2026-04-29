@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7729ba9e8835b3441aef5693a4c801ae, type: 3}
   m_Name: Graveyard
   m_EditorClassIdentifier: 
+  StartCash: 300
   EnemySpawningTimer: 1
   BossSpawningTimer: 180
   TimeBetweenBoss: 300

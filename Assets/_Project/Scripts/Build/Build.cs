@@ -55,11 +55,13 @@ public class Build : MonoBehaviour, ISavedProgressReader
     {
         IsWallOpened = _progress.IsWallOpened;
         _wallView.gameObject.SetActive(IsWallOpened);
+        WallOpener.gameObject.SetActive(!IsWallOpened);
     }
 
     private void OnFloorOpened()
     {
         IsFloorOpened = _progress.IsFloorOpened;
         _floorView.gameObject.SetActive(IsFloorOpened);
+        FloorOpener.gameObject.SetActive(!IsFloorOpened);
     }
 }

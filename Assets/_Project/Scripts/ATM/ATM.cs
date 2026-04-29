@@ -8,9 +8,12 @@ public class ATM : MonoBehaviour
 
     private int _cash;
 
-    private bool isCashCollected;
     private IPersistentProgressService _progressService;
     private ISaveLoadService _save;
+
+    public bool isCashCollected {  get; private set; }
+    public int Cash => _cash;
+    public ATMCollider ATMButton => _collider;
 
     private void OnEnable()
     {

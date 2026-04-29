@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelStaticData : ScriptableObject
 {
     [Header("Game Loop Settings")]
+    public int StartCash;
     public float EnemySpawningTimer;
     public float BossSpawningTimer;
     public float TimeBetweenBoss;

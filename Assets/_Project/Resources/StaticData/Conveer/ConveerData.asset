@@ -43,7 +43,7 @@ MonoBehaviour:
       Reward: 10
       Prefab: {fileID: 1694449805434718, guid: 6f1a7354265853f44b0ed5e2e43676ad, type: 3}
     - Level: 2
-      Price: 300
+      Price: 150
       Reward: 25
       Prefab: {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
     - Level: 3

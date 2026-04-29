@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterViewType: 0
   Score: 0
-  Cash: 300
+  Cash: 0
   MaxHP: 100

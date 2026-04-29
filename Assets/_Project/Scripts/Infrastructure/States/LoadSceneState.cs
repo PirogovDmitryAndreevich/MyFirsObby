@@ -38,7 +38,7 @@ internal class LoadSceneState : IPayloaderState<string>
     {
         _curtain.Show();
         _savedLists.Cleanup();
-        _sceneLoader.Load(sceneName, OnLoaded);
+        _sceneLoader.Load(sceneName, OnLoaded);        
     }
 
     public void Exit() =>
@@ -78,7 +78,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         CameraFollow(characterController.CameraFollow);
 
-        _loadedScene = new LoadedScene(levelData, characterController, conveerView, arsenal, enemySpawns, build, hud);
+        _loadedScene = new LoadedScene(levelData, characterController, conveerView, arsenal, enemySpawns, build, hud, atm);
     }
 
     private ATM CreateATM(Transform ATMInitialPoint) =>

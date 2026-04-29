@@ -28,6 +28,8 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     public void Enter(LoadedScene loadedScene)
     {
+
+        Debug.Log("GameLoop Entered");
         _loadedScene = loadedScene;
         _levelStaticData = _loadedScene.LevelData;
         _isGameStarted = true;
@@ -48,8 +50,11 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private IEnumerator StartTutorial()
     {
+        ATM atm = _loadedScene.Atm;
         ArsenalInitializer arsenal = _loadedScene.Arsenal;
         WeaponProgress weapon = _progressService.Progress.Arsenal.GetWeaponProgress(WeaponType.M1911);
+
+        atm.AddCash(_levelStaticData.StartCash);
 
         arsenal.Opener.gameObject.SetActive(false);
 
@@ -57,6 +62,16 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             line.Opener.gameObject.SetActive(false);
 
         ConveerLine line1 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_1];
+
+        if (!line1.IsOpened && atm.Cash > 0)
+        {
+            _loadedScene.Character.LineDraw.StartDraw(atm.ATMButton.transform);
+
+            while (atm.Cash > 0)
+                yield return null;
+
+            _loadedScene.Character.LineDraw.StopDraw();
+        }
 
         if (!line1.IsOpened)
         {
@@ -90,11 +105,20 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
-        var enemy = SpawnEnemy(MonsterTypeId.Noob);
+        Enemy enemy = SpawnEnemy(MonsterTypeId.Noob);
 
         _loadedScene.Character.LineDraw.StartDraw(enemy.transform);
 
         while (!enemy.EnemyDeath.IsDead)
+            yield return null;
+
+        _loadedScene.Character.LineDraw.StopDraw();
+
+        ConveerInitializer conveer = _loadedScene.Conveer;
+
+        _loadedScene.Character.LineDraw.StartDraw(conveer.transform);
+
+        while(line1.LineProgress.CurrentLevel <= 1)
             yield return null;
 
         _loadedScene.Character.LineDraw.StopDraw();
@@ -118,11 +142,11 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             if (line2.IsOpened && !line3.IsOpened)
                 line3.Opener.gameObject.SetActive(true);
 
-            if (line2.IsOpened && !_loadedScene.Build.IsWallOpened)
-                _loadedScene.Build.WallOpener.gameObject.SetActive(true);
+            if (line2.IsOpened && !_progressService.Progress.BuildProgress.IsWallOpened)
+                _loadedScene.Build.ShowWallOpener();
 
-            if (_loadedScene.Build.IsWallOpened && !_loadedScene.Build.IsFloorOpened)
-                _loadedScene.Build.FloorOpener.gameObject.SetActive(true);
+            if (_progressService.Progress.BuildProgress.IsWallOpened && !_progressService.Progress.BuildProgress.IsFloorOpened)
+                _loadedScene.Build.ShowFloorOpener();
 
             if (line3.IsOpened && !line4.IsOpened)
                 line4.Opener.gameObject.SetActive(true);
@@ -173,7 +197,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
         _enemiesOnScene++;
     }
 
-    private void SpawnBoss() => 
+    private void SpawnBoss() =>
         SpawnEnemy(MonsterTypeId.NoobBoss);
 
     private MonsterTypeId GetRandomEnemy()
@@ -211,7 +235,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     {
         SpawnPoint spawner = _loadedScene.EnemySpawns[Random.Range(0, _loadedScene.EnemySpawns.Count)];
         Enemy enemy = spawner.Spawn(type);
-        enemy.EnemyDeath.Happened += EnemyDeath;        
+        enemy.EnemyDeath.Happened += EnemyDeath;
 
         return enemy;
     }
