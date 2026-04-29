@@ -21,7 +21,7 @@ MonoBehaviour:
   Spread: 0
   ReloadTime: 1.5
   BulletsPerTap: 1
-  TimeBetweenShot: 0.7
+  TimeBetweenShot: 0.8
   MagazineSizeLevels:
     Levels:
     - Level: 1

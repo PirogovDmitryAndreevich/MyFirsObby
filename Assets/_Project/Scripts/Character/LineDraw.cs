@@ -11,7 +11,10 @@ public class LineDraw : MonoBehaviour
     private void Update()
     {
         if (_target == null)
+        {
+            _line.enabled = false;
             return;
+        }
 
         _material.mainTextureOffset = new Vector2(Time.time * 2f, 0f);
 

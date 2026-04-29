@@ -7,15 +7,15 @@
         false,
         false
     ],
-    "idSave": 92,
+    "idSave": 41,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
             "IsTutorialCompleted": true,
-            "Score": 6905,
-            "Cash": 5337,
-            "Multiplier": 25,
+            "Score": 500,
+            "Cash": 276,
+            "Multiplier": 11,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
@@ -24,15 +24,15 @@
             "Weapons": [
                 {
                     "Type": 4,
-                    "IsUnblocked": true,
+                    "IsUnblocked": false,
                     "MagazineLevel": 1,
-                    "DamageLevel": 2,
+                    "DamageLevel": 1,
                     "MaxDamageLevel": 3,
                     "MaxMagazineLevel": 3
                 },
                 {
                     "Type": 3,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -49,8 +49,8 @@
                 {
                     "Type": 1,
                     "IsUnblocked": true,
-                    "MagazineLevel": 3,
-                    "DamageLevel": 3,
+                    "MagazineLevel": 1,
+                    "DamageLevel": 1,
                     "MaxDamageLevel": 3,
                     "MaxMagazineLevel": 3
                 },
@@ -80,7 +80,7 @@
                 },
                 {
                     "Type": 2,
-                    "IsUnblocked": false,
+                    "IsUnblocked": true,
                     "MagazineLevel": 1,
                     "DamageLevel": 1,
                     "MaxDamageLevel": 3,
@@ -99,8 +99,8 @@
                     "IsOpened": true,
                     "MaxCooldownLevel": 7,
                     "MaxLevel": 7,
-                    "CurrentCooldownLevel": 3,
-                    "CurrentLevel": 7
+                    "CurrentCooldownLevel": 1,
+                    "CurrentLevel": 4
                 },
                 {
                     "Numbers": 1,
@@ -120,7 +120,7 @@
                 },
                 {
                     "Numbers": 3,
-                    "IsOpened": true,
+                    "IsOpened": false,
                     "MaxCooldownLevel": 7,
                     "MaxLevel": 7,
                     "CurrentCooldownLevel": 1,
@@ -128,7 +128,7 @@
                 },
                 {
                     "Numbers": 4,
-                    "IsOpened": true,
+                    "IsOpened": false,
                     "MaxCooldownLevel": 7,
                     "MaxLevel": 7,
                     "CurrentCooldownLevel": 1,

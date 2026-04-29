@@ -26,7 +26,6 @@ public class PlayerState
 
     public event Action CashChanged;
     public event Action ScoreChanged;
-    public event Action MultiplierChanged;
 
     public void ResetHP() => CurrentHP = MaxHP;
 

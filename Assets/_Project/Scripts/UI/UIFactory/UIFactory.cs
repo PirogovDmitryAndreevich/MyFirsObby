@@ -53,10 +53,14 @@ public class UIFactory : IUIFactory
 
     public ArsenalShopWindow CreateArsenalShopWindow()
     {
-        ArsenalShopWindow arsenalShop = _assets.Instantiate(AssetsPath.ArsenalShopPath).GetComponent<ArsenalShopWindow>();
+        var obj = _assets.Instantiate(AssetsPath.ArsenalShopPath);
+        ArsenalShopWindow arsenalShop = obj.GetComponent<ArsenalShopWindow>();
 
         foreach (WeaponProgress weapon in _progressService.Progress.Arsenal.Weapons.OrderBy(w => w.Type))
-            CreateWeaponsStats(weapon, _staticData.ForWeaponsData(weapon.Type), arsenalShop.WeaponsStatsParent);
+        {
+            var staticData = _staticData.ForWeaponsData(weapon.Type);
+            CreateWeaponsStats(weapon, staticData, arsenalShop.WeaponsStatsParent);
+        }
 
         return arsenalShop;
     }

@@ -10,7 +10,6 @@ public class WeaponRuntimeState
 
     private float _reloadingProgress;
     private int _currentAmmo;
-    private float _timeBetweenShots;
     private float _nextShotTime;
 
     public event Action AmmunitionChanged;
@@ -69,7 +68,7 @@ public class WeaponRuntimeState
         int bullets = Mathf.Min(bulletsToShot, CurrentAmmo);
 
         CurrentAmmo -= bullets;
-        _nextShotTime = Time.time + _timeBetweenShots;
+        _nextShotTime = Time.time + _staticData.TimeBetweenShot;
 
         if (CurrentAmmo <= 0)
             StartReload();

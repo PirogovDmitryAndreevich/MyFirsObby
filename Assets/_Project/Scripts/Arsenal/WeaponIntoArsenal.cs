@@ -17,7 +17,6 @@ public class WeaponIntoArsenal : MonoBehaviour
     public void Initialize(WeaponProgress weapon)
     {
         _weapon = weapon;
-        Debug.Log($"{_weapon.Type.ToString()} initialized");
 
         _weapon.StatusChanged += SetActiveState;
         SetActiveState();

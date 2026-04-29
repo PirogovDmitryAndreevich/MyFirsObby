@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 [RequireComponent (typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private TrailRenderer _trail;
+
     private Rigidbody _rigidbody;
     private int _damage;
     private float _lifeTime = 5f;
@@ -29,6 +32,7 @@ public class Bullet : MonoBehaviour
     {
         _damage = damage;
 
+        _trail.enabled = true;
         _rigidbody.velocity = force;
         StartCoroutine(ReturnToPoolRoutine());
     }
@@ -44,6 +48,7 @@ public class Bullet : MonoBehaviour
     {
         StopAllCoroutines();
 
+        _trail.enabled = false;
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
 

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class ÑonveerProgress
+public class ConveerProgress
 {
     public List<ConveerLineProgress> ConveerLines;
 
-    public ÑonveerProgress(IStaticDataService staticData)
+    public ConveerProgress(IStaticDataService staticData)
     {
         ConveerLines = new List<ConveerLineProgress>();
 

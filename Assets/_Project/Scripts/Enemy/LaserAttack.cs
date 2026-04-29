@@ -77,19 +77,12 @@ public class LaserAttack : Attack
 
         Ray ray = new Ray(_firePoint.position, _currentDirection);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMaskPlayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
+            DrawLaser(_firePoint.position, hit.point);
+
             if (hit.collider.TryGetComponent(out IHealth health))
                 health.TakeDamage(Damage * Time.deltaTime);
-
-            DrawLaser(_firePoint.position, hit.point);
-        }
-        else
-        {
-            if (Physics.Raycast(ray, out RaycastHit obstacleHit, Mathf.Infinity))            
-                DrawLaser(_firePoint.position, obstacleHit.point);            
-            else            
-                DrawLaser(_firePoint.position, _firePoint.position + _currentDirection * 100f);            
         }
     }
 
