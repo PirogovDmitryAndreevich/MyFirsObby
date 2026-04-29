@@ -6,12 +6,9 @@ public class MobileInputService : InputService
     private const string InteractButton = "Interact";
     private const string JumpButton = "Jump";
 
-    private Vector2 _startPos;
-    private bool _isDragging;
-    private float _dragThreshold = 20f;
     private int _shootFingerId = -1;
-    //private float _lastPinchDistance;
-    //private bool _wasPinching;
+    private float _lastPinchDistance;
+    private bool _wasDragging;
 
     public override bool IsCameraMoving =>
         LookInputVector != Vector3.zero;
@@ -19,18 +16,12 @@ public class MobileInputService : InputService
     public override Vector2 Axis =>
         SimpleInputAxis();
 
-    public override Vector3 LookInputVector =>
-        SimpleInputMouseAxis();
-
-    public override bool IsShoot
+    public override Vector3 LookInputVector
     {
         get
         {
             if (Input.touchCount == 0)
-            {
-                _shootFingerId = -1;
-                return false;
-            }
+                return Vector3.zero;
 
             for (int i = 0; i < Input.touchCount; i++)
             {
@@ -39,41 +30,84 @@ public class MobileInputService : InputService
                 if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                     continue;
 
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    return new Vector3(
+                        touch.deltaPosition.x,
+                        touch.deltaPosition.y,
+                        0f
+                    );
+                }
+            }
+
+            return Vector3.zero;
+        }
+    }
+
+    public override bool IsShoot
+    {
+        get
+        {
+            if (Input.touchCount == 0)
+            {
+                _shootFingerId = -1;
+                _wasDragging = false;
+                return false;
+            }
+
+            bool isShooting = false;
+
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                Touch touch = Input.GetTouch(i);
+
+                if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                    continue;                
+
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        _startPos = touch.position;
-                        _isDragging = false;
-                        _shootFingerId = touch.fingerId;
+                        if (_shootFingerId == -1)
+                        {
+                            _shootFingerId = touch.fingerId;
+                            _wasDragging = false;
+                            isShooting = false;
+                        }
                         break;
 
                     case TouchPhase.Moved:
                         if (touch.fingerId == _shootFingerId)
                         {
-                            if (Vector2.Distance(_startPos, touch.position) > _dragThreshold)
-                                _isDragging = true;
+                            _wasDragging = true;
+                            isShooting = false;
                         }
                         break;
 
                     case TouchPhase.Stationary:
-                        if (touch.fingerId == _shootFingerId && !_isDragging)
+                        if (touch.fingerId == _shootFingerId && !_wasDragging)
                         {
                             ShootPosition = touch.position;
-                            return true;
+                            isShooting = true;
                         }
                         break;
 
                     case TouchPhase.Ended:
-                    case TouchPhase.Canceled:
                         if (touch.fingerId == _shootFingerId)
                         {
+                            if (!_wasDragging)
+                            {
+                                ShootPosition = touch.position;
+                                isShooting = true;
+                            }
+
                             _shootFingerId = -1;
+                            _wasDragging = false;
                         }
                         break;
                 }
             }
 
-            return false;
+            return isShooting;
         }
     }
 
@@ -81,25 +115,36 @@ public class MobileInputService : InputService
     {
         get
         {
-            if (Input.touchCount < 2)
+            if (Input.touchCount != 2)
+            {
+                _lastPinchDistance = 0f;
+                return 0f;
+            }
+
+            Touch t0 = Input.GetTouch(0);
+            Touch t1 = Input.GetTouch(1);
+
+            if (EventSystem.current.IsPointerOverGameObject(t0.fingerId) ||
+                EventSystem.current.IsPointerOverGameObject(t1.fingerId))
                 return 0f;
 
-            if(Axis != Vector2.zero)
-                return 0f;
+            float currentDistance = Vector2.Distance(t0.position, t1.position);
 
-            return -SimpleInput.GetAxis(ConstantsData.InputAxis.MouseRigth);
+            if (_lastPinchDistance == 0f)
+            {
+                _lastPinchDistance = currentDistance;
+                return 0f;
+            }
+
+            float delta = currentDistance - _lastPinchDistance;
+            _lastPinchDistance = currentDistance;
+
+            return delta * 0.01f; 
         }
     }
 
     public override bool JumpPressed =>
-        SimpleInput.GetButtonDown(JumpButton);
-
-    private Vector2 SimpleInputMouseAxis() =>
-        new Vector2
-        (
-            SimpleInput.GetAxis(ConstantsData.InputAxis.MouseRigth),
-            SimpleInput.GetAxis(ConstantsData.InputAxis.MouseUp)
-        );
+        SimpleInput.GetButtonDown(JumpButton); 
 
     private Vector2 SimpleInputAxis() =>
         new Vector2

@@ -16,6 +16,6 @@ public class CharacterRotation : MonoBehaviour
             return;
 
         Quaternion targetRotation = Quaternion.LookRotation(horizontalDirection);
-        CharacterView.rotation = Quaternion.Slerp(CharacterView.rotation, targetRotation, _smooth * Time.fixedDeltaTime);
+        CharacterView.rotation = Quaternion.Slerp(CharacterView.rotation, targetRotation, _smooth * Time.deltaTime);
     }
 }
