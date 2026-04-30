@@ -161,6 +161,14 @@ public class GameFactory : IGameFactory
         return conveerInitializer;
     }
 
+    public void CreateLeaderBoard(Transform at)
+    {
+        LeaderBoard lb = _assets.Instantiate(AssetsPath.LeaderBoardPath, at.position)
+            .GetComponent<LeaderBoard>();
+
+        lb.Construct(_progressService);
+    }
+
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {
         GameObject gameObject = _assets.Instantiate(prefabPath, at);

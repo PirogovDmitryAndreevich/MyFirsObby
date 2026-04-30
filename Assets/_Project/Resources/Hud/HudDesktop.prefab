@@ -170,6 +170,22 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1714334012965543387, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1714334012965543387, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1714334012965543387, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1714334012965543387, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2464761938192583388, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -322,6 +338,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7208620486515025766, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208620486515025766, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208620486515025766, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208620486515025766, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8852240652987272393, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
       propertyPath: m_Type
       value: 1
@@ -349,6 +381,7 @@ PrefabInstance:
     - {fileID: 493070076289196934, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
     - {fileID: 1396085355693659786, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
     - {fileID: 5102653940427252158, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
+    - {fileID: 7723213040244753270, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8698147564098254517, guid: c2c864e8adf88374bb0440a0e3ed9514, type: 3}
       insertIndex: -1

@@ -8,6 +8,7 @@ TagManager:
   - ArsenalPoint
   - ConveerPoint
   - BuildInitialPoint
+  - LeaderBoardInitialPoint
   layers:
   - Default
   - TransparentFX

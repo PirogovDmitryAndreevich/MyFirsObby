@@ -7,6 +7,7 @@ using YG;
 internal class LoadSceneState : IPayloaderState<string>
 {
     private const string BuildPointTag = "BuildInitialPoint";
+    private const string LeaderBoardTag = "LeaderBoardInitialPoint";
 
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -55,6 +56,8 @@ internal class LoadSceneState : IPayloaderState<string>
     {
         LevelStaticData levelData = GetLevelData();
 
+        CreateLeaderBoard();
+
         List<SpawnPoint> enemySpawns = InitEnemySpawns(levelData);
 
         InitWaypoints(levelData);
@@ -80,6 +83,9 @@ internal class LoadSceneState : IPayloaderState<string>
 
         _loadedScene = new LoadedScene(levelData, characterController, conveerView, arsenal, enemySpawns, build, hud, atm);
     }
+
+    private void CreateLeaderBoard() => 
+        _gameFactory.CreateLeaderBoard(GameObject.FindWithTag(LeaderBoardTag).transform);
 
     private ATM CreateATM(Transform ATMInitialPoint) =>
         _gameFactory.CreateATM(at: ATMInitialPoint);

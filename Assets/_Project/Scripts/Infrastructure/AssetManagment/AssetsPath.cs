@@ -18,4 +18,5 @@ public static class AssetsPath
     public const string WaypointPath = "Enemy/Waypoint";
     public const string BuildPath = "Build/Build";
     public const string ATMPath = "ATM/ATM";
+    public const string LeaderBoardPath = "LeaderBoard/LeaderBoardView";
 }

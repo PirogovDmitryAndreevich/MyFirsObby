@@ -15,5 +15,6 @@ public interface IGameFactory : IService
     LootPiece CreateLoot();
     Enemy CreateMonster(MonsterTypeId monsterTypeID);
     SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId);
-    public Waypoint CreateWaypoint(Vector3 at);
+    void CreateLeaderBoard(Transform at);
+    Waypoint CreateWaypoint(Vector3 at);
 }
