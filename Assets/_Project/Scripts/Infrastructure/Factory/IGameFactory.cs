@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IGameFactory : IService
 {
     CinemachineFreeLook CreateCamera();
-    Build CreateBuild(Transform at, LevelStaticData levelStaticData);
+    Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup);
     ATM CreateATM(Transform at);
     Bullet CreateBullet();
     Character CreateCharacterController(Transform at);

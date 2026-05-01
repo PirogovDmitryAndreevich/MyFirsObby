@@ -45,12 +45,13 @@ public class GameFactory : IGameFactory
         return camera;
     }
 
-    public Build CreateBuild(Transform at, LevelStaticData levelStaticData)
+    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup)
     {
         Build build = InstantiateRegistered(AssetsPath.BuildPath, at.position).GetComponent<Build>();
 
         build.FloorOpener.Construct(_saveLoadService, _progressService, levelStaticData);
         build.WallOpener.Construct(_saveLoadService, _progressService, levelStaticData);
+        build.MoneyBugAdv.Construct(rewardPopup);
 
         return build;
     }

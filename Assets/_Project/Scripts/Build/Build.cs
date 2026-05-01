@@ -10,6 +10,7 @@ public class Build : MonoBehaviour, ISavedProgressReader
     [SerializeField] private Transform _wallView;
     [SerializeField] private OpenerFloor _openerFloor;
     [SerializeField] private OpenerWall _openerWall;
+    [SerializeField] private MoneyBugRewardAdv _moneyBugRewardAdv;
 
     private BuildProgress _progress;
 
@@ -21,6 +22,7 @@ public class Build : MonoBehaviour, ISavedProgressReader
     public Transform ConveerInitialPoint => _conveerInitialPoint;
     public Transform ArsenalInitialPoint => _arsenalInitialPoint;
     public Transform ATMInitialPoint => _ATMInitialPoint;
+    public MoneyBugRewardAdv MoneyBugAdv => _moneyBugRewardAdv;
 
     private void OnDestroy()
     {

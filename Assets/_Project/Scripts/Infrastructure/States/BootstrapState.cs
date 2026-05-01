@@ -44,6 +44,9 @@ public class BootstrapState : IState
 
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
 
+        _services.RegisterSingle<IRewardAdvService>(new RewardAdvService(_services.Single<IPersistentProgressService>(),
+            _services.Single<ISaveLoadService>(), _services.Single<IStaticDataService>()));
+
         _services.RegisterSingle<IDifficultyService>(new DifficultyService(_services.Single<ISaveLoadService>(), _services.Single<IPersistentProgressService>()));
 
         _services.RegisterSingle<ITutorialCompleterService>
@@ -62,7 +65,8 @@ public class BootstrapState : IState
             _coroutineRunner, _services.Single<IDifficultyService>()));
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
-            _services.Single<IStaticDataService>(), _services.Single<IWeaponUpdaterService>(), _services.Single<IConveerUpdaterService>()));
+            _services.Single<IStaticDataService>(), _services.Single<IWeaponUpdaterService>(), _services.Single<IConveerUpdaterService>(),
+            _services.Single<IRewardAdvService>()));
     }
 
     private void RegisterStaticData()

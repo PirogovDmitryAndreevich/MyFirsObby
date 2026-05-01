@@ -58,11 +58,13 @@ internal class LoadSceneState : IPayloaderState<string>
 
         CreateLeaderBoard();
 
+        RewardAdvPopup rewardPopup = CreateRewardAdvPopup();
+
         List<SpawnPoint> enemySpawns = InitEnemySpawns(levelData);
 
         InitWaypoints(levelData);
 
-        Build build = InitBuild(levelData);
+        Build build = InitBuild(levelData, rewardPopup);
 
         Character characterController =
             InitCharacter(at: build.PlayerInitialPoint);
@@ -84,6 +86,11 @@ internal class LoadSceneState : IPayloaderState<string>
         _loadedScene = new LoadedScene(levelData, characterController, conveerView, arsenal, enemySpawns, build, hud, atm);
     }
 
+    private RewardAdvPopup CreateRewardAdvPopup()
+    {
+        return _uiFactory.CreateRewardAdvPopup();
+    }
+
     private void CreateLeaderBoard() => 
         _gameFactory.CreateLeaderBoard(GameObject.FindWithTag(LeaderBoardTag).transform);
 
@@ -98,8 +105,8 @@ internal class LoadSceneState : IPayloaderState<string>
         return levelData;
     }
 
-    private Build InitBuild(LevelStaticData levelData) =>
-        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData);
+    private Build InitBuild(LevelStaticData levelData, RewardAdvPopup rewardAdvPopup) =>
+        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData, rewardAdvPopup);
 
     private ConveerShop InitConveerShop() =>
         _uiFactory.CreateConveerShop();

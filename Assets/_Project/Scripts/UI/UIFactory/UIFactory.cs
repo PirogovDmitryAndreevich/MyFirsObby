@@ -8,16 +8,19 @@ public class UIFactory : IUIFactory
     private readonly IStaticDataService _staticData;
     private readonly IWeaponUpdaterService _weaponUpdater;
     private readonly IConveerUpdaterService _conveerUpdater;
+    private readonly IRewardAdvService _rewardAdvService;
 
     private Hud _hud { get; set; }
 
-    public UIFactory(IAssets assets, IPersistentProgressService progressService, IStaticDataService staticData, IWeaponUpdaterService weaponUpdater, IConveerUpdaterService conveerUpdater)
+    public UIFactory(IAssets assets, IPersistentProgressService progressService, IStaticDataService staticData,
+        IWeaponUpdaterService weaponUpdater, IConveerUpdaterService conveerUpdater, IRewardAdvService rewardAdvService)
     {
         _assets = assets;
         _progressService = progressService;
         _staticData = staticData;
         _weaponUpdater = weaponUpdater;
         _conveerUpdater = conveerUpdater;
+        _rewardAdvService = rewardAdvService;
     }
 
     public Hud CreateHod(bool isMobile, IWeaponSelector weaponSelector, CharacterHealth characterHealth, Shooter shooter)
@@ -49,6 +52,14 @@ public class UIFactory : IUIFactory
                         _assets.Instantiate(AssetsPath.InventoryButtonPath, _hud.InventoryView).GetComponent<InventoryButton>();
 
         button.Construct(weaponSelector, type, _staticData.ForWeaponsData(type).Icon);
+    }
+
+    public RewardAdvPopup CreateRewardAdvPopup()
+    {
+        RewardAdvPopup popup = _assets.Instantiate(AssetsPath.RewardPopupPath).GetComponent<RewardAdvPopup>();
+        popup.Construct(_rewardAdvService);
+
+        return popup;
     }
 
     public ArsenalShopWindow CreateArsenalShopWindow()
@@ -85,7 +96,7 @@ public class UIFactory : IUIFactory
     {
         WeaponStats weaponStats = _assets.Instantiate(AssetsPath.WeaponStatsPath, parent).GetComponent<WeaponStats>();
         weaponStats.Construct(weapon, staticData, _progressService, _weaponUpdater);
-    }
+    }   
 
     private GameObject CreateHudMobile() =>
        _assets.Instantiate(AssetsPath.HudMobilePath);

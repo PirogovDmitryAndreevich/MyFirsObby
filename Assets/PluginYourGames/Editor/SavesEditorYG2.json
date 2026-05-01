@@ -7,7 +7,7 @@
         false,
         false
     ],
-    "idSave": 44,
+    "idSave": 48,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
@@ -15,7 +15,7 @@
             "IsTutorialCompleted": true,
             "Score": 500,
             "Cash": 276,
-            "Multiplier": 17,
+            "Multiplier": 25,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
