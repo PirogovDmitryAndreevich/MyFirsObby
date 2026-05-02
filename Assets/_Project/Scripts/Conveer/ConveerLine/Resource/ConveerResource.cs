@@ -1,19 +1,26 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class ConveerResource : MonoBehaviour, IConveerResource
+public class ConveerResource : MonoBehaviour , IConveyerResource
 {
     [SerializeField] private TMP_Text _value;
+    [SerializeField] private ConveyerType _type;
+    [SerializeField] private int _reward;
 
-    private IPoolService _poolService;
-    private GameObject _currentPrefab;
-    private GameObject _currentModel;
+    private IConveyersPool _pool;
     private bool _isCollect;
+    private Transform _transform;
 
-    public int Reward { get; private set; }
+    public ConveyerType Type => _type;
+    public int Reward => _reward;
 
-    public void Construct(IPoolService poolService) => 
-        _poolService = poolService;
+    public void Construct(IConveyersPool pool)
+    {
+        _pool = pool;
+        _transform = GetComponent<Transform>();
+        _value.text = _reward.ToString() + "$";
+    }
 
     public void Collect()
     {
@@ -21,26 +28,12 @@ public class ConveerResource : MonoBehaviour, IConveerResource
             return;
 
         _isCollect = true;
-        _poolService.Return(this);
+        _pool.Return(this);
     }
 
-    public void Init( int reward, GameObject model)
+    public void ResetState(Vector3 position)
     {
+        _transform.position = position;
         _isCollect = false;
-
-        if (model != _currentPrefab)
-            ResetModel(model);
-
-        Reward = reward;
-        _value.text = reward.ToString() + "$";
-    }
-
-    private void ResetModel(GameObject model)
-    {
-        if (_currentModel != null)
-            Destroy(_currentModel);
-
-        _currentModel = Instantiate(model, transform);
-        _currentPrefab = model;
     }
 }

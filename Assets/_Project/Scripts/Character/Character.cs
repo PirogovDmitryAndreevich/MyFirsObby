@@ -8,7 +8,7 @@ public class Character : MonoBehaviour, IInteractable
     private CharacterAnimation _animation;
     private CharacterRotation _meshRootRotation;
     private CharacterMove _mover;
-    private Transform _resetPoint;
+    private Vector3 _resetPoint;
     private IDifficultyService _difficulty;
     private IInputService _input;
     private IInteractObject _currentInteract;
@@ -44,7 +44,7 @@ public class Character : MonoBehaviour, IInteractable
         CharacterDeath.CharacterDead -= Death;
     }
 
-    public void Construct(IInputService inputService, IDifficultyService difficulty, CharacterView view, Transform resetPoint)
+    public void Construct(IInputService inputService, IDifficultyService difficulty, CharacterView view, Vector3 resetPoint)
     {
         _input = inputService;
         _resetPoint = resetPoint;
@@ -116,7 +116,7 @@ public class Character : MonoBehaviour, IInteractable
     private void Warp()
     {
         _mover.Controller.enabled = false;
-        transform.position = _resetPoint.position;
+        transform.position = _resetPoint;
         _mover.Controller.enabled = true;
     }
 }

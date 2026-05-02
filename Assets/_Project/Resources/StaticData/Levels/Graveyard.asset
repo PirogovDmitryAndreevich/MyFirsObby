@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7729ba9e8835b3441aef5693a4c801ae, type: 3}
   m_Name: Graveyard
   m_EditorClassIdentifier: 
-  StartCash: 300
+  PlayerInitialPoint: {x: 0, y: 1, z: -20.435}
+  StartATMCash: 300
   EnemySpawningTimer: 1
   BossSpawningTimer: 180
   TimeBetweenBoss: 300
@@ -23,9 +24,6 @@ MonoBehaviour:
   ScoreToUpdateMultiplier: 10
   MultiplierChangeValue: 2
   DecreaseDelay: 30
-  UnblockArsenalPrice: 100
-  UnblockWallPrice: 300
-  UnblockFloorPrice: 500
   LevelKey: Main
   EnemySpawners:
   - Id: Main_76691496-26da-404f-a082-a7fb9b750782

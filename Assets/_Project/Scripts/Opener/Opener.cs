@@ -1,49 +1,62 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Opener : MonoBehaviour
+public class Opener : MonoBehaviour, ISavedProgressReader
 {
     [SerializeField] private Renderer _renderer;
     [SerializeField] private Collider _collider;
     [SerializeField] private TMP_Text _name;
 
-    protected int Price;
+    private int _price;
+    private OpeningType _type;
     private MaterialPropertyBlock _block;
-
-    protected PlayerProgress Progress;
+    private IOpenService _openService;
+    private PlayerProgress _progress;
 
     private void Awake() => 
         _block = new MaterialPropertyBlock();
+
+    private void OnDestroy() => 
+        _progress.PlayerState.CashChanged -= SetState;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.TryGetComponent(out Character character))
             return;
 
-        OnTrigger();
+        if (_progress.PlayerState.Cash >= _price)
+        {
+            _progress.PlayerState.SpendCash(_price);
+            _openService.OpenObject(_type);
+        }
     }
 
-    protected virtual void OnTrigger()
+    public void Construct(IOpenService openService ,IPersistentProgressService progress, OpeningType type, int price)
     {
+        _openService = openService;
+        _progress = progress.Progress;
+        _price = price;
+        _type = type;
+        _name.text = $"{_price}$";
 
+        _progress.PlayerState.CashChanged += SetState;
+        SetState();
     }
 
-    protected void SetState() =>
-        SetInteract(Progress.PlayerState.Cash >= Price);
-
-    protected void SetText() =>
-        _name.text = $"{Price}$";
-
-    protected void UnsubscribeCash()
+    public void LoadProgress(PlayerProgress progress)
     {
-        Progress.PlayerState.CashChanged -= SetState;
+        if (progress.BuildProgress.OpenedOpeners.Contains(_type))
+            gameObject.SetActive(true);
+        else
+            gameObject.SetActive(false);
     }
 
-    protected void SubscribeCash() => 
-        Progress.PlayerState.CashChanged += SetState;
+    private void SetState() =>
+        SetInteract(_progress.PlayerState.Cash >= _price);
 
-    protected void SetInteract(bool isActive)
+    private void SetInteract(bool isActive)
     {
         _collider.enabled = isActive;
         SetView(isActive);

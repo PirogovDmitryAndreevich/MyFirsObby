@@ -8,9 +8,8 @@ public class ConveerCubeMover : MonoBehaviour
     [SerializeField] private Transform _creatorStartPosition;
     [SerializeField] private Transform _creatorEndPosition;
     [SerializeField] private float _speed = 0.3f;
+    [SerializeField] private float _cooldown = 0.5f;
 
-    private ConveerLine _line;
-    private float _cooldown;
     private float _cooldownTimer;
     private bool _isWorking = false;
     private bool _movingToEnd = true;
@@ -18,9 +17,6 @@ public class ConveerCubeMover : MonoBehaviour
     public event Action Create;
 
     public Transform ResourceSpawnPoint => _createPoint;
-
-    private void OnDestroy() => 
-        _line.LineProgress.ConveerLineUpdated -= SetCooldown;
 
     private void Update()
     {
@@ -45,6 +41,7 @@ public class ConveerCubeMover : MonoBehaviour
             if (IsAtPosition(_creatorEndPosition.position))
             {
                 Create?.Invoke();
+                Debug.Log("Create invoked");
                 _movingToEnd = false;
             }
         }
@@ -57,20 +54,6 @@ public class ConveerCubeMover : MonoBehaviour
                 _isWorking = false;
             }
         }
-    }
-
-    public void Construct(ConveerLine line)
-    {
-        _line = line;
-
-        _line.LineProgress.ConveerLineUpdated += SetCooldown;
-        SetCooldown(ConveerUpdateType.Cooldawn);
-    }
-
-    private void SetCooldown(ConveerUpdateType type)
-    {
-        if (type == ConveerUpdateType.Cooldawn)
-            _cooldown = _line.LineStaticInfo.GetLevelCooldowInfo(_line.LineProgress.GetLevel(type)).Value;
     }
 
     private void MoveTo(Vector3 target)

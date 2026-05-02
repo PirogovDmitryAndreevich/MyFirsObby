@@ -4,5 +4,4 @@
     void CreateInventoryButton(IWeaponSelector weaponSelector, WeaponType type);
     RewardAdvPopup CreateRewardAdvPopup();
     ArsenalShopWindow CreateArsenalShopWindow();
-    ConveerShop CreateConveerShop();
 }

@@ -23,9 +23,6 @@ public class ArsenalView : MonoBehaviour, IInteractObject
         _indicator.Hide();
     }
 
-    public void SetActiveView(bool isActive) => 
-        gameObject.SetActive(isActive);
-
     public void Interact() =>
         _arsenalWindow.Show();
 

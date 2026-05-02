@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,6 +9,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     private readonly ICoroutineRunner _coroutineRunner;
     private readonly ITutorialCompleterService _tutorialCompleter;
     private readonly IDifficultyService _difficultyService;
+    private readonly IOpenService _openService;
     private LoadedScene _loadedScene;
     private LevelStaticData _levelStaticData;
     private bool _isGameStarted;
@@ -18,12 +20,13 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     private float _nextSpawnTime;
 
     public GameLoopState(GameStateMachine stateMachine, IPersistentProgressService progressService, ICoroutineRunner coroutineRunner,
-        ITutorialCompleterService tutorialCompleter, IDifficultyService difficultyService)
+        ITutorialCompleterService tutorialCompleter, IDifficultyService difficultyService, IOpenService openService)
     {
         _progressService = progressService;
         _coroutineRunner = coroutineRunner;
         _tutorialCompleter = tutorialCompleter;
         _difficultyService = difficultyService;
+        _openService = openService;
     }
 
     public void Enter(LoadedScene loadedScene)
@@ -50,46 +53,45 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private IEnumerator StartTutorial()
     {
-        ATM atm = _loadedScene.Atm;
-        ArsenalInitializer arsenal = _loadedScene.Arsenal;
+        ATM atm = _loadedScene.Build.ATM;
+        ArsenalInitializer arsenal = _loadedScene.Build.Arsenal;
         WeaponProgress weapon = _progressService.Progress.Arsenal.GetWeaponProgress(WeaponType.M1911);
 
-        atm.AddCash(_levelStaticData.StartCash);
-
-        arsenal.Opener.gameObject.SetActive(false);
-
-        foreach (var line in _loadedScene.Conveer.Lines.Values)
-            line.Opener.gameObject.SetActive(false);
-
-        ConveerLine line1 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_1];
-
-        if (!line1.IsOpened && atm.Cash > 0)
+        if (_progressService.Progress.PlayerState.Cash <= 0 && !_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Conveyor_1))
         {
+            atm.AddCash(_levelStaticData.StartATMCash);
+
             _loadedScene.Character.LineDraw.StartDraw(atm.ATMButton.transform);
 
             while (atm.Cash > 0)
                 yield return null;
 
+            _openService.OpenOpener(OpeningType.Conveyor_1);
+
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
-        if (!line1.IsOpened)
-        {
-            line1.Opener.gameObject.SetActive(true);
-            _loadedScene.Character.LineDraw.StartDraw(line1.Opener.transform);
+        if (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Conveyor_1)
+            && _progressService.Progress.BuildProgress.OpenedOpeners.Contains(OpeningType.Conveyor_1))
+        { 
+            IOpenObject opener = _openService.OpeningObjects[OpeningType.Conveyor_1];
 
-            while (!line1.IsOpened)
+            _loadedScene.Character.LineDraw.StartDraw(opener.Opener.transform);
+
+            while(!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Conveyor_1))
                 yield return null;
 
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
-        if (!arsenal.IsOpened)
+        if (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Arsenal)
+            && _progressService.Progress.BuildProgress.OpenedOpeners.Contains(OpeningType.Arsenal))
         {
-            arsenal.Opener.gameObject.SetActive(true);
-            _loadedScene.Character.LineDraw.StartDraw(arsenal.Opener.transform);
+            IOpenObject arsenalOpener = _openService.OpeningObjects[OpeningType.Arsenal];
 
-            while (!arsenal.IsOpened)
+            _loadedScene.Character.LineDraw.StartDraw(arsenalOpener.Opener.transform);
+
+            while (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Arsenal))
                 yield return null;
 
             _loadedScene.Character.LineDraw.StopDraw();
@@ -114,43 +116,14 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
         _loadedScene.Character.LineDraw.StopDraw();
 
-        ConveerInitializer conveer = _loadedScene.Conveer;
-
-        _loadedScene.Character.LineDraw.StartDraw(conveer.transform);
-
-        while(line1.LineProgress.CurrentLevel <= 1)
-            yield return null;
-
-        _loadedScene.Character.LineDraw.StopDraw();
-
         _tutorialCompleter.TutorialComplete();
         _coroutineRunner.StartCoroutine(StartGameLoop());
     }
 
     private IEnumerator StartGameLoop()
     {
-        ConveerLine line2 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_2];
-        ConveerLine line3 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_3];
-        ConveerLine line4 = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_4];
-        ConveerLine lineBonus = _loadedScene.Conveer.Lines[ConveerNumbers.Conveyor_bonus];
-
-        if (!line2.IsOpened)
-            line2.Opener.gameObject.SetActive(true);
-
         while (_isGameStarted)
         {
-            if (line2.IsOpened && !line3.IsOpened)
-                line3.Opener.gameObject.SetActive(true);
-
-            if (line2.IsOpened && !_progressService.Progress.BuildProgress.IsWallOpened)
-                _loadedScene.Build.ShowWallOpener();
-
-            if (_progressService.Progress.BuildProgress.IsWallOpened && !_progressService.Progress.BuildProgress.IsFloorOpened)
-                _loadedScene.Build.ShowFloorOpener();
-
-            if (line3.IsOpened && !line4.IsOpened)
-                line4.Opener.gameObject.SetActive(true);
-
             SpawnLoopEnemy();
             SpawnLoopBoss();
 

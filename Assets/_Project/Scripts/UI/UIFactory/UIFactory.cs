@@ -7,19 +7,17 @@ public class UIFactory : IUIFactory
     private readonly IPersistentProgressService _progressService;
     private readonly IStaticDataService _staticData;
     private readonly IWeaponUpdaterService _weaponUpdater;
-    private readonly IConveerUpdaterService _conveerUpdater;
     private readonly IRewardAdvService _rewardAdvService;
 
     private Hud _hud { get; set; }
 
     public UIFactory(IAssets assets, IPersistentProgressService progressService, IStaticDataService staticData,
-        IWeaponUpdaterService weaponUpdater, IConveerUpdaterService conveerUpdater, IRewardAdvService rewardAdvService)
+        IWeaponUpdaterService weaponUpdater, IRewardAdvService rewardAdvService)
     {
         _assets = assets;
         _progressService = progressService;
         _staticData = staticData;
         _weaponUpdater = weaponUpdater;
-        _conveerUpdater = conveerUpdater;
         _rewardAdvService = rewardAdvService;
     }
 
@@ -74,22 +72,6 @@ public class UIFactory : IUIFactory
         }
 
         return arsenalShop;
-    }
-
-    public ConveerShop CreateConveerShop()
-    {
-        ConveerShop conveerShop = _assets.Instantiate(AssetsPath.ConveerShopPath).GetComponent<ConveerShop>();
-
-        foreach (ConveerLineProgress line in _progressService.Progress.Conveers.ConveerLines)
-            CreateConveerStat(line, conveerShop.ConveerStatsParent);
-
-        return conveerShop;
-    }
-
-    private void CreateConveerStat(ConveerLineProgress progressLine, Transform parent)
-    {
-        ConveerStat conveerStat = _assets.Instantiate(AssetsPath.ConveerStatsPath, parent).GetComponent<ConveerStat>();
-        conveerStat.Construct(_progressService, _conveerUpdater, _staticData.ForConveers(progressLine.Numbers), progressLine);
     }
 
     private void CreateWeaponsStats(WeaponProgress weapon, WeaponStaticData staticData, Transform parent)

@@ -1,29 +1,15 @@
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class BuildProgress
 {
-    public bool IsWallOpened;
-    public bool IsFloorOpened;
-
-    public event Action WallOpened;
-    public event Action FloorOpened;
+    public List<OpeningType> OpenedObjects;
+    public List<OpeningType> OpenedOpeners;
 
     public BuildProgress()
     {
-        IsWallOpened = false;
-        IsFloorOpened = false;
-    }
-
-    public void OpenWall()
-    {
-        IsWallOpened = true;
-        WallOpened?.Invoke();
-    }
-
-    public void OpenFloor()
-    {
-        IsFloorOpened = true;
-        FloorOpened?.Invoke();
+        OpenedObjects = new List<OpeningType>();
+        OpenedOpeners = new List<OpeningType>();
     }
 }

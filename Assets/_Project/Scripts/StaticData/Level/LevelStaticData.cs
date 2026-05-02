@@ -4,8 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelData", menuName = "StaticData/Level")]
 public class LevelStaticData : ScriptableObject
 {
+    public Vector3 PlayerInitialPoint;
+    public int StartATMCash;
+
     [Header("Game Loop Settings")]
-    public int StartCash;
     public float EnemySpawningTimer;
     public float BossSpawningTimer;
     public float TimeBetweenBoss;
@@ -16,11 +18,6 @@ public class LevelStaticData : ScriptableObject
     public int ScoreToUpdateMultiplier;
     public int MultiplierChangeValue;
     public float DecreaseDelay;
-
-    [Header("Game Settings")]
-    public int UnblockArsenalPrice;
-    public int UnblockWallPrice;
-    public int UnblockFloorPrice;
 
     public string LevelKey;
 

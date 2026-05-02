@@ -1,5 +1,4 @@
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameFactory : IGameFactory
@@ -12,16 +11,17 @@ public class GameFactory : IGameFactory
     private readonly ISavedLists _savedLists;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IInputService _inputService;
-    private readonly IConveerUpdaterService _conveerUpdateService;
     private readonly IPoolService _poolService;
     private readonly IWaypointChangerService _waypointsChanger;
     private readonly ICoroutineRunner _coroutineRunner;
     private readonly IDifficultyService _difficultyService;
+    private readonly IOpenService _openService;
+    private readonly IConveyersPool _conveyersPool;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
-        ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService, IConveerUpdaterService conveerUpdateService,
+        ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService,
         IPoolService poolService, IWaypointChangerService waypointsChanger, ICoroutineRunner coroutineRunner,
-        IDifficultyService difficultyService)
+        IDifficultyService difficultyService, IOpenService openService, IConveyersPool conveyersPool)
     {
         _assets = assets;
         _staticData = staticData;
@@ -29,11 +29,12 @@ public class GameFactory : IGameFactory
         _savedLists = savedLists;
         _saveLoadService = saveLoadService;
         _inputService = inputService;
-        _conveerUpdateService = conveerUpdateService;
         _poolService = poolService;
         _waypointsChanger = waypointsChanger;
         _coroutineRunner = coroutineRunner;
         _difficultyService = difficultyService;
+        _openService = openService;
+        _conveyersPool = conveyersPool;
     }
 
     public CinemachineFreeLook CreateCamera()
@@ -45,20 +46,23 @@ public class GameFactory : IGameFactory
         return camera;
     }
 
-    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup)
+    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IIndicateUI indicator, IWindow arsenalWindow)
     {
         Build build = InstantiateRegistered(AssetsPath.BuildPath, at.position).GetComponent<Build>();
 
-        build.FloorOpener.Construct(_saveLoadService, _progressService, levelStaticData);
-        build.WallOpener.Construct(_saveLoadService, _progressService, levelStaticData);
+        build.Arsenal.ArsenalView.Construct(indicator, arsenalWindow);
+        build.ATM.Construct(_progressService, _saveLoadService);
         build.MoneyBugAdv.Construct(rewardPopup);
+
+        foreach (var conveyer in build.Conveyers)
+            conveyer.Construct(_conveyersPool, build.ATM);
 
         return build;
     }
 
-    public Character CreateCharacterController(Transform at)
+    public Character CreateCharacterController(Vector3 at)
     {
-        _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at.transform.position);
+        _characterObject = InstantiateRegistered(AssetsPath.CharacterPath, at: at);
 
         Character controller = _characterObject.GetComponent<Character>();
 
@@ -84,16 +88,6 @@ public class GameFactory : IGameFactory
         component.Construct(_poolService);
 
         return component;
-    }
-
-    public ATM CreateATM(Transform at)
-    {
-        ATM atm = _assets.Instantiate(AssetsPath.ATMPath, at.position)
-            .GetComponent<ATM>();
-
-        atm.Construct(_progressService, _saveLoadService);
-
-        return atm;
     }
 
     public Enemy CreateMonster(MonsterTypeId typeID)
@@ -139,28 +133,11 @@ public class GameFactory : IGameFactory
         return spawner;
     }
 
-    public ArsenalInitializer CreateArsenal(Transform at, LevelStaticData levelData, IIndicateUI indicator, IWindow arsenalWindow)
-    {
-        ArsenalInitializer arsenal = InstantiateRegistered(AssetsPath.Arsenal, at.transform.position).GetComponent<ArsenalInitializer>();
-        arsenal.ArsenalView.Construct(indicator, arsenalWindow);
-        arsenal.Opener.Construct(_saveLoadService, _progressService, levelData);
-        return arsenal;
-    }
-
     public WeaponSelector CreateWeaponSelector(Character character) =>
          new WeaponSelector(character, this, _progressService);
 
     public Weapon CreateWeapon(WeaponProgress weaponProgress) =>
         new Weapon(_staticData.ForWeaponsData(weaponProgress.Type), weaponProgress, _poolService, _assets, _coroutineRunner);
-
-    public ConveerInitializer CreateConveerView(Transform at, ATM atm, IIndicateUI indicator, IWindow conveerShopWindow)
-    {
-        ConveerInitializer conveerInitializer = InstantiateRegistered(AssetsPath.ConveerPath, at.position).GetComponent<ConveerInitializer>();
-        conveerInitializer.Construct(_staticData, _conveerUpdateService, _poolService);
-        conveerInitializer.ConveerView.Construct(indicator, conveerShopWindow);
-        conveerInitializer.Finisher.Construct(atm);
-        return conveerInitializer;
-    }
 
     public void CreateLeaderBoard(Transform at)
     {
@@ -198,6 +175,14 @@ public class GameFactory : IGameFactory
         {
             if (!_savedLists.ProgressWriters.Contains(progressWriter))
                 _savedLists.AddWriter(progressWriter);
+        }
+
+        if (progressReader is IOpenObject openObject)
+        {
+            ForOpener data = _staticData.ForOpeners(openObject.Type);
+            openObject.Opener.Construct(_openService,_progressService,data.Type,data.UnblockPrice);
+            openObject.Construct(data.Next);
+            _openService.Register(openObject);
         }
 
         if (!_savedLists.ProgressReaders.Contains(progressReader))
