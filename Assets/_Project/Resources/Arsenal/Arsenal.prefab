@@ -532,22 +532,22 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7976001302199638619}
   m_SourcePrefab: {fileID: 100100000, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
---- !u!23 &3970903986856613577 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1249801278893094462, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
-  m_PrefabInstance: {fileID: 2757139236460503287}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5530572806262222233 stripped
+--- !u!114 &2303608368180027862 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7675216978611850606, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4160019956261044513, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
   m_PrefabInstance: {fileID: 2757139236460503287}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &3970903986856613577 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1249801278893094462, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
+  m_PrefabInstance: {fileID: 2757139236460503287}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6761849795066050777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 3970903986856613577}
   _collider: {fileID: 7735981705012403351}
-  _name: {fileID: 5530572806262222233}
+  _name: {fileID: 2303608368180027862}
 --- !u!65 &7735981705012403351 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 5555447257465781344, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}

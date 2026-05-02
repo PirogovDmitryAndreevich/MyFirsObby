@@ -86,10 +86,8 @@ internal class LoadSceneState : IPayloaderState<string>
         _loadedScene = new LoadedScene(levelData, characterController, conveerView, arsenal, enemySpawns, build, hud, atm);
     }
 
-    private RewardAdvPopup CreateRewardAdvPopup()
-    {
-        return _uiFactory.CreateRewardAdvPopup();
-    }
+    private RewardAdvPopup CreateRewardAdvPopup() =>
+        _uiFactory.CreateRewardAdvPopup();
 
     private void CreateLeaderBoard() => 
         _gameFactory.CreateLeaderBoard(GameObject.FindWithTag(LeaderBoardTag).transform);

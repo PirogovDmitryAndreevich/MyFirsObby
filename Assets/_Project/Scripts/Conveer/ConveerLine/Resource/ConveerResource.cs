@@ -1,7 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class ConveerResource : MonoBehaviour, IConveerResource
 {
+    [SerializeField] private TMP_Text _value;
+
     private IPoolService _poolService;
     private GameObject _currentPrefab;
     private GameObject _currentModel;
@@ -29,6 +32,7 @@ public class ConveerResource : MonoBehaviour, IConveerResource
             ResetModel(model);
 
         Reward = reward;
+        _value.text = reward.ToString() + "$";
     }
 
     private void ResetModel(GameObject model)
