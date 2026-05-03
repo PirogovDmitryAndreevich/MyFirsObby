@@ -3,48 +3,25 @@ using System.Collections.Generic;
 public class WeaponSelector : IWeaponSelector
 {
     private Character _character;
-
-    private IPersistentProgressService _progress;
-    private readonly IGameFactory _gameFactory;
+    private readonly IWeaponCreator _weaponCreator;
     private InventoryButton _current;
 
     public Weapon CurrentWeapon { get; private set; }
 
-    public WeaponSelector(Character character, IGameFactory gameFactory, IPersistentProgressService progress)
+    public WeaponSelector(Character character, IWeaponCreator weaponCreator)
     {
-        Weapons = new Dictionary<WeaponType, Weapon>();
         InventoryButtons = new();
 
         _character = character;
-        _gameFactory = gameFactory;
-        _progress = progress;
-
-        foreach (WeaponProgress weapon in _progress.Progress.Arsenal.Weapons)
-        {
-            if (weapon.IsUnblocked)
-                AddWeapon(weapon.Type, weapon);
-        }
-
-        _progress.Progress.Arsenal.WeaponUnblocked += OpenedNewWeapon;
+        _weaponCreator = weaponCreator;
     }
 
-    public Dictionary<WeaponType, Weapon> Weapons { get; private set; }
     public Dictionary<WeaponType, InventoryButton> InventoryButtons { get; private set; }
 
-    public void Unsubscribe()
-    {
-        foreach (Weapon weapon in Weapons.Values)
-            weapon.RuntimeState.Unsubscribe();
-
-        _progress.Progress.Arsenal.WeaponUnblocked -= OpenedNewWeapon;
-    }
-
-    public void AddWeapon(WeaponType type, WeaponProgress weapon) =>
-        Weapons.Add(type, _gameFactory.CreateWeapon(weapon));
 
     public void SelectWeapon(WeaponType type)
     {
-        CurrentWeapon = Weapons[type];
+        CurrentWeapon = _weaponCreator.Weapons[type];
 
         if (_current != null)
             _current.UnselectedView();
@@ -66,7 +43,4 @@ public class WeaponSelector : IWeaponSelector
 
         _character.UnselectWeapon();
     }
-
-    private void OpenedNewWeapon(WeaponProgress weapon) =>
-        AddWeapon(weapon.Type, weapon);
 }

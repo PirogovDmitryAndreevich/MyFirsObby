@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WeaponRuntimeState
 {
-    private WeaponProgress _weapon;
     private WeaponStaticData _staticData;
     private readonly ICoroutineRunner _coroutineRunner;
 
@@ -17,22 +16,19 @@ public class WeaponRuntimeState
     public event Action ReloadStarted;
     public event Action ReloadFinished;
 
-    public WeaponRuntimeState(WeaponProgress weapon, WeaponStaticData staticDataService, ICoroutineRunner coroutineRunner)
+    public WeaponRuntimeState(WeaponStaticData staticDataService, ICoroutineRunner coroutineRunner)
     {
-        _weapon = weapon;
         _staticData = staticDataService;
         _coroutineRunner = coroutineRunner;
 
-        OnUpdateLevel();
-        OnUpdateMagazineSize();
+        Damage = _staticData.Damage;
+        MagazineSize = _staticData.MagazineSize;
 
-        CurrentAmmo = CurrentMagazineSize;
-
-        Subscribe();
+        CurrentAmmo = MagazineSize;
     }
 
-    public int CurrentDamage { get; private set; }
-    public int CurrentMagazineSize { get; private set; }
+    public int Damage { get; private set; }
+    public int MagazineSize { get; private set; }
     public int CurrentAmmo
     {
         get => _currentAmmo;
@@ -76,12 +72,6 @@ public class WeaponRuntimeState
         return bullets;
     }
 
-    public void Unsubscribe() =>
-        _weapon.WeaponsUpdate -= OnUpdateWeapon;
-
-    private void Subscribe() =>
-        _weapon.WeaponsUpdate += OnUpdateWeapon;
-
     private void StartReload()
     {
         if (IsReloading)
@@ -111,31 +101,9 @@ public class WeaponRuntimeState
 
     private void FinishReload()
     {
-        CurrentAmmo = CurrentMagazineSize;
+        CurrentAmmo = MagazineSize;
 
         IsReloading = false;
         ReloadFinished?.Invoke();
-    }
-
-    private void OnUpdateWeapon(WeaponsUpdateType updateType)
-    {
-        switch (updateType)
-        {
-            case WeaponsUpdateType.MagazineSize:
-                OnUpdateMagazineSize();
-                break;
-            case WeaponsUpdateType.Damage:
-                OnUpdateLevel();
-                break;
-        }
-    }
-
-    private void OnUpdateLevel() =>
-        CurrentDamage = _staticData.GetLevelInfo(_weapon.DamageLevel, WeaponsUpdateType.Damage).Value;
-
-    private void OnUpdateMagazineSize()
-    {
-        CurrentMagazineSize = _staticData.GetLevelInfo(_weapon.MagazineLevel, WeaponsUpdateType.MagazineSize).Value;
-        CurrentAmmo = CurrentMagazineSize;
     }
 }

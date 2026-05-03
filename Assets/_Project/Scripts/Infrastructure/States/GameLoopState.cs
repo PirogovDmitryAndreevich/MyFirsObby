@@ -52,8 +52,6 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     private IEnumerator StartTutorial()
     {
         ATM atm = _loadedScene.Build.ATM;
-        ArsenalInitializer arsenal = _loadedScene.Build.Arsenal;
-        WeaponProgress weapon = _progressService.Progress.Arsenal.GetWeaponProgress(WeaponType.M1911);
 
         if (_progressService.Progress.PlayerState.Cash <= 0 && !_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Conveyor_1))
         {
@@ -82,28 +80,6 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
-        if (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Arsenal)
-            && _progressService.Progress.BuildProgress.OpenedOpeners.Contains(OpeningType.Arsenal))
-        {
-            IOpenObject arsenalOpener = _openService.OpeningObjects[OpeningType.Arsenal];
-
-            _loadedScene.Character.LineDraw.StartDraw(arsenalOpener.Opener.transform);
-
-            while (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Arsenal))
-                yield return null;
-
-            _loadedScene.Character.LineDraw.StopDraw();
-        }
-
-        if (!weapon.IsUnblocked)
-        {
-            _loadedScene.Character.LineDraw.StartDraw(arsenal.transform);
-
-            while (!weapon.IsUnblocked)
-                yield return null;
-
-            _loadedScene.Character.LineDraw.StopDraw();
-        }
 
         Enemy enemy = SpawnEnemy(MonsterTypeId.Noob);
 
@@ -125,7 +101,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             SpawnLoopEnemy();
             SpawnLoopBoss();
 
-            _difficultyService.CheckUpGameMultiplier();
+            //_difficultyService.CheckUpGameMultiplier();
 
             yield return null;
         }

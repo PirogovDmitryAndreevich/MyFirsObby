@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3823266808758589647}
   - component: {fileID: 1123259166680997536}
   - component: {fileID: 3829492962798254697}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 3271347503513980487}
   - component: {fileID: 1360174131645774040}
   - component: {fileID: 1249801278893094462}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 4652199552765331052}
   - component: {fileID: 2471859165509557045}
   - component: {fileID: 4160019956261044513}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 8905227346679732270}
   - component: {fileID: 5555447257465781344}
   - component: {fileID: 3483734601602925839}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Opener
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,4 +403,3 @@ MonoBehaviour:
   _renderer: {fileID: 1249801278893094462}
   _collider: {fileID: 5555447257465781344}
   _name: {fileID: 4160019956261044513}
-  _next: []

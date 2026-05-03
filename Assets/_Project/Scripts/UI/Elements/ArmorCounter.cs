@@ -75,7 +75,7 @@ public class ArmorCounter : MonoBehaviour
     {
         var state = CurrentWeapon.RuntimeState;
 
-        _counterText.text = $"{state.CurrentAmmo.ToString()}/{state.CurrentMagazineSize}";
+        _counterText.text = $"{state.CurrentAmmo.ToString()}/{state.MagazineSize}";
     }
 
     private void UpdateReload(float progress)

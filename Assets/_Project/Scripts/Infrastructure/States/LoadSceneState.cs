@@ -64,8 +64,6 @@ internal class LoadSceneState : IPayloaderState<string>
 
         InitWaypoints(levelData);
 
-        ArsenalShopWindow arsenalWindow = InitArsenalShop();
-
         Character characterController =
             InitCharacter(at: levelData.PlayerInitialPoint);
 
@@ -73,7 +71,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         Hud hud = InitHud(characterController.Health, characterController.Shooter, weaponSelector);
 
-        Build build = InitBuild(levelData, rewardPopup, hud.IndicateUI, arsenalWindow);
+        Build build = InitBuild(levelData, rewardPopup);
 
         CameraFollow(characterController.CameraFollow);
 
@@ -94,14 +92,11 @@ internal class LoadSceneState : IPayloaderState<string>
         return levelData;
     }
 
-    private Build InitBuild(LevelStaticData levelData, RewardAdvPopup rewardAdvPopup, IIndicateUI indicate, IWindow arsenalShop) =>
-        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData, rewardAdvPopup, indicate, arsenalShop);
+    private Build InitBuild(LevelStaticData levelData, RewardAdvPopup rewardAdvPopup) =>
+        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData, rewardAdvPopup);
 
     private Character InitCharacter(Vector3 at) =>
         _gameFactory.CreateCharacterController(at: at);
-
-    private ArsenalShopWindow InitArsenalShop() =>
-        _uiFactory.CreateArsenalShopWindow();
 
     private WeaponSelector InitWeaponSelector(Character character) =>
         _gameFactory.CreateWeaponSelector(character);
@@ -125,7 +120,7 @@ internal class LoadSceneState : IPayloaderState<string>
     }
 
     private Hud InitHud(CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector) =>
-        _uiFactory.CreateHod(YG2.envir.isMobile, weaponSelector, characterHealth, shooter);
+        _uiFactory.CreateHod(YG2.envir.isMobile, characterHealth, shooter, weaponSelector);
 
     private void InformProgressReaders()
     {

@@ -32,8 +32,8 @@ public class Character : MonoBehaviour, IInteractable
         if (_mover.IsMoving)
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
 
-        if (_input.IsShoot && Shooter.IsWeaponSelected && Shooter.CurrentWeapon.RuntimeState.CanShoot)
-            Shooter.TryShoot(_input.ShootPosition);
+        if (_input.IsShoot && Shooter.IsWeaponSelected && Shooter.CurrentWeapon.RuntimeState.CanShoot)        
+            Shooter.TryShoot(_input.ShootPosition);        
 
         if (_currentInteract != null && _input.GetInteractButtonDown())
             _currentInteract.Interact();
@@ -110,13 +110,14 @@ public class Character : MonoBehaviour, IInteractable
     {
         Health.ResetHealth();
         _difficulty.CharacterDeath();
-        Warp();
+        transform.position = _resetPoint;
     }
 
     private void Warp()
     {
         _mover.Controller.enabled = false;
         transform.position = _resetPoint;
+        CurrentView.transform.position = transform.position;
         _mover.Controller.enabled = true;
     }
 }

@@ -8,7 +8,7 @@ public enum OpeningType
     Conveyor_3,
     Conveyor_4,
     Conveyor_bonus,
-    Arsenal,
+    Weapon_M1911,
     Wall_1_back,
     Wall_1_left,
     Wall_1_right,

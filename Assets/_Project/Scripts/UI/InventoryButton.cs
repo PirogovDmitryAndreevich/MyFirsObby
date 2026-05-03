@@ -12,13 +12,16 @@ public class InventoryButton : MonoBehaviour
     private Weapon _weapon;
     private WeaponType _type;
     private IWeaponSelector _weaponSelector;
+    private IWeaponCreator _weaponCreator;
 
-    public void Construct(IWeaponSelector weaponSelector, WeaponType type, Sprite icon)
+    public void Construct(IWeaponSelector weaponSelector, IWeaponCreator weaponCreator ,WeaponType type, Sprite icon)
     {
         _type = type;
         _weaponSelector = weaponSelector;
+        _weaponCreator = weaponCreator;
         _icon.sprite = icon;
-        _weapon = _weaponSelector.Weapons[type];
+
+        _weapon = _weaponCreator.Weapons[_type];
         _button = GetComponent<Button>();
         OnReloadFinished();
         UnselectedView();

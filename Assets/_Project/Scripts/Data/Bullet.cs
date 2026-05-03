@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 [RequireComponent (typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
@@ -32,6 +31,7 @@ public class Bullet : MonoBehaviour
     {
         _damage = damage;
 
+        _trail.Clear();
         _trail.enabled = true;
         _rigidbody.velocity = force;
         StartCoroutine(ReturnToPoolRoutine());
@@ -48,6 +48,7 @@ public class Bullet : MonoBehaviour
     {
         StopAllCoroutines();
 
+        _trail.Clear();
         _trail.enabled = false;
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;

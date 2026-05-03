@@ -13,14 +13,14 @@ public class GameFactory : IGameFactory
     private readonly IInputService _inputService;
     private readonly IPoolService _poolService;
     private readonly IWaypointChangerService _waypointsChanger;
-    private readonly ICoroutineRunner _coroutineRunner;
+    private readonly IWeaponCreator _weaponCreator;
     private readonly IDifficultyService _difficultyService;
     private readonly IOpenService _openService;
     private readonly IConveyersPool _conveyersPool;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
         ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService,
-        IPoolService poolService, IWaypointChangerService waypointsChanger, ICoroutineRunner coroutineRunner,
+        IPoolService poolService, IWaypointChangerService waypointsChanger,IWeaponCreator weaponCreator,
         IDifficultyService difficultyService, IOpenService openService, IConveyersPool conveyersPool)
     {
         _assets = assets;
@@ -31,7 +31,7 @@ public class GameFactory : IGameFactory
         _inputService = inputService;
         _poolService = poolService;
         _waypointsChanger = waypointsChanger;
-        _coroutineRunner = coroutineRunner;
+        _weaponCreator = weaponCreator;
         _difficultyService = difficultyService;
         _openService = openService;
         _conveyersPool = conveyersPool;
@@ -46,16 +46,18 @@ public class GameFactory : IGameFactory
         return camera;
     }
 
-    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IIndicateUI indicator, IWindow arsenalWindow)
+    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup)
     {
         Build build = InstantiateRegistered(AssetsPath.BuildPath, at.position).GetComponent<Build>();
 
-        build.Arsenal.ArsenalView.Construct(indicator, arsenalWindow);
         build.ATM.Construct(_progressService, _saveLoadService);
         build.MoneyBugAdv.Construct(rewardPopup);
 
         foreach (var conveyer in build.Conveyers)
             conveyer.Construct(_conveyersPool, build.ATM);
+
+        foreach (var stand in build.Stands)
+            stand.Construct(_staticData, _weaponCreator, _saveLoadService);
 
         return build;
     }
@@ -134,10 +136,7 @@ public class GameFactory : IGameFactory
     }
 
     public WeaponSelector CreateWeaponSelector(Character character) =>
-         new WeaponSelector(character, this, _progressService);
-
-    public Weapon CreateWeapon(WeaponProgress weaponProgress) =>
-        new Weapon(_staticData.ForWeaponsData(weaponProgress.Type), weaponProgress, _poolService, _assets, _coroutineRunner);
+         new WeaponSelector(character, _weaponCreator);
 
     public void CreateLeaderBoard(Transform at)
     {

@@ -7,103 +7,31 @@
         false,
         false
     ],
-    "idSave": 63,
+    "idSave": 8,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
             "IsTutorialCompleted": true,
             "Score": 20,
-            "Cash": 3399,
-            "Multiplier": 13,
+            "Cash": 106,
+            "Multiplier": 1,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
-        "Arsenal": {
-            "Weapons": [
-                {
-                    "Type": 4,
-                    "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 3,
-                    "IsUnblocked": true,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 6,
-                    "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 1,
-                    "IsUnblocked": true,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 7,
-                    "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 2
-                },
-                {
-                    "Type": 5,
-                    "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                },
-                {
-                    "Type": 8,
-                    "IsUnblocked": false,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 1,
-                    "MaxMagazineLevel": 1
-                },
-                {
-                    "Type": 2,
-                    "IsUnblocked": true,
-                    "MagazineLevel": 1,
-                    "DamageLevel": 1,
-                    "MaxDamageLevel": 3,
-                    "MaxMagazineLevel": 3
-                }
+        "Weapons": {
+            "OpenedWeapons": [
+                1
             ]
         },
         "BuildProgress": {
             "OpenedObjects": [
                 0,
-                5,
-                1,
-                2,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14
+                5
             ],
-            "OpenedOpeners": []
+            "OpenedOpeners": [
+                1
+            ]
         }
     }
 }

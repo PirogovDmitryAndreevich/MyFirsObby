@@ -26,8 +26,19 @@ public class Shooter : MonoBehaviour
         }
     }
 
+
     private void Start() =>
         _camera = Camera.main;
+
+    private void Update()
+    {
+        if (!IsWeaponSelected || CurrentWeapon == null || _muzzle == null)
+            return;
+
+        Vector3 aimPoint = GetAimPoint(Input.mousePosition);
+
+        Debug.DrawLine(_muzzle.position, aimPoint, Color.blue);
+    }
 
     public void SelectWeapon(Weapon weapon, Transform muzzle)
     {
@@ -37,8 +48,6 @@ public class Shooter : MonoBehaviour
 
         IsWeaponSelected = true;
         _muzzle = muzzle;
-
-        CurrentWeapon.OnSelected(_camera);
     }
 
     public void UnselectWeapon()
@@ -50,12 +59,29 @@ public class Shooter : MonoBehaviour
 
     public void TryShoot(Vector3 shootPosition)
     {
-        if (!IsWeaponSelected || CurrentWeapon == null)
+        if (!IsWeaponSelected || CurrentWeapon == null || _muzzle == null)
             return;
 
         if (!CurrentWeapon.RuntimeState.CanShoot)
             return;
 
-        CurrentWeapon.Shoot(shootPosition, _bulletForce, _muzzle);
+        Vector3 aimPoint = GetAimPoint(shootPosition);
+
+        CurrentWeapon.Shoot(aimPoint, _bulletForce, _muzzle);
+    }
+
+    private Vector3 GetAimPoint(Vector3 screenPosition)
+    {
+        Ray ray = _camera.ScreenPointToRay(screenPosition);
+
+        Vector3 farPoint = ray.origin + ray.direction * CurrentWeapon.StaticData.Distance;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, CurrentWeapon.StaticData.Distance))
+        {
+            if (Vector3.Distance(hit.point, _camera.transform.position) > 10f)
+                return hit.point;
+        }
+
+        return farPoint;
     }
 }
