@@ -5,7 +5,7 @@ public class ConveyersPool : IConveyersPool
 {
     private readonly IStaticDataService _staticData;
 
-    private Dictionary<ConveyerType, Queue<ConveerResource>> _resources;
+    private Dictionary<ConveyerType, Queue<ConveyerResource>> _resources;
 
     public ConveyersPool(IStaticDataService staticData)
     {
@@ -13,11 +13,11 @@ public class ConveyersPool : IConveyersPool
         _staticData = staticData;
     }
 
-    public ConveerResource Get(ConveyerType type)
+    public ConveyerResource Get(ConveyerType type)
     {
         if (_resources.TryGetValue(type, out var queue) && queue.Count > 0)
         {
-            ConveerResource resource = queue.Dequeue();
+            ConveyerResource resource = queue.Dequeue();
             resource.gameObject.SetActive(true);
             return resource;
         }
@@ -25,21 +25,21 @@ public class ConveyersPool : IConveyersPool
         return CreateNew(type);
     }
 
-    public void Return(ConveerResource resource)
+    public void Return(ConveyerResource resource)
     {
         if (!_resources.ContainsKey(resource.Type))
-            _resources[resource.Type] = new Queue<ConveerResource>();
+            _resources[resource.Type] = new Queue<ConveyerResource>();
 
         resource.gameObject.SetActive(false);
         _resources[resource.Type].Enqueue(resource);
     }
 
-    private ConveerResource CreateNew(ConveyerType type)
+    private ConveyerResource CreateNew(ConveyerType type)
     {
         if (!_resources.ContainsKey(type))
-            _resources[type] = new Queue<ConveerResource>();
+            _resources[type] = new Queue<ConveyerResource>();
 
-        ConveerResource resource = Object.Instantiate(
+        ConveyerResource resource = Object.Instantiate(
     _staticData.ForConveyer(type).Resource);
 
         resource.Construct(this);

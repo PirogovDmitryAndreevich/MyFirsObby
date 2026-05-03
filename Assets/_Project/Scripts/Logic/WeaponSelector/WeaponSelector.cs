@@ -6,12 +6,14 @@ public class WeaponSelector : IWeaponSelector
 
     private IPersistentProgressService _progress;
     private readonly IGameFactory _gameFactory;
+    private InventoryButton _current;
 
     public Weapon CurrentWeapon { get; private set; }
 
     public WeaponSelector(Character character, IGameFactory gameFactory, IPersistentProgressService progress)
     {
         Weapons = new Dictionary<WeaponType, Weapon>();
+        InventoryButtons = new();
 
         _character = character;
         _gameFactory = gameFactory;
@@ -26,6 +28,9 @@ public class WeaponSelector : IWeaponSelector
         _progress.Progress.Arsenal.WeaponUnblocked += OpenedNewWeapon;
     }
 
+    public Dictionary<WeaponType, Weapon> Weapons { get; private set; }
+    public Dictionary<WeaponType, InventoryButton> InventoryButtons { get; private set; }
+
     public void Unsubscribe()
     {
         foreach (Weapon weapon in Weapons.Values)
@@ -34,20 +39,31 @@ public class WeaponSelector : IWeaponSelector
         _progress.Progress.Arsenal.WeaponUnblocked -= OpenedNewWeapon;
     }
 
-    public Dictionary<WeaponType, Weapon> Weapons { get; private set; }
-
     public void AddWeapon(WeaponType type, WeaponProgress weapon) =>
         Weapons.Add(type, _gameFactory.CreateWeapon(weapon));
 
     public void SelectWeapon(WeaponType type)
     {
         CurrentWeapon = Weapons[type];
+
+        if (_current != null)
+            _current.UnselectedView();
+
+        _current = InventoryButtons[type];
+        _current.ShowSelectedView();
+        
         _character.SelectWeapon(CurrentWeapon);
     }
 
     public void UnselectWeapon()
     {
         CurrentWeapon = null;
+
+        if (_current != null)
+            _current.UnselectedView();
+
+        _current = null;
+
         _character.UnselectWeapon();
     }
 

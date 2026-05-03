@@ -25,15 +25,39 @@ MonoBehaviour:
   - Type: 0
     UnblockPrice: 100
     Next: 05000000
+  - Type: 5
+    UnblockPrice: 100
+    Next: 01000000
   - Type: 1
     UnblockPrice: 500
     Next: 02000000
   - Type: 2
     UnblockPrice: 1500
+    Next: 0600000007000000
+  - Type: 6
+    UnblockPrice: 3000
+    Next: 08000000
+  - Type: 7
+    UnblockPrice: 3000
+    Next: 09000000
+  - Type: 8
+    UnblockPrice: 3000
     Next: 
-  - Type: 3
-    UnblockPrice: 2500
+  - Type: 9
+    UnblockPrice: 3000
+    Next: 0a000000
+  - Type: 10
+    UnblockPrice: 6000
+    Next: 0b0000000c000000
+  - Type: 11
+    UnblockPrice: 9000
+    Next: 0d000000
+  - Type: 12
+    UnblockPrice: 9000
+    Next: 0e000000
+  - Type: 13
+    UnblockPrice: 9000
     Next: 
-  - Type: 5
-    UnblockPrice: 100
-    Next: 01000000
+  - Type: 14
+    UnblockPrice: 9000
+    Next: 

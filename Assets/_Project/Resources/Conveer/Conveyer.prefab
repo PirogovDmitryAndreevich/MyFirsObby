@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 7890512792946478386}
   - component: {fileID: 1605262526351974032}
   - component: {fileID: 6215212475021680822}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CretorCub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 2809628244484328201}
   - component: {fileID: 1589988876136140339}
   - component: {fileID: 2787587569647381311}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CreateCub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -502,7 +502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10e1a132b408ce4387bc0fd85622a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resource: {fileID: 2903104621854156080, guid: e20d7da2618940c46b14e861a7d4d2f7, type: 3}
   _cubeMover: {fileID: 1589988876136140339}
 --- !u!1 &2684084775607965276
 GameObject:
@@ -516,7 +515,7 @@ GameObject:
   - component: {fileID: 2947331520214458960}
   - component: {fileID: 4152745181058337278}
   - component: {fileID: 9184641018643064964}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CretorCub (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -621,7 +620,7 @@ GameObject:
   - component: {fileID: 6981124536721140066}
   - component: {fileID: 7719893181168992976}
   - component: {fileID: 2340045729068954533}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CretorCub (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,7 +725,7 @@ GameObject:
   - component: {fileID: 8292071486175562954}
   - component: {fileID: 1451240633919964551}
   - component: {fileID: 994066181143521539}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CretorCub (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +827,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6130279971501112891}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CreatePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,7 +997,7 @@ GameObject:
   - component: {fileID: 1340144804747278133}
   - component: {fileID: 7078601299982419970}
   - component: {fileID: 244408752461266289}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CretorCub (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

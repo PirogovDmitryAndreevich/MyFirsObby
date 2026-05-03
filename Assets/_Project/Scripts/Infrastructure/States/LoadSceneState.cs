@@ -129,8 +129,6 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void InformProgressReaders()
     {
-        Debug.Log("InformProgressReaders");
-
         foreach (ISavedProgressReader progressReader in _savedLists.ProgressReaders)
             progressReader.LoadProgress(_progressService.Progress);
     }

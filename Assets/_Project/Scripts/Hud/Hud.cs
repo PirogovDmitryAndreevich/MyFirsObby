@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Hud : MonoBehaviour
@@ -40,14 +41,4 @@ public class Hud : MonoBehaviour
 
     private void CreateInventoryButton(WeaponProgress weapon) => 
         _uiFactory.CreateInventoryButton(_weaponSelector, weapon.Type);
-
-    internal void ShowBossTimer()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal void UpdateBossTimer(float timerToBoss)
-    {
-        throw new NotImplementedException();
-    }
 }

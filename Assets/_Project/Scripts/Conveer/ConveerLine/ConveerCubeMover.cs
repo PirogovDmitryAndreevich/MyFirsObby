@@ -41,7 +41,6 @@ public class ConveerCubeMover : MonoBehaviour
             if (IsAtPosition(_creatorEndPosition.position))
             {
                 Create?.Invoke();
-                Debug.Log("Create invoked");
                 _movingToEnd = false;
             }
         }

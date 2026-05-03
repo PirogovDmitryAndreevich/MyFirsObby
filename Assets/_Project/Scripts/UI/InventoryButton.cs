@@ -6,6 +6,7 @@ public class InventoryButton : MonoBehaviour
 {
     [SerializeField] private Image _icon;
     [SerializeField] private Image _reload;
+    [SerializeField] private Image _selected;
 
     private Button _button;
     private Weapon _weapon;
@@ -20,6 +21,7 @@ public class InventoryButton : MonoBehaviour
         _weapon = _weaponSelector.Weapons[type];
         _button = GetComponent<Button>();
         OnReloadFinished();
+        UnselectedView();
 
         _button.onClick.AddListener(OnPressed);
 
@@ -44,6 +46,12 @@ public class InventoryButton : MonoBehaviour
         else
             _weaponSelector.SelectWeapon(_type);
     }
+
+    public void ShowSelectedView() =>
+        _selected.gameObject.SetActive(true);
+
+    public void UnselectedView() =>
+        _selected.gameObject.SetActive(false);
 
     private void OnReloadStarted() =>
         _reload.gameObject.SetActive(true);

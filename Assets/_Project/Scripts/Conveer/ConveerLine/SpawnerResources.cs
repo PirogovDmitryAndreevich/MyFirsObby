@@ -16,17 +16,11 @@ public class SpawnerResources : MonoBehaviour
         _type = type;
 
         _cubeMover.Create += Spawn;
-        Debug.Log("Subscribed to Create");
     }
 
     private void Spawn()
     {
-        Debug.Log("Spawn called");
-
-        ConveerResource resource = _pool.Get(_type);
-
-        Debug.Log($"Got resource: {resource}");
-
+        ConveyerResource resource = _pool.Get(_type);
         resource.ResetState(_cubeMover.ResourceSpawnPoint.position);
     }
 }

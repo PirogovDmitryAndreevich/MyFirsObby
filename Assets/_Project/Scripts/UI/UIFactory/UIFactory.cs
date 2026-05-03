@@ -50,6 +50,9 @@ public class UIFactory : IUIFactory
                         _assets.Instantiate(AssetsPath.InventoryButtonPath, _hud.InventoryView).GetComponent<InventoryButton>();
 
         button.Construct(weaponSelector, type, _staticData.ForWeaponsData(type).Icon);
+
+        if (!weaponSelector.InventoryButtons.ContainsKey(type))
+            weaponSelector.InventoryButtons[type] = button;
     }
 
     public RewardAdvPopup CreateRewardAdvPopup()

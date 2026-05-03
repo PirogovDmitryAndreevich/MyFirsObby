@@ -1,8 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class ConveerResource : MonoBehaviour , IConveyerResource
+public class ConveyerResource : MonoBehaviour , IConveyerResource
 {
     [SerializeField] private TMP_Text _value;
     [SerializeField] private ConveyerType _type;

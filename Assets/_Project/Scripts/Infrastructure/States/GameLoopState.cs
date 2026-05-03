@@ -31,8 +31,6 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     public void Enter(LoadedScene loadedScene)
     {
-
-        Debug.Log("GameLoop Entered");
         _loadedScene = loadedScene;
         _levelStaticData = _loadedScene.LevelData;
         _isGameStarted = true;
