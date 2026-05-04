@@ -11,4 +11,5 @@ public enum WeaponType
     M107 = 6,
     M249 = 7,
     RPG = 8,
+    LaserGun = 9,
 }

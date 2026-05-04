@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,6 +23,7 @@ public class Enemy : MonoBehaviour
     private IWaypointChangerService _waypointChanger;
     private IPersistentProgressService _progress;
     private ISaveLoadService _save;
+    private bool _isFrozen;
 
     public Attack Attack => _attack;
     public EnemyHealth EnemyHealth => _enemyHealth;
@@ -71,6 +73,14 @@ public class Enemy : MonoBehaviour
     public void SetTarget(Transform target) =>
         CurrentTarget = target;
 
+    public void Freeze(float time)
+    {
+        if (_isFrozen)
+            return;
+
+        StartCoroutine(Freezing(time));
+    }
+
     public void ChangeWaypoint() =>
         CurrentTarget = _waypointChanger.GetNextPoint().transform;
 
@@ -84,5 +94,19 @@ public class Enemy : MonoBehaviour
     {
         _progress.Progress.PlayerState.AddScore(_staticData.RewardScores * _progress.Progress.PlayerState.Multiplier);
         _save.SaveProgress();
+    }
+
+    private IEnumerator Freezing(float time)
+    {
+        _isFrozen = true;
+        float freezing = time + Time.time;
+
+        while (freezing > Time.time)
+        {
+            AgentMoveToTarget.StopMove();
+            yield return null;
+        }
+        
+        _isFrozen = false;
     }
 }

@@ -24,9 +24,9 @@ MonoBehaviour:
   ForOpeners:
   - Type: 0
     UnblockPrice: 100
-    Next: 0500000006000000
-  - Type: 6
-    UnblockPrice: 5
+    Next: 05000000100000001a000000
+  - Type: 16
+    UnblockPrice: 1500
     Next: 
   - Type: 5
     UnblockPrice: 100
@@ -36,31 +36,67 @@ MonoBehaviour:
     Next: 02000000
   - Type: 2
     UnblockPrice: 1000
-    Next: 0700000008000000
-  - Type: 8
-    UnblockPrice: 3000
-    Next: 0a000000
-  - Type: 7
-    UnblockPrice: 3000
-    Next: 09000000
-  - Type: 10
+    Next: 03000000
+  - Type: 3
+    UnblockPrice: 1500
+    Next: 0800000009000000
+  - Type: 9
     UnblockPrice: 3000
     Next: 
-  - Type: 9
+  - Type: 8
+    UnblockPrice: 3000
+    Next: 07000000
+  - Type: 7
+    UnblockPrice: 3000
+    Next: 0a000000
+  - Type: 10
     UnblockPrice: 3000
     Next: 0b000000
   - Type: 11
     UnblockPrice: 6000
-    Next: 0c0000000d000000
+    Next: 11000000
+  - Type: 17
+    UnblockPrice: 9000
+    Next: 120000000d000000
+  - Type: 18
+    UnblockPrice: 11000
+    Next: 130000001800000006000000
+  - Type: 6
+    UnblockPrice: 9000
+    Next: 
+  - Type: 19
+    UnblockPrice: 15000
+    Next: 1400000016000000
+  - Type: 20
+    UnblockPrice: 18000
+    Next: 0f000000
   - Type: 12
     UnblockPrice: 9000
-    Next: 0e000000
+    Next: 
   - Type: 13
     UnblockPrice: 9000
-    Next: 0f000000
+    Next: 
   - Type: 14
     UnblockPrice: 9000
     Next: 
   - Type: 15
     UnblockPrice: 9000
+    Next: 15000000
+  - Type: 21
+    UnblockPrice: 9000
+    Next: 1700000018000000
+  - Type: 23
+    UnblockPrice: 9000
+    Next: 16000000
+  - Type: 24
+    UnblockPrice: 9000
+    Next: 19000000
+  - Type: 22
+    UnblockPrice: 9000
+    Next: 
+  - Type: 25
+    UnblockPrice: 9000
+    Next: 
+  - Type: 26
+    UnblockPrice: 1
     Next: 

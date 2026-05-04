@@ -9,7 +9,7 @@ public class WeaponBase : MonoBehaviour
 
     public WeaponType Type { get; private set; }
 
-    private WeaponStaticData _staticData;
+    protected WeaponStaticData StaticData;
     private IBulletsPool _poolService;
 
     private float _reloadingProgress;
@@ -27,9 +27,9 @@ public class WeaponBase : MonoBehaviour
 
     public bool IsReloading { get; private set; }
 
-    public float Distance => _staticData.Distance;
+    public float Distance => StaticData.Distance;
 
-    public int MagazineSize => _staticData.MagazineSize;
+    public int MagazineSize => StaticData.MagazineSize;
 
     public int CurrentAmmo
     {
@@ -59,11 +59,11 @@ public class WeaponBase : MonoBehaviour
 
     public void Construct(WeaponStaticData staticData, IBulletsPool poolService)
     {
-        _staticData = staticData;
-        Type = _staticData.Type;
+        StaticData = staticData;
+        Type = StaticData.Type;
         _poolService = poolService;
 
-        CurrentAmmo = _staticData.MagazineSize;
+        CurrentAmmo = StaticData.MagazineSize;
     }
 
     public virtual void Shoot(Vector3 direction)
@@ -85,37 +85,13 @@ public class WeaponBase : MonoBehaviour
         {
             Vector3 bulletDirection = DirectionWithSpread(direction);
 
-            Bullet bullet = _poolService.Get(_staticData.BulletType);
+            Bullet bullet = _poolService.Get(StaticData.BulletType);
             bullet.transform.position = Muzzle.position;
-            bullet.Shot(bulletDirection, _staticData.Damage);
+            bullet.Shot(bulletDirection, StaticData.Damage);
         }
     }
 
-    private Vector3 DirectionWithSpread(Vector3 direction)
-    {
-        Vector2 spread = UnityEngine.Random.insideUnitCircle * _staticData.Spread;
-        Quaternion spreadRot = Quaternion.Euler(spread.x, spread.y, 0);
-        direction = spreadRot * direction;
-        return direction;
-    }
-
-    private int TakeShot()
-    {
-        if (!CanShoot)
-            return 0;
-
-        int bullets = Mathf.Min(_staticData.BulletsPerTap, CurrentAmmo);
-
-        CurrentAmmo -= bullets;
-        _nextShotTime = Time.time + _staticData.TimeBetweenShot;
-
-        if (CurrentAmmo <= 0)
-            StartReload();
-
-        return bullets;
-    }
-
-    private void StartReload()
+    protected void StartReload()
     {
         if (IsReloading)
             return;
@@ -126,9 +102,33 @@ public class WeaponBase : MonoBehaviour
         ReloadStarted?.Invoke();
     }
 
+    protected int TakeShot()
+    {
+        if (!CanShoot)
+            return 0;
+
+        int bullets = Mathf.Min(StaticData.BulletsPerTap, CurrentAmmo);
+
+        CurrentAmmo -= bullets;
+        _nextShotTime = Time.time + StaticData.TimeBetweenShot;
+
+        if (CurrentAmmo <= 0)
+            StartReload();
+
+        return bullets;
+    }
+
+    private Vector3 DirectionWithSpread(Vector3 direction)
+    {
+        Vector2 spread = UnityEngine.Random.insideUnitCircle * StaticData.Spread;
+        Quaternion spreadRot = Quaternion.Euler(spread.x, spread.y, 0);
+        direction = spreadRot * direction;
+        return direction;
+    }        
+
     private IEnumerator ReloadCoroutine()
     {
-        float duration = _staticData.ReloadTime;
+        float duration = StaticData.ReloadTime;
         float elapsed = 0f;
 
         while (elapsed < duration)
@@ -144,7 +144,7 @@ public class WeaponBase : MonoBehaviour
 
     private void FinishReload()
     {
-        CurrentAmmo = _staticData.MagazineSize;
+        CurrentAmmo = StaticData.MagazineSize;
 
         IsReloading = false;
         ReloadFinished?.Invoke();

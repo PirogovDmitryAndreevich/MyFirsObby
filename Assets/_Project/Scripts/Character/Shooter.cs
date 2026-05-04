@@ -26,16 +26,6 @@ public class Shooter : MonoBehaviour
     private void Start() =>
         _camera = Camera.main;
 
-    private void Update()
-    {
-        if (!IsWeaponSelected || CurrentWeapon == null)
-            return;
-
-        Vector3 aimPoint = GetAimPoint(Input.mousePosition);
-
-        Debug.DrawLine(CurrentWeapon.Muzzle.position, aimPoint, Color.blue);
-    }
-
     public void SelectWeapon(WeaponBase weapon)
     {
         UnselectWeapon();
