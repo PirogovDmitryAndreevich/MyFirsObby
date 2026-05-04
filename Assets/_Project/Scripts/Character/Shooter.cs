@@ -3,16 +3,12 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
-    [Header("Bullet setting")]
-    [SerializeField] private float _bulletForce = 500f;
-
     private Camera _camera;
-    private Transform _muzzle;
     private bool _isWeaponSelected;
 
     public event Action StateChanged;
 
-    public Weapon CurrentWeapon { get; private set; }
+    public WeaponBase CurrentWeapon { get; private set; }
     public bool IsWeaponSelected
     {
         get => _isWeaponSelected;
@@ -32,55 +28,55 @@ public class Shooter : MonoBehaviour
 
     private void Update()
     {
-        if (!IsWeaponSelected || CurrentWeapon == null || _muzzle == null)
+        if (!IsWeaponSelected || CurrentWeapon == null)
             return;
 
         Vector3 aimPoint = GetAimPoint(Input.mousePosition);
 
-        Debug.DrawLine(_muzzle.position, aimPoint, Color.blue);
+        Debug.DrawLine(CurrentWeapon.Muzzle.position, aimPoint, Color.blue);
     }
 
-    public void SelectWeapon(Weapon weapon, Transform muzzle)
+    public void SelectWeapon(WeaponBase weapon)
     {
         UnselectWeapon();
 
         CurrentWeapon = weapon;
 
         IsWeaponSelected = true;
-        _muzzle = muzzle;
     }
 
     public void UnselectWeapon()
     {
         IsWeaponSelected = false;
         CurrentWeapon = null;
-        _muzzle = null;
     }
 
     public void TryShoot(Vector3 shootPosition)
     {
-        if (!IsWeaponSelected || CurrentWeapon == null || _muzzle == null)
+        if (!IsWeaponSelected || CurrentWeapon == null)
             return;
 
-        if (!CurrentWeapon.RuntimeState.CanShoot)
+        if (!CurrentWeapon.CanShoot)
             return;
 
         Vector3 aimPoint = GetAimPoint(shootPosition);
 
-        CurrentWeapon.Shoot(aimPoint, _bulletForce, _muzzle);
+        Vector3 direction = (aimPoint - CurrentWeapon.Muzzle.position).normalized;
+
+        CurrentWeapon.Shoot(direction);
     }
 
     private Vector3 GetAimPoint(Vector3 screenPosition)
     {
         Ray ray = _camera.ScreenPointToRay(screenPosition);
 
-        Vector3 farPoint = ray.origin + ray.direction * CurrentWeapon.StaticData.Distance;
-
-        if (Physics.Raycast(ray, out RaycastHit hit, CurrentWeapon.StaticData.Distance))
+        if (Physics.Raycast(ray, out RaycastHit hit, CurrentWeapon.Distance))
         {
             if (Vector3.Distance(hit.point, _camera.transform.position) > 10f)
                 return hit.point;
         }
+
+        Vector3 farPoint = ray.origin + ray.direction * CurrentWeapon.Distance;
 
         return farPoint;
     }

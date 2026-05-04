@@ -12,7 +12,7 @@ public class WeaponUnblocker : MonoBehaviour, ISavedProgressReader
 
     private PlayerProgress _progress;
     private MaterialPropertyBlock _block;
-    private IWeaponCreator _weaponCreator;
+    private IWeaponContainer _weaponCreator;
     private ISaveLoadService _saveLoadService;
     private int _price;
 
@@ -35,7 +35,7 @@ public class WeaponUnblocker : MonoBehaviour, ISavedProgressReader
         }
     }
 
-    public void Construct(IStaticDataService staticData, IWeaponCreator weaponCreator, ISaveLoadService saveLoadService)
+    public void Construct(IStaticDataService staticData, IWeaponContainer weaponCreator, ISaveLoadService saveLoadService)
     {
         var weaponStaticData = staticData.ForWeaponsData(_type);
 

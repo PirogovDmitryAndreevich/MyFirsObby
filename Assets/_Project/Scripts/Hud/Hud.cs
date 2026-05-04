@@ -14,6 +14,7 @@ public class Hud : MonoBehaviour
     private IUIFactory _uiFactory;
     private IPersistentProgressService _progressService;
     private IWeaponSelector _weaponSelector;
+    private IWeaponContainer _weaponContainer;
 
     public CashCounter LootCounter => _cashCounter;
     public ArmorCounter ArmorCounter => _armorCounter;
@@ -25,11 +26,12 @@ public class Hud : MonoBehaviour
     private void OnDestroy() => 
         _progressService.Progress.Weapons.WeaponOpened -= CreateInventoryButton;
 
-    public void Construct( IUIFactory uiFactory, IPersistentProgressService progressService, IWeaponSelector weaponSelector)
+    public void Construct( IUIFactory uiFactory, IPersistentProgressService progressService, IWeaponSelector weaponSelector, IWeaponContainer container)
     {
         _uiFactory = uiFactory;
         _progressService = progressService;
         _weaponSelector = weaponSelector;
+        _weaponContainer = container;
 
         foreach (var weapon in _progressService.Progress.Weapons.OpenedWeapons)
             CreateInventoryButton(weapon);
@@ -38,5 +40,5 @@ public class Hud : MonoBehaviour
     }
 
     private void CreateInventoryButton(WeaponType type) =>
-        _uiFactory.CreateInventoryButton(type, _weaponSelector);
+        _uiFactory.CreateInventoryButton(type, _weaponSelector, _weaponContainer.Weapons[type]);
 }

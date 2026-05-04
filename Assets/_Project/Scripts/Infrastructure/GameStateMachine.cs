@@ -11,13 +11,13 @@ public partial class GameStateMachine
     {
         _states = new Dictionary<Type, IExcitableState>()
         {
-            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services, coroutineRunner),
+            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
 
             [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IUIFactory>(),
             services.Single<IPersistentProgressService>(), services.Single<ISavedLists>(), services.Single<IStaticDataService>()),
 
             [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>(),
-            services.Single<IStaticDataService>(), services.Single<IWeaponCreator>()),
+            services.Single<IStaticDataService>()),
 
             [typeof(GameLoopState)] = new GameLoopState(this, services.Single<IPersistentProgressService>(), coroutineRunner,
             services.Single<ITutorialCompleterService>(), services.Single<IDifficultyService>(), services.Single <IOpenService>())

@@ -3,15 +3,14 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
 [RequireComponent(typeof(Shooter), typeof(CharacterHealth), typeof(LineDraw))]
 [RequireComponent(typeof(CharacterDeath))]
-public class Character : MonoBehaviour, IInteractable
+public class Character : MonoBehaviour
 {
     private CharacterAnimation _animation;
     private CharacterRotation _meshRootRotation;
     private CharacterMove _mover;
     private Vector3 _resetPoint;
     private IDifficultyService _difficulty;
-    private IInputService _input;
-    private IInteractObject _currentInteract;
+    private IInputService _input;   
 
     public CharacterHealth Health { get; private set; }
     public CharacterView CurrentView { get; private set; }
@@ -32,11 +31,8 @@ public class Character : MonoBehaviour, IInteractable
         if (_mover.IsMoving)
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
 
-        if (_input.IsShoot && Shooter.IsWeaponSelected && Shooter.CurrentWeapon.RuntimeState.CanShoot)        
-            Shooter.TryShoot(_input.ShootPosition);        
-
-        if (_currentInteract != null && _input.GetInteractButtonDown())
-            _currentInteract.Interact();
+        if (_input.IsShoot && Shooter.IsWeaponSelected && Shooter.CurrentWeapon.CanShoot)        
+            Shooter.TryShoot(_input.ShootPosition);
     }
 
     private void OnDestroy()
@@ -83,41 +79,18 @@ public class Character : MonoBehaviour, IInteractable
         LineDraw.Construct(CurrentView.CameraFollow);
     }
 
-    public void SelectWeapon(Weapon weapon)
-    {
-        if (SelectedWeapon != null)
-            Destroy(SelectedWeapon.gameObject);
-
-        GameObject prefab = Instantiate(weapon.StaticData.Prefab, CurrentView.WeaponPoint);
-        SelectedWeapon = prefab.GetComponent<WeaponView>();
-        prefab.transform.position = CurrentView.WeaponPoint.position;
-
-        Shooter.SelectWeapon(weapon, SelectedWeapon.Muzzle);
-    }
-
-    public void SetInteractable(IInteractObject interact) =>
-        _currentInteract = interact;
-
-    public void UnselectWeapon()
-    {
-        if (SelectedWeapon != null)
-            Destroy(SelectedWeapon.gameObject);
-
-        Shooter.UnselectWeapon();
-    }
-
     private void Death()
     {
         Health.ResetHealth();
         _difficulty.CharacterDeath();
-        transform.position = _resetPoint;
+        Warp();
     }
 
     private void Warp()
     {
         _mover.Controller.enabled = false;
         transform.position = _resetPoint;
-        CurrentView.transform.position = transform.position;
+        CurrentView.gameObject.transform.position = transform.position;
         _mover.Controller.enabled = true;
     }
 }

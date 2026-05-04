@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 using YG;
+using System;
 
 internal class LoadSceneState : IPayloaderState<string>
 {
@@ -47,7 +48,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
     private void OnLoaded()
     {
-        InitGameWorld();
+        InitGameWorld();        
         InformProgressReaders();
         _stateMachine.Enter<GameLoopState, LoadedScene>(_loadedScene);
     }
@@ -58,6 +59,8 @@ internal class LoadSceneState : IPayloaderState<string>
 
         CreateLeaderBoard();
 
+        IWeaponContainer container = CreateWeaponContainer();
+
         RewardAdvPopup rewardPopup = CreateRewardAdvPopup();
 
         List<SpawnPoint> enemySpawns = InitEnemySpawns(levelData);
@@ -67,16 +70,19 @@ internal class LoadSceneState : IPayloaderState<string>
         Character characterController =
             InitCharacter(at: levelData.PlayerInitialPoint);
 
-        IWeaponSelector weaponSelector = InitWeaponSelector(characterController);
+        IWeaponSelector weaponSelector = InitWeaponSelector(characterController, container);
 
-        Hud hud = InitHud(characterController.Health, characterController.Shooter, weaponSelector);
+        Hud hud = InitHud(characterController.Health, characterController.Shooter, weaponSelector, container);
 
-        Build build = InitBuild(levelData, rewardPopup);
+        Build build = InitBuild(levelData, rewardPopup, container);
 
         CameraFollow(characterController.CameraFollow);
 
         _loadedScene = new LoadedScene(levelData, characterController, enemySpawns, build, hud);
     }
+
+    private IWeaponContainer CreateWeaponContainer() => 
+        _gameFactory.CreateWeaponContainer();
 
     private RewardAdvPopup CreateRewardAdvPopup() =>
         _uiFactory.CreateRewardAdvPopup();
@@ -92,14 +98,14 @@ internal class LoadSceneState : IPayloaderState<string>
         return levelData;
     }
 
-    private Build InitBuild(LevelStaticData levelData, RewardAdvPopup rewardAdvPopup) =>
-        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData, rewardAdvPopup);
+    private Build InitBuild(LevelStaticData levelData, RewardAdvPopup rewardAdvPopup, IWeaponContainer container) =>
+        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData, rewardAdvPopup, container);
 
     private Character InitCharacter(Vector3 at) =>
         _gameFactory.CreateCharacterController(at: at);
 
-    private WeaponSelector InitWeaponSelector(Character character) =>
-        _gameFactory.CreateWeaponSelector(character);
+    private WeaponSelector InitWeaponSelector(Character character, IWeaponContainer container) =>
+        _gameFactory.CreateWeaponSelector(character, container);
 
     private List<SpawnPoint> InitEnemySpawns(LevelStaticData levelData)
     {
@@ -119,8 +125,8 @@ internal class LoadSceneState : IPayloaderState<string>
             _gameFactory.CreateWaypoint(at: waypointData.Position);
     }
 
-    private Hud InitHud(CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector) =>
-        _uiFactory.CreateHod(YG2.envir.isMobile, characterHealth, shooter, weaponSelector);
+    private Hud InitHud(CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector, IWeaponContainer container) =>
+        _uiFactory.CreateHod(YG2.envir.isMobile, characterHealth, shooter, weaponSelector, container);
 
     private void InformProgressReaders()
     {

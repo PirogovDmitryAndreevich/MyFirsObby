@@ -6,21 +6,19 @@ public class UIFactory : IUIFactory
     private readonly IPersistentProgressService _progressService;
     private readonly IStaticDataService _staticData;
     private readonly IRewardAdvService _rewardAdvService;
-    private readonly IWeaponCreator _weaponCreator;
 
     private Hud _hud { get; set; }
 
     public UIFactory(IAssets assets, IPersistentProgressService progressService, IStaticDataService staticData,
-        IRewardAdvService rewardAdvService, IWeaponCreator weaponCreator)
+        IRewardAdvService rewardAdvService)
     {
         _assets = assets;
         _progressService = progressService;
         _staticData = staticData;
         _rewardAdvService = rewardAdvService;
-        _weaponCreator = weaponCreator;
     }
 
-    public Hud CreateHod(bool isMobile, CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector)
+    public Hud CreateHod(bool isMobile, CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector, IWeaponContainer weaponContainer)
     {
         GameObject hud = isMobile
             ? CreateHudMobile()
@@ -28,7 +26,7 @@ public class UIFactory : IUIFactory
 
         _hud = hud.GetComponent<Hud>();
 
-        _hud.Construct(this, _progressService, weaponSelector);
+        _hud.Construct(this, _progressService, weaponSelector, weaponContainer);
         _hud.LootCounter.Construct(_progressService.Progress.PlayerState);
         _hud.HealthUI.Construct(characterHealth);
         _hud.ArmorCounter.Construct(shooter);
@@ -37,12 +35,12 @@ public class UIFactory : IUIFactory
         return _hud;
     }
 
-    public void CreateInventoryButton(WeaponType type, IWeaponSelector weaponSelector)
+    public void CreateInventoryButton(WeaponType type, IWeaponSelector weaponSelector, WeaponBase weapon)
     {
         InventoryButton button =
                         _assets.Instantiate(AssetsPath.InventoryButtonPath, _hud.InventoryView).GetComponent<InventoryButton>();
 
-        button.Construct(weaponSelector, _weaponCreator, type, _staticData.ForWeaponsData(type).Icon);
+        button.Construct(weaponSelector, weapon, type, _staticData.ForWeaponsData(type).Icon);
 
         if (!weaponSelector.InventoryButtons.ContainsKey(type))
             weaponSelector.InventoryButtons[type] = button;

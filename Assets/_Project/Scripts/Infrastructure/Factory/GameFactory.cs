@@ -13,15 +13,15 @@ public class GameFactory : IGameFactory
     private readonly IInputService _inputService;
     private readonly IPoolService _poolService;
     private readonly IWaypointChangerService _waypointsChanger;
-    private readonly IWeaponCreator _weaponCreator;
     private readonly IDifficultyService _difficultyService;
     private readonly IOpenService _openService;
     private readonly IConveyersPool _conveyersPool;
+    private readonly IBulletsPool _bulletsPool;
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
         ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService,
-        IPoolService poolService, IWaypointChangerService waypointsChanger,IWeaponCreator weaponCreator,
-        IDifficultyService difficultyService, IOpenService openService, IConveyersPool conveyersPool)
+        IPoolService poolService, IWaypointChangerService waypointsChanger,IDifficultyService difficultyService,
+        IOpenService openService, IConveyersPool conveyersPool, IBulletsPool bulletsPool)
     {
         _assets = assets;
         _staticData = staticData;
@@ -31,10 +31,10 @@ public class GameFactory : IGameFactory
         _inputService = inputService;
         _poolService = poolService;
         _waypointsChanger = waypointsChanger;
-        _weaponCreator = weaponCreator;
         _difficultyService = difficultyService;
         _openService = openService;
         _conveyersPool = conveyersPool;
+        _bulletsPool = bulletsPool;
     }
 
     public CinemachineFreeLook CreateCamera()
@@ -46,7 +46,7 @@ public class GameFactory : IGameFactory
         return camera;
     }
 
-    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup)
+    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IWeaponContainer container)
     {
         Build build = InstantiateRegistered(AssetsPath.BuildPath, at.position).GetComponent<Build>();
 
@@ -57,7 +57,7 @@ public class GameFactory : IGameFactory
             conveyer.Construct(_conveyersPool, build.ATM);
 
         foreach (var stand in build.Stands)
-            stand.Construct(_staticData, _weaponCreator, _saveLoadService);
+            stand.Construct(_staticData, container, _saveLoadService);
 
         return build;
     }
@@ -81,15 +81,6 @@ public class GameFactory : IGameFactory
         lootPiece.Construct(_progressService.Progress.PlayerState, _saveLoadService, _poolService);
 
         return lootPiece;
-    }
-
-    public Bullet CreateBullet()
-    {
-        GameObject bullet = _assets.Instantiate(AssetsPath.BulletPath);
-        Bullet component = bullet.GetComponent<Bullet>();
-        component.Construct(_poolService);
-
-        return component;
     }
 
     public Enemy CreateMonster(MonsterTypeId typeID)
@@ -135,8 +126,18 @@ public class GameFactory : IGameFactory
         return spawner;
     }
 
-    public WeaponSelector CreateWeaponSelector(Character character) =>
-         new WeaponSelector(character, _weaponCreator);
+    public WeaponSelector CreateWeaponSelector(Character character, IWeaponContainer container) =>
+         new WeaponSelector(character, container);
+
+    public WeaponContainer CreateWeaponContainer()
+    {
+        var container = new WeaponContainer(_staticData, _bulletsPool);
+
+        foreach (WeaponType weaponType in _progressService.Progress.Weapons.OpenedWeapons)
+            container.AddNewWeapon(weaponType);
+
+        return container;
+    }
 
     public void CreateLeaderBoard(Transform at)
     {

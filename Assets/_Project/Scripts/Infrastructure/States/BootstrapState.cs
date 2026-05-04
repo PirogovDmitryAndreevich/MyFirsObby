@@ -7,14 +7,12 @@ public class BootstrapState : IState
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly AllServices _services;
-    private readonly ICoroutineRunner _coroutineRunner;
 
-    public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services, ICoroutineRunner coroutineRunner)
+    public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
     {
         _stateMachine = stateMachine;
         _sceneLoader = sceneLoader;
         _services = services;
-        _coroutineRunner = coroutineRunner;
         RegisterServices();
     }
 
@@ -41,10 +39,9 @@ public class BootstrapState : IState
         _services.RegisterSingle<IWaypointChangerService>(new WaypointChangerService());
         _services.RegisterSingle<IPoolService>(new PoolService());
 
-        _services.RegisterSingle<IConveyersPool>(new ConveyersPool(_services.Single<IStaticDataService>()));
+        _services.RegisterSingle<IBulletsPool>(new BulletsPool(_services.Single<IStaticDataService>()));
 
-        _services.RegisterSingle<IWeaponCreator>(new WeaponCreator(_services.Single<IStaticDataService>(), _services.Single<IPoolService>(),
-            _services.Single<IAssets>(), _coroutineRunner));
+        _services.RegisterSingle<IConveyersPool>(new ConveyersPool(_services.Single<IStaticDataService>()));
 
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
 
@@ -61,11 +58,12 @@ public class BootstrapState : IState
         _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
             _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>(),
             _services.Single<ISavedLists>(), _services.Single<ISaveLoadService>(), _services.Single<IInputService>(),
-            _services.Single<IPoolService>(), _services.Single<IWaypointChangerService>(), _services.Single<IWeaponCreator>(),
-             _services.Single<IDifficultyService>(), _services.Single<IOpenService>(), _services.Single<IConveyersPool>()));
+            _services.Single<IPoolService>(), _services.Single<IWaypointChangerService>(),
+             _services.Single<IDifficultyService>(), _services.Single<IOpenService>(), _services.Single<IConveyersPool>(),
+             _services.Single<IBulletsPool>()));
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
-            _services.Single<IStaticDataService>(), _services.Single<IRewardAdvService>(), _services.Single<IWeaponCreator>()));
+            _services.Single<IStaticDataService>(), _services.Single<IRewardAdvService>()));
     }
 
     private void RegisterStaticData()

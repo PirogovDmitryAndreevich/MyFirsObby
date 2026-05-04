@@ -9,37 +9,35 @@ public class InventoryButton : MonoBehaviour
     [SerializeField] private Image _selected;
 
     private Button _button;
-    private Weapon _weapon;
+    private WeaponBase _weapon;
     private WeaponType _type;
     private IWeaponSelector _weaponSelector;
-    private IWeaponCreator _weaponCreator;
 
-    public void Construct(IWeaponSelector weaponSelector, IWeaponCreator weaponCreator ,WeaponType type, Sprite icon)
+    public void Construct(IWeaponSelector weaponSelector, WeaponBase weapon ,WeaponType type, Sprite icon)
     {
         _type = type;
         _weaponSelector = weaponSelector;
-        _weaponCreator = weaponCreator;
         _icon.sprite = icon;
+        _weapon = weapon;
 
-        _weapon = _weaponCreator.Weapons[_type];
         _button = GetComponent<Button>();
         OnReloadFinished();
         UnselectedView();
 
         _button.onClick.AddListener(OnPressed);
 
-        _weapon.RuntimeState.ReloadStarted += OnReloadStarted;
-        _weapon.RuntimeState.ReloadFinished += OnReloadFinished;
-        _weapon.RuntimeState.ReloadProgressChanged += OnReloading;
+        _weapon.ReloadStarted += OnReloadStarted;
+        _weapon.ReloadFinished += OnReloadFinished;
+        _weapon.ReloadProgressChanged += OnReloading;
     }
 
     private void OnDestroy()
     {
         _button.onClick.RemoveListener(OnPressed);
 
-        _weapon.RuntimeState.ReloadStarted -= OnReloadStarted;
-        _weapon.RuntimeState.ReloadFinished -= OnReloadFinished;
-        _weapon.RuntimeState.ReloadProgressChanged -= OnReloading;
+        _weapon.ReloadStarted -= OnReloadStarted;
+        _weapon.ReloadFinished -= OnReloadFinished;
+        _weapon.ReloadProgressChanged -= OnReloading;
     }
 
     private void OnPressed()

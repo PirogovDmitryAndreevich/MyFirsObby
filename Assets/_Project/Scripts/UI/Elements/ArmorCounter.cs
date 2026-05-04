@@ -8,7 +8,7 @@ public class ArmorCounter : MonoBehaviour
     [SerializeField] private Image _reloadView;
 
     private Shooter _shooter;
-    private Weapon CurrentWeapon;
+    private WeaponBase CurrentWeapon;
 
     private void OnDestroy() =>
         _shooter.StateChanged -= ShowOrNot;
@@ -50,12 +50,10 @@ public class ArmorCounter : MonoBehaviour
 
     private void SyncState()
     {
-        var state = CurrentWeapon.RuntimeState;
-
-        if (state.IsReloading)
+        if (CurrentWeapon.IsReloading)
         {
             ShowReload();
-            UpdateReload(state.ReloadProgress);
+            UpdateReload(CurrentWeapon.ReloadProgress);
         }
         else
         {
@@ -71,12 +69,9 @@ public class ArmorCounter : MonoBehaviour
     private void HideReload() => 
         _reloadView.gameObject.SetActive(false);
 
-    private void UpdateCounterText()
-    {
-        var state = CurrentWeapon.RuntimeState;
-
-        _counterText.text = $"{state.CurrentAmmo.ToString()}/{state.MagazineSize}";
-    }
+    private void UpdateCounterText() => 
+        _counterText.text =
+        $"{CurrentWeapon.CurrentAmmo.ToString()}/{CurrentWeapon.MagazineSize}";
 
     private void UpdateReload(float progress)
     {
@@ -91,11 +86,11 @@ public class ArmorCounter : MonoBehaviour
         if (CurrentWeapon == null)
             return;
 
-        CurrentWeapon.RuntimeState.AmmunitionChanged += UpdateCounterText;
+        CurrentWeapon.AmmunitionChanged += UpdateCounterText;
 
-        CurrentWeapon.RuntimeState.ReloadStarted += ShowReload;
-        CurrentWeapon.RuntimeState.ReloadFinished += HideReload;
-        CurrentWeapon.RuntimeState.ReloadProgressChanged += UpdateReload;
+        CurrentWeapon.ReloadStarted += ShowReload;
+        CurrentWeapon.ReloadFinished += HideReload;
+        CurrentWeapon.ReloadProgressChanged += UpdateReload;
     }
 
     private void Unsubscribe()
@@ -103,10 +98,10 @@ public class ArmorCounter : MonoBehaviour
         if (CurrentWeapon == null)
             return;
 
-        CurrentWeapon.RuntimeState.AmmunitionChanged -= UpdateCounterText;
+        CurrentWeapon.AmmunitionChanged -= UpdateCounterText;
 
-        CurrentWeapon.RuntimeState.ReloadStarted -= ShowReload;
-        CurrentWeapon.RuntimeState.ReloadFinished -= HideReload;
-        CurrentWeapon.RuntimeState.ReloadProgressChanged -= UpdateReload;
+        CurrentWeapon.ReloadStarted -= ShowReload;
+        CurrentWeapon.ReloadFinished -= HideReload;
+        CurrentWeapon.ReloadProgressChanged -= UpdateReload;
     }
 }

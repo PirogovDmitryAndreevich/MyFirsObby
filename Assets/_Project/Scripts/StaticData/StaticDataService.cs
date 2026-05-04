@@ -10,6 +10,7 @@ public class StaticDataService : IStaticDataService
     private const string CharactersViewPath = "StaticData/CharactersView/Characters";
     private const string CharacterDataPath = "StaticData/CharacterData/CharacterData";
     private const string BuildDataPath = "StaticData/BuildData/BuildData";
+    private const string BulletsDataPath = "StaticData/Bullets/BulletsData";
 
     private CharacterStartData _characterStartData;
     private BuildStaticData _buildData;
@@ -19,6 +20,7 @@ public class StaticDataService : IStaticDataService
     private Dictionary<CharacterType, CharacterView> _charactersView;
     private Dictionary<ConveyerType, ConveyerStaticData> _conveyers;
     private Dictionary<OpeningType, ForOpener> _forOpeners;
+    private Dictionary<BulletType, Bullet> _bullets;
 
     public void Load()
     {
@@ -41,6 +43,8 @@ public class StaticDataService : IStaticDataService
         _conveyers = _buildData.Conveyers.ToDictionary(x => x.Type, x => x);
 
         _forOpeners = _buildData.ForOpeners.ToDictionary(x => x.Type, x => x);
+
+        _bullets = Resources.Load<BulletsData>(BulletsDataPath).Bullets.ToDictionary(x => x.Type, x => x);
     }
 
     public MonsterStaticData ForMonster(MonsterTypeId typeId) =>
@@ -80,5 +84,10 @@ public class StaticDataService : IStaticDataService
     public ForOpener ForOpeners(OpeningType type) =>
         _forOpeners.TryGetValue(type, out ForOpener data)
         ? data
+        : null;
+
+    public Bullet GetBullet(BulletType type) =>
+        _bullets.TryGetValue(type, out Bullet bullet)
+        ? bullet 
         : null;
 }

@@ -1,6 +1,6 @@
 ﻿public interface IUIFactory : IService
 {
-    Hud CreateHod(bool isMobile, CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector);
-    void CreateInventoryButton(WeaponType type, IWeaponSelector weaponSelector);
+    Hud CreateHod(bool isMobile, CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector, IWeaponContainer weaponContainer);
+    void CreateInventoryButton(WeaponType type, IWeaponSelector weaponSelector, WeaponBase weapon);
     RewardAdvPopup CreateRewardAdvPopup();
 }

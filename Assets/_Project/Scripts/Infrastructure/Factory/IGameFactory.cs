@@ -4,10 +4,10 @@ using UnityEngine;
 public interface IGameFactory : IService
 {
     CinemachineFreeLook CreateCamera();
-    Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup);
-    Bullet CreateBullet();
+    Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IWeaponContainer container);
     Character CreateCharacterController(Vector3 at);
-    WeaponSelector CreateWeaponSelector(Character character);
+    WeaponSelector CreateWeaponSelector(Character character, IWeaponContainer container);
+    public WeaponContainer CreateWeaponContainer();
     LootPiece CreateLoot();
     Enemy CreateMonster(MonsterTypeId monsterTypeID);
     SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId);

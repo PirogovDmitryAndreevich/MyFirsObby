@@ -12,22 +12,24 @@
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
-            "IsTutorialCompleted": true,
-            "Score": 20,
-            "Cash": 106,
+            "IsTutorialCompleted": false,
+            "Score": 0,
+            "Cash": 5,
             "Multiplier": 1,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
         "Weapons": {
             "OpenedWeapons": [
-                1
+                1,
+                8
             ]
         },
         "BuildProgress": {
             "OpenedObjects": [
                 0,
-                5
+                5,
+                6
             ],
             "OpenedOpeners": [
                 1

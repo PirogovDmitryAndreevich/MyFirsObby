@@ -5,11 +5,15 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private TrailRenderer _trail;
+    [SerializeField] private BulletType _type;
+    [SerializeField] private float _bulletForce;
 
     private Rigidbody _rigidbody;
     private int _damage;
     private float _lifeTime = 5f;
-    private IPoolService _poolService;
+    private IBulletsPool _pool;
+
+    public BulletType Type => _type;
 
     private void Awake()
     {
@@ -24,16 +28,18 @@ public class Bullet : MonoBehaviour
         ReturnToPool();
     }
 
-    public void Construct(IPoolService poolService) => 
-        _poolService = poolService;
+    public void Construct(IBulletsPool pool) => 
+        _pool = pool;
 
     public void Shot(Vector3 force, int damage)
     {
         _damage = damage;
 
+        transform.rotation = Quaternion.LookRotation(force);
+
         _trail.Clear();
         _trail.enabled = true;
-        _rigidbody.velocity = force;
+        _rigidbody.velocity = force * _bulletForce;
         StartCoroutine(ReturnToPoolRoutine());
     }
 
@@ -53,6 +59,6 @@ public class Bullet : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
 
-        _poolService.Return(this);
+        _pool.Return(this);
     }
 }

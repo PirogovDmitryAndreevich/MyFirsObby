@@ -5,13 +5,13 @@ public class WeaponStaticData : ScriptableObject
 {
     [Header("Type")]
     public WeaponType Type;
+    public BulletType BulletType;
 
     [Header("View Settings")]
     public string Name;
     public int UnblockPrice;    
     public Sprite Icon;
-    public GameObject Prefab;
-    public Bullet BulletPrefab;
+    public WeaponBase Weapon;
 
     [Header("Gun stats")]
     public int Damage = 5;

@@ -12,4 +12,5 @@ public interface IStaticDataService : IService
     public BuildStaticData ForBuild();
     public ConveyerStaticData ForConveyer(ConveyerType type);
     public ForOpener ForOpeners(OpeningType type);
+    public Bullet GetBullet(BulletType type);
 }
