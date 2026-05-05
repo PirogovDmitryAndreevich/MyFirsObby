@@ -69,8 +69,9 @@ public class Character : MonoBehaviour
         CurrentView = Instantiate(view, transform);
 
         Transform viewTransform = CurrentView.transform;
+        viewTransform.localPosition = Vector3.zero;
+        viewTransform.localRotation = Quaternion.identity;
 
-        viewTransform.position = transform.position;
         _meshRootRotation.CharacterView = viewTransform;
 
         CameraFollow = CurrentView.CameraFollow;
@@ -90,7 +91,6 @@ public class Character : MonoBehaviour
     {
         _mover.Controller.enabled = false;
         transform.position = _resetPoint;
-        CurrentView.gameObject.transform.position = transform.position;
         _mover.Controller.enabled = true;
     }
 }

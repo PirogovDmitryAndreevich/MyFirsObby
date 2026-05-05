@@ -16,8 +16,8 @@ MonoBehaviour:
   Health: 100
   Damage: 5
   RewardScores: 20
-  MinLoot: 100
-  MaxLoot: 600
+  MinLoot: 500
+  MaxLoot: 1500
   MoveSpeed: 1
   EffectiveDistance: 0.5
   Cleavage: 0.3

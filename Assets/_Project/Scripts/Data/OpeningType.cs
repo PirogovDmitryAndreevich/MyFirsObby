@@ -30,4 +30,10 @@ public enum OpeningType
     Wall_3_right,
     Wall_3_front,
     Weapon_LaserGun,
+    Weapon_AK74,
+    Weapon_M249,
+    Conveyor_9,
+    Conveyor_10,
+    Conveyor_11,
+    Conveyor_12,
 }

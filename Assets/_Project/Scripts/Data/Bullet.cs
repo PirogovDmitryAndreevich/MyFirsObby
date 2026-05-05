@@ -8,8 +8,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private BulletType _type;
     [SerializeField] private float _bulletForce;
 
+    protected int Damage;
     private Rigidbody _rigidbody;
-    private int _damage;
     private float _lifeTime = 5f;
     private IBulletsPool _pool;
 
@@ -22,9 +22,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.TryGetComponent(out IHealth damageable))
-            damageable.TakeDamage(_damage);
-
+        OnHit(collision);
         ReturnToPool();
     }
 
@@ -33,7 +31,7 @@ public class Bullet : MonoBehaviour
 
     public void Shot(Vector3 force, int damage)
     {
-        _damage = damage;
+        Damage = damage;
 
         transform.rotation = Quaternion.LookRotation(force);
 
@@ -41,6 +39,12 @@ public class Bullet : MonoBehaviour
         _trail.enabled = true;
         _rigidbody.velocity = force * _bulletForce;
         StartCoroutine(ReturnToPoolRoutine());
+    }
+
+    protected virtual void OnHit(Collision collision)
+    {
+        if (collision.collider.TryGetComponent(out IHealth damageable))
+            damageable.TakeDamage(Damage);
     }
 
     private IEnumerator ReturnToPoolRoutine()

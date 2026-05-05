@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -34,7 +33,6 @@ public class GameLoopState : IPayloaderState<LoadedScene>
         _loadedScene = loadedScene;
         _levelStaticData = _loadedScene.LevelData;
         _isGameStarted = true;
-        _timerBetweenBossTimer = Time.time + _levelStaticData.TimeBetweenBoss;
 
         _difficultyService.Initialize(_loadedScene.LevelData);
 
@@ -65,7 +63,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _openService.OpenOpener(OpeningType.Conveyor_1);
 
             _loadedScene.Character.LineDraw.StopDraw();
-        }
+        }        
 
         if (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Conveyor_1)
             && _progressService.Progress.BuildProgress.OpenedOpeners.Contains(OpeningType.Conveyor_1))
@@ -80,6 +78,19 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _loadedScene.Character.LineDraw.StopDraw();
         }
 
+        if (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Weapon_M1911)
+            && _progressService.Progress.BuildProgress.OpenedOpeners.Contains(OpeningType.Weapon_M1911))
+        {
+            IOpenObject opener = _openService.OpeningObjects[OpeningType.Weapon_M1911];
+
+            _loadedScene.Character.LineDraw.StartDraw(opener.Opener.transform);
+
+            while (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Weapon_M1911)
+                && !_progressService.Progress.Weapons.OpenedWeapons.Contains(WeaponType.M1911))
+                yield return null;
+
+            _loadedScene.Character.LineDraw.StopDraw();
+        }
 
         Enemy enemy = SpawnEnemy(MonsterTypeId.Noob);
 
@@ -96,12 +107,12 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private IEnumerator StartGameLoop()
     {
+        _timerBetweenBossTimer = Time.time + _levelStaticData.TimeBetweenBoss;
+
         while (_isGameStarted)
         {
             SpawnLoopEnemy();
             SpawnLoopBoss();
-
-            //_difficultyService.CheckUpGameMultiplier();
 
             yield return null;
         }
@@ -109,8 +120,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private void SpawnLoopBoss()
     {
-        if (!_isBossLife && !_isBossTimeStarted && Time.time >= _timerBetweenBossTimer
-                        && _progressService.Progress.PlayerState.Score > _levelStaticData.ToBossScore)
+        if (!_isBossLife && !_isBossTimeStarted && Time.time >= _timerBetweenBossTimer)
         {
             _isBossTimeStarted = true;
             _coroutineRunner.StartCoroutine(StartBossTimer());
@@ -119,7 +129,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
 
     private void SpawnLoopEnemy()
     {
-        if (Time.time < _nextSpawnTime)
+        if (_nextSpawnTime > Time.time)
             return;
 
         if (_enemiesOnScene >= _levelStaticData.MaxEnemiesOnScene)

@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 9
   BulletType: 0
   Name: LaserGun
-  UnblockPrice: 1
+  UnblockPrice: 0
   Icon: {fileID: 21300000, guid: 3b0b8396b83907b4c92b50ca07a7d5b2, type: 3}
   Weapon: {fileID: 3177867896765542650, guid: 96fd4f09c765e6449b915e4b68e169ca, type: 3}
   Damage: 0
