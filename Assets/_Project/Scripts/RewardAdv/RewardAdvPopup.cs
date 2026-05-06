@@ -9,10 +9,8 @@ public class RewardAdvPopup : MonoBehaviour
     private RewardType _currentID;
     private IRewardAdvService _rewardService;
 
-    private void Start()
-    {
+    private void Start() => 
         Hide();
-    }
 
     private void OnEnable()
     {

@@ -101,6 +101,9 @@ public class Enemy : MonoBehaviour
         _isFrozen = true;
         float freezing = time + Time.time;
 
+        Attack.enabled = false;
+        EnemyAnimator.enabled = false;
+
         while (freezing > Time.time)
         {
             AgentMoveToTarget.StopMove();
@@ -108,5 +111,7 @@ public class Enemy : MonoBehaviour
         }
         
         _isFrozen = false;
+        EnemyAnimator.enabled = true;
+        Attack.enabled = true;
     }
 }

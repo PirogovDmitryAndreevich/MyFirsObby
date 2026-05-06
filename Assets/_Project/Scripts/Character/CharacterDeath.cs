@@ -15,6 +15,9 @@ public class CharacterDeath : MonoBehaviour
     private void OnDestroy() => 
         _health.HealthChanged -= HealthChanged;
 
+    public void ResetState() => 
+        _isDead = false;
+
     private void HealthChanged()
     {
         if (!_isDead && _health.Current <= 0)

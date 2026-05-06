@@ -83,6 +83,7 @@ public class Character : MonoBehaviour
     private void Death()
     {
         Health.ResetHealth();
+        CharacterDeath.ResetState();
         _difficulty.CharacterDeath();
         Warp();
     }

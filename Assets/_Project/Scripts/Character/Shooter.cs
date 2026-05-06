@@ -62,7 +62,7 @@ public class Shooter : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, CurrentWeapon.Distance))
         {
-            if (Vector3.Distance(hit.point, _camera.transform.position) > 10f)
+            if (Vector3.Distance(hit.point, _camera.transform.position) > 20f)
                 return hit.point;
         }
 

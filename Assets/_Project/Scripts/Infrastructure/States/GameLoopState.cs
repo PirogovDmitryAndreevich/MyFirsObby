@@ -86,7 +86,7 @@ public class GameLoopState : IPayloaderState<LoadedScene>
             _loadedScene.Character.LineDraw.StartDraw(opener.Opener.transform);
 
             while (!_progressService.Progress.BuildProgress.OpenedObjects.Contains(OpeningType.Weapon_M1911)
-                && !_progressService.Progress.Weapons.OpenedWeapons.Contains(WeaponType.M1911))
+                || !_progressService.Progress.Weapons.OpenedWeapons.Contains(WeaponType.M1911))
                 yield return null;
 
             _loadedScene.Character.LineDraw.StopDraw();
@@ -135,9 +135,8 @@ public class GameLoopState : IPayloaderState<LoadedScene>
         if (_enemiesOnScene >= _levelStaticData.MaxEnemiesOnScene)
             return;
 
+        _nextSpawnTime = _levelStaticData.EnemySpawningTimer + Time.time;
         SpawnEnemyInternal();
-
-        _nextSpawnTime = Time.time + _levelStaticData.EnemySpawningTimer;
     }
 
     private void SpawnEnemyInternal()

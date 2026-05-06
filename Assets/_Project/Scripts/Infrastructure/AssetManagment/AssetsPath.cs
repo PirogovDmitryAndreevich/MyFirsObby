@@ -1,8 +1,8 @@
 public static class AssetsPath
 {
     public const string CharacterPath = "Character/Character";
-    public const string HudMobilePath = "Hud/HudMobile";
-    public const string HudDesktopPath = "Hud/HudDesktop";
+    public const string HudMobilePath = "UI/Hud/HudMobile";
+    public const string HudDesktopPath = "UI/Hud/HudDesktop";
     public const string Loot = "Loot/Loot";
     public const string Spawner = "Enemy/SpawnPoint";
     public const string Arsenal = "Arsenal/Arsenal";
@@ -19,5 +19,6 @@ public static class AssetsPath
     public const string BuildPath = "Build/Build";
     public const string ATMPath = "ATM/ATM";
     public const string LeaderBoardPath = "LeaderBoard/LeaderBoardView";
-    public const string RewardPopupPath = "RewardAdvPopup/RewardAdvCanvas";
+    public const string RewardPopupPath = "UI/RewardAdvPopup/RewardAdvCanvas";
+    public const string PauseWindowPath = "UI/PauseWindow/PauseWindow";
 }
