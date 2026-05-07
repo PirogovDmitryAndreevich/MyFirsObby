@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseWindow : MonoBehaviour
+public class PauseWindow : MonoBehaviour, IWindow
 {
     [SerializeField] private Button _closeButton;
-    [SerializeField] private AudioSettings _audioSettings;
+    [SerializeField] private AudioSlider _audioSettings;
+
     private IPauseService _pause;
 
-    public AudioSettings AudioSettings => _audioSettings;
+    public AudioSlider AudioSettings => _audioSettings;
+
+    public WindowsID WindowID => WindowsID.PauseWindow;
 
     private void OnEnable() => 
         _closeButton.onClick.AddListener(Hide);
@@ -18,9 +21,8 @@ public class PauseWindow : MonoBehaviour
     private void Start() => 
         Hide();
 
-    public void Construct(IPersistentProgressService progress, IPauseService pause)
+    public void Construct(IPauseService pause)
     {
-        AudioSettings.Construct(progress.Progress.Audio);
         _pause = pause;
     }
 

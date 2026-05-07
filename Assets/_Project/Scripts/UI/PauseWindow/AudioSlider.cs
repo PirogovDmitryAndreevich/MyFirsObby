@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AudioSettings : MonoBehaviour
+public class AudioSlider : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private Button _button;
@@ -10,15 +9,17 @@ public class AudioSettings : MonoBehaviour
     [SerializeField] private Sprite _spriteOn;
     [SerializeField] private Sprite _spriteOff;
 
-    public event Action<float> ValueChanged;
-
     private AudioSettingSaveData _progressData;
+    private ISaveLoadService _save;
+    private bool _isInitialized = false;
 
     private void OnEnable()
     {
         _button.onClick.AddListener(SwitchMute);
         _slider.onValueChanged.AddListener(ChangedSoundVolume);
-        InitializeView();
+
+        if (_isInitialized)
+            InitializeView();
     }
 
     private void OnDisable()
@@ -29,10 +30,12 @@ public class AudioSettings : MonoBehaviour
         _progressData.MuteChanged -= SetButtonView;
     }
 
-    public void Construct(AudioSettingSaveData progressData)
+    public void Construct(AudioSettingSaveData progressData, ISaveLoadService save)
     {
         _progressData = progressData;
+        _save = save;
         InitializeView();
+        _isInitialized = true;
 
         _progressData.MuteChanged += SetButtonView;
     }
@@ -47,10 +50,14 @@ public class AudioSettings : MonoBehaviour
     {
         float finalValue = Mathf.Clamp01(value);
         _progressData.ChangeVolume(finalValue);
+        _save.SaveProgress();
     }
 
-    private void SwitchMute() => 
+    private void SwitchMute()
+    {
         _progressData.SwitchMute();
+        _save.SaveProgress();
+    }
 
     private void SetButtonView() =>
         _image.sprite = _progressData.IsMute ? _spriteOff : _spriteOn;

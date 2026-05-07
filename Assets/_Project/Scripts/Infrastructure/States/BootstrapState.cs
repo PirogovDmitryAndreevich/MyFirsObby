@@ -38,6 +38,7 @@ public class BootstrapState : IState
         _services.RegisterSingle<ISavedLists>(new SavedLists());
         _services.RegisterSingle<IWaypointChangerService>(new WaypointChangerService());
         _services.RegisterSingle<IPoolService>(new PoolService());
+        _services.RegisterSingle<IPauseService>(new PauseService());
 
         _services.RegisterSingle<IBulletsPool>(new BulletsPool(_services.Single<IStaticDataService>()));
 
@@ -63,7 +64,7 @@ public class BootstrapState : IState
              _services.Single<IBulletsPool>()));
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
-            _services.Single<IStaticDataService>(), _services.Single<IRewardAdvService>()));
+            _services.Single<IStaticDataService>(), _services.Single<IRewardAdvService>(), _services.Single<IPauseService>(), _services.Single<ISaveLoadService>()));
     }
 
     private void RegisterStaticData()

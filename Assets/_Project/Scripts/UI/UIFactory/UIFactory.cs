@@ -6,16 +6,20 @@ public class UIFactory : IUIFactory
     private readonly IPersistentProgressService _progressService;
     private readonly IStaticDataService _staticData;
     private readonly IRewardAdvService _rewardAdvService;
+    private readonly IPauseService _pauseService;
+    private readonly ISaveLoadService _save;
 
     private Hud _hud { get; set; }
 
     public UIFactory(IAssets assets, IPersistentProgressService progressService, IStaticDataService staticData,
-        IRewardAdvService rewardAdvService)
+        IRewardAdvService rewardAdvService, IPauseService pauseService, ISaveLoadService saveLoadService)
     {
         _assets = assets;
         _progressService = progressService;
         _staticData = staticData;
         _rewardAdvService = rewardAdvService;
+        _pauseService = pauseService;
+        _save = saveLoadService;
     }
 
     public Hud CreateHod(bool isMobile, CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector, IWeaponContainer weaponContainer)
@@ -26,7 +30,9 @@ public class UIFactory : IUIFactory
 
         _hud = hud.GetComponent<Hud>();
 
-        _hud.Construct(this, _progressService, weaponSelector, weaponContainer);
+        var pauseWindow = CreatePauseWindow();
+
+        _hud.Construct(this, _progressService, weaponSelector, weaponContainer, pauseWindow);
         _hud.LootCounter.Construct(_progressService.Progress.PlayerState);
         _hud.HealthUI.Construct(characterHealth);
         _hud.ArmorCounter.Construct(shooter);
@@ -49,7 +55,7 @@ public class UIFactory : IUIFactory
     public RewardAdvPopup CreateRewardAdvPopup()
     {
         RewardAdvPopup popup = _assets.Instantiate(AssetsPath.RewardPopupPath).GetComponent<RewardAdvPopup>();
-        popup.Construct(_rewardAdvService);
+        popup.Construct(_rewardAdvService, _pauseService);
 
         return popup;
     }
@@ -59,4 +65,15 @@ public class UIFactory : IUIFactory
 
     private GameObject CreateHudDesktop() =>
        _assets.Instantiate(AssetsPath.HudDesktopPath);
+
+    private PauseWindow CreatePauseWindow()
+    {
+        PauseWindow window = _assets.Instantiate(AssetsPath.PauseWindowPath)
+            .GetComponent<PauseWindow>();
+
+        window.Construct(_pauseService);
+        window.AudioSettings.Construct(_progressService.Progress.Audio, _save);
+
+        return window;
+    }
 }
