@@ -30,13 +30,17 @@ public class AudioSlider : MonoBehaviour
         _progressData.MuteChanged -= SetButtonView;
     }
 
+    private void Start()
+    {
+        InitializeView();
+        _isInitialized = true;
+    }
+
     public void Construct(AudioSettingSaveData progressData, ISaveLoadService save)
     {
         _progressData = progressData;
-        _save = save;
-        InitializeView();
-        _isInitialized = true;
-
+        _save = save;        
+        
         _progressData.MuteChanged += SetButtonView;
     }
 

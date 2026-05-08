@@ -12,6 +12,7 @@ public class WeaponStaticData : ScriptableObject
     public int UnblockPrice;    
     public Sprite Icon;
     public WeaponBase Weapon;
+    public AudioClip ShootSound;
 
     [Header("Gun stats")]
     public int Damage = 5;

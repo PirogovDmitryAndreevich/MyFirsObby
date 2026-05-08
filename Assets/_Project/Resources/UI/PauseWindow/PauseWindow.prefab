@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 6023942488778206300}
   - component: {fileID: 620702743960593503}
   - component: {fileID: 9070223684522510473}
-  - component: {fileID: 5949177955638089138}
+  - component: {fileID: -8898971319323452971}
   m_Layer: 5
   m_Name: PauseWindow
   m_TagString: Untagged
@@ -363,7 +363,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 534355654304571654}
-  - {fileID: 8724161515160685280}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -434,7 +433,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5949177955638089138
+--- !u!114 &-8898971319323452971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -567,6 +566,7 @@ RectTransform:
   m_Children:
   - {fileID: 2851367218576709723}
   - {fileID: 4655835090409662311}
+  - {fileID: 8724161515160685280}
   m_Father: {fileID: 8845532915997929631}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -754,7 +754,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8845532915997929631}
+    m_TransformParent: {fileID: 534355654304571654}
     m_Modifications:
     - target: {fileID: 1109558600909292633, guid: 4361916032372d549a56dec37b23c7e9, type: 3}
       propertyPath: m_Pivot.x

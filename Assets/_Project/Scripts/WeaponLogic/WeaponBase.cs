@@ -6,6 +6,7 @@ public class WeaponBase : MonoBehaviour
 {
     [SerializeField] private Transform _muzzle;
     [SerializeField] private Transform _view;
+    [SerializeField] private AudioSource _audioSource;
 
     public WeaponType Type { get; private set; }
 
@@ -69,8 +70,9 @@ public class WeaponBase : MonoBehaviour
     public virtual void Shoot(Vector3 direction)
     {
         if (!CanShoot)
-            return;       
+            return;
 
+        _audioSource.PlayOneShot(StaticData.ShootSound);
         CreateBullets(direction);
     }
 

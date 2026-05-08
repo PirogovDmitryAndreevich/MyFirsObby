@@ -1,8 +1,11 @@
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class LootPiece : MonoBehaviour
 {
+    [SerializeField] private TMP_Text _text;
+
     private PlayerState _resources;
     private ISaveLoadService _save;
     private IPoolService _poolService;
@@ -23,6 +26,7 @@ public class LootPiece : MonoBehaviour
     {
         _picked = false;
         _loot = loot;
+        _text.text = _loot.Value.ToString();
     }
 
     private void OnTriggerEnter(Collider other)

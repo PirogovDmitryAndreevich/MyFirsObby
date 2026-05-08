@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterAnimation), typeof(CharacterMove), typeof(CharacterRotation))]
 [RequireComponent(typeof(Shooter), typeof(CharacterHealth), typeof(LineDraw))]
-[RequireComponent(typeof(CharacterDeath))]
+[RequireComponent(typeof(CharacterDeath), typeof(CharacterSound))]
 public class Character : MonoBehaviour
 {
     private CharacterAnimation _animation;
@@ -15,10 +15,10 @@ public class Character : MonoBehaviour
     public CharacterHealth Health { get; private set; }
     public CharacterView CurrentView { get; private set; }
     public Transform CameraFollow { get; private set; }
-    public WeaponView SelectedWeapon { get; private set; }
     public LineDraw LineDraw { get; private set; }
     public Shooter Shooter { get; private set; }
     public CharacterDeath CharacterDeath { get; private set; }
+    public CharacterSound CharacterSound { get; private set;}
 
     private void Update()
     {
@@ -29,16 +29,17 @@ public class Character : MonoBehaviour
             _animation.Jump();
 
         if (_mover.IsMoving)
+        {
+            CharacterSound.PlayStepSound();
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
+        }
 
         if (_input.IsShoot && Shooter.IsWeaponSelected && Shooter.CurrentWeapon.CanShoot)        
             Shooter.TryShoot(_input.ShootPosition);
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() => 
         CharacterDeath.CharacterDead -= Death;
-    }
 
     public void Construct(IInputService inputService, IDifficultyService difficulty, CharacterView view, Vector3 resetPoint)
     {
@@ -54,6 +55,7 @@ public class Character : MonoBehaviour
         Health = GetComponent<CharacterHealth>();
         CharacterDeath = GetComponent<CharacterDeath>();
         LineDraw = GetComponent<LineDraw>();
+        CharacterSound = GetComponent<CharacterSound>();
 
         CharacterDeath.CharacterDead += Death;
 

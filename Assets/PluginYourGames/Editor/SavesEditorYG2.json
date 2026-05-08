@@ -7,24 +7,36 @@
         false,
         false
     ],
-    "idSave": 23,
+    "idSave": 9,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
-            "IsTutorialCompleted": false,
-            "Score": 0,
-            "Cash": 0,
+            "IsTutorialCompleted": true,
+            "Score": 20,
+            "Cash": 1570,
             "Multiplier": 1,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
         },
         "Weapons": {
-            "OpenedWeapons": []
+            "OpenedWeapons": [
+                1
+            ]
         },
         "BuildProgress": {
-            "OpenedObjects": [],
-            "OpenedOpeners": []
+            "OpenedObjects": [
+                0,
+                5
+            ],
+            "OpenedOpeners": [
+                1,
+                26
+            ]
+        },
+        "Audio": {
+            "IsMute": false,
+            "Volume": 0.5
         }
     }
 }

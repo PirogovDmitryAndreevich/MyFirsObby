@@ -28,7 +28,7 @@ public class LaserGun : WeaponBase
     {
         _isFiring = true;
 
-        float duration = _laserDuration + Time.time;
+        float duration = StaticData.ShootSound.length + Time.time; //_laserDuration + Time.time;
         _lineRenderer.enabled = true;
 
         while (duration > Time.time)

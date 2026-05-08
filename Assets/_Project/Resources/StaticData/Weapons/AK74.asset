@@ -18,6 +18,7 @@ MonoBehaviour:
   UnblockPrice: 1
   Icon: {fileID: 21300000, guid: 5077b581a872c0841a6ade3884f1beda, type: 3}
   Weapon: {fileID: 8852398923154647597, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+  ShootSound: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
   Damage: 5
   MagazineSize: 10
   Spread: 0.7
