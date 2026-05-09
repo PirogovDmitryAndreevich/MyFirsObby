@@ -131,12 +131,23 @@ public class GameFactory : IGameFactory
 
     public WeaponContainer CreateWeaponContainer()
     {
-        var container = new WeaponContainer(_staticData, _bulletsPool);
+        var container = new WeaponContainer(this);
 
         foreach (WeaponType weaponType in _progressService.Progress.Weapons.OpenedWeapons)
             container.AddNewWeapon(weaponType);
 
         return container;
+    }
+
+    public WeaponBase CreateWeapon(WeaponType type, Transform parent)
+    {
+        WeaponStaticData weaponStaticData = _staticData.ForWeaponsData(type);
+
+        WeaponBase weapon = _assets.Instantiate(weaponStaticData.Weapon, parent);
+        RegisterProgressWatchers(weapon.gameObject);
+        weapon.Construct(weaponStaticData, _bulletsPool);
+
+        return weapon;
     }
 
     public void CreateLeaderBoard(Transform at)

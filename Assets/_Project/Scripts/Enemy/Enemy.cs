@@ -63,10 +63,7 @@ public class Enemy : MonoBehaviour
 
     public void ResetState()
     {
-        int multiplier = _progress.Progress.PlayerState.Multiplier;
-
-        EnemyHealth.Max = _staticData.Health * multiplier;
-        LootSpawner.SetLoot(_staticData.MinLoot * multiplier, _staticData.MaxLoot * multiplier);
+        LootSpawner.ResetState();
         EnemyHealth.ResetState();
     }
 

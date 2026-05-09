@@ -20,7 +20,7 @@ MonoBehaviour:
   Weapon: {fileID: 265320672169277302, guid: 432643b6e5110004083fdff3e33e490b, type: 3}
   ShootSound: {fileID: 8300000, guid: 3061c7b9b32d894478e4126ccce25ca3, type: 3}
   Damage: 5
-  MagazineSize: 10
+  MagazineSize: 50
   Spread: 1.5
   ReloadTime: 3
   BulletsPerTap: 3

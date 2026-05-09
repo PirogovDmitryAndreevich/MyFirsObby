@@ -5,6 +5,7 @@ public class ATM : MonoBehaviour
 {
     [SerializeField] private ATMCollider _collider;
     [SerializeField] private TMP_Text _text;
+    [SerializeField] private int _test = 10000;
 
     private int _cash;
 
@@ -31,6 +32,12 @@ public class ATM : MonoBehaviour
     {
         UpdateText(_cash);
         SetState();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+            AddCash(_test);
     }
 
     private void TriggerEnter(Collider other)

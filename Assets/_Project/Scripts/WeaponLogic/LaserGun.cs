@@ -27,9 +27,10 @@ public class LaserGun : WeaponBase
     private IEnumerator StartLaser(Vector3 direction)
     {
         _isFiring = true;
-
-        float duration = StaticData.ShootSound.length + Time.time; //_laserDuration + Time.time;
+        
+        float duration = StaticData.ShootSound.length + Time.time; 
         _lineRenderer.enabled = true;
+        Audio.PlaySound(StaticData.ShootSound);
 
         while (duration > Time.time)
         {

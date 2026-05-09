@@ -7,7 +7,8 @@ public interface IGameFactory : IService
     Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IWeaponContainer container);
     Character CreateCharacterController(Vector3 at);
     WeaponSelector CreateWeaponSelector(Character character, IWeaponContainer container);
-    public WeaponContainer CreateWeaponContainer();
+    WeaponContainer CreateWeaponContainer();
+    WeaponBase CreateWeapon(WeaponType type, Transform parent);
     LootPiece CreateLoot();
     Enemy CreateMonster(MonsterTypeId monsterTypeID);
     SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId);

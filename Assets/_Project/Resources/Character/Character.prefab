@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267461bba91421043afa4636afc23e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _handler: {fileID: 4131761423832381555}
+  _handler: {fileID: 3344620899984323736}
   _buildStepSound: {fileID: 8300000, guid: 2e73cbbc7c06dbc419c0314ee3b64125, type: 3}
   _grassStepSound: {fileID: 8300000, guid: 1a41c6cce54ad7a49a3d9f8baf125844, type: 3}
   _jumpSound: {fileID: 8300000, guid: dab8853912902a74fb3815f52aaa9525, type: 3}
@@ -301,8 +301,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2209147262309137660}
   - component: {fileID: 6541736323713715981}
-  - component: {fileID: 4131761423832381555}
   - component: {fileID: 2331613287569525616}
+  - component: {fileID: 3344620899984323736}
   m_Layer: 11
   m_Name: AudioSource
   m_TagString: Untagged
@@ -421,22 +421,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4131761423832381555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650325043084625569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce1712bd33cf054885aaea6c939a1c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioSource: {fileID: 6541736323713715981}
-  _randomPitchSoundSource: {fileID: 2331613287569525616}
-  _lowPith: 1
-  _topPith: 2.5
 --- !u!82 &2331613287569525616
 AudioSource:
   m_ObjectHideFlags: 0
@@ -533,3 +517,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3344620899984323736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650325043084625569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d04834c83f4fd4f994be9de99925aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 6541736323713715981}
+  _randomPitchSoundSource: {fileID: 2331613287569525616}
+  _lowPith: 0.5
+  _topPith: 2

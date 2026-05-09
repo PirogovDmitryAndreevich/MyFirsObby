@@ -12,6 +12,8 @@ public class RPG : WeaponBase
         ReloadFinished += OnReloadFinished;
         _rocketModel.gameObject.SetActive(false);
 
+        Audio.PlaySound(StaticData.ShootSound);
+        MuzzleFlash.Play();
         CreateBullets(direction);
     }
 

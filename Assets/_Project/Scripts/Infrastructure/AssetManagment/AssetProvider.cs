@@ -22,4 +22,7 @@ public class AssetProvider : IAssets
 
     public TObject Instantiate<TObject>(TObject prefab)  where TObject : Object =>
         Object.Instantiate(prefab);
+
+    public TObject Instantiate<TObject>(TObject prefab, Transform parent) where TObject : Object =>
+        Object.Instantiate(prefab, parent);
 }

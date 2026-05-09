@@ -66,7 +66,7 @@ MonoBehaviour:
     Next: 
   - Type: 18
     UnblockPrice: 40000
-    Next: 130000001800000017000000
+    Next: 130000000e0000000c000000
   - Type: 13
     UnblockPrice: 15000
     Next: 
@@ -75,7 +75,7 @@ MonoBehaviour:
     Next: 
   - Type: 19
     UnblockPrice: 70000
-    Next: 1400000016000000
+    Next: 140000000c000000
   - Type: 12
     UnblockPrice: 15000
     Next: 0f000000

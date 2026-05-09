@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class WeaponBase : MonoBehaviour
 {
+    [SerializeField] protected ParticleSystem MuzzleFlash;
+    [SerializeField] protected AudioHandler Audio;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private Transform _view;
-    [SerializeField] private AudioSource _audioSource;
 
     public WeaponType Type { get; private set; }
 
     protected WeaponStaticData StaticData;
     private IBulletsPool _poolService;
-
     private float _reloadingProgress;
     private int _currentAmmo;
     private float _nextShotTime;
@@ -58,7 +58,7 @@ public class WeaponBase : MonoBehaviour
         }
     }
 
-    public void Construct(WeaponStaticData staticData, IBulletsPool poolService)
+    public void Construct(WeaponStaticData staticData,IBulletsPool poolService)
     {
         StaticData = staticData;
         Type = StaticData.Type;
@@ -72,8 +72,9 @@ public class WeaponBase : MonoBehaviour
         if (!CanShoot)
             return;
 
-        _audioSource.PlayOneShot(StaticData.ShootSound);
+        Audio.PlaySound(StaticData.ShootSound);
         CreateBullets(direction);
+        MuzzleFlash.Play();
     }
 
     public void SetView(bool isView) =>
@@ -89,7 +90,7 @@ public class WeaponBase : MonoBehaviour
 
             Bullet bullet = _poolService.Get(StaticData.BulletType);
             bullet.transform.position = Muzzle.position;
-            bullet.Shot(bulletDirection, StaticData.Damage);
+            bullet.Shot(bulletDirection, StaticData.Damage);            
         }
     }
 

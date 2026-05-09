@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterSound : MonoBehaviour
 {
-    [SerializeField] private AudioHandler _handler;
+    [SerializeField] private PithAudioHandler _handler;
     [SerializeField] private AudioClip _buildStepSound;
     [SerializeField] private AudioClip _grassStepSound;
     [SerializeField] private AudioClip _jumpSound;

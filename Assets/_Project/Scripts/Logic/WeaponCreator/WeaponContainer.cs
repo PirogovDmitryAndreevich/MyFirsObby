@@ -3,21 +3,16 @@ using UnityEngine;
 
 public class WeaponContainer : IWeaponContainer
 {
-    private readonly IStaticDataService _staticData;
-    private readonly IBulletsPool _poolService;
-
+    private readonly IGameFactory _gameFactory;
     private Transform _weaponsParent;
 
     public Dictionary<WeaponType, WeaponBase> Weapons { get; private set; }
     public Transform WeaponsParent => _weaponsParent;
 
-    public WeaponContainer(IStaticDataService staticData, IBulletsPool poolService)
+    public WeaponContainer(IGameFactory gameFactory)
     {
-        _staticData = staticData;
-        _poolService = poolService;
-
+        _gameFactory = gameFactory;
         Weapons = new();
-
         _weaponsParent = new GameObject("Weapons").transform;
     }
 
@@ -26,13 +21,9 @@ public class WeaponContainer : IWeaponContainer
         if (Weapons.ContainsKey(type))
             return;
 
-        WeaponStaticData weaponStaticData = _staticData.ForWeaponsData(type);
-
-        WeaponBase weapon = Object.Instantiate(weaponStaticData.Weapon, _weaponsParent);
-        weapon.Construct(weaponStaticData, _poolService);
+        WeaponBase weapon = _gameFactory.CreateWeapon(type, _weaponsParent);
 
         Weapons.Add(type, weapon);
-
         weapon.SetView(false);
     }
 }
