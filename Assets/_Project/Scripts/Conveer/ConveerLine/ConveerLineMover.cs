@@ -12,7 +12,9 @@ public class ConveerLineMover : MonoBehaviour
 
         Vector3 pos = _rigidbody.position;
 
-        _rigidbody.position += Vector3.back * _speed * Time.fixedDeltaTime;
+        Vector3 moveDir = -transform.forward;
+
+        _rigidbody.position += moveDir * _speed * Time.fixedDeltaTime;
         _rigidbody.MovePosition(pos);
     }
 }

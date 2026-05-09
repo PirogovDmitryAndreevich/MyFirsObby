@@ -1,10 +1,12 @@
+using Cinemachine;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
-using Cinemachine;
 using YG;
-using System;
-
+using UnityEngine.Localization.Settings;
 internal class LoadSceneState : IPayloaderState<string>
 {
     private const string BuildPointTag = "BuildInitialPoint";
@@ -18,13 +20,13 @@ internal class LoadSceneState : IPayloaderState<string>
     private readonly IPersistentProgressService _progressService;
     private readonly ISavedLists _savedLists;
     private readonly IStaticDataService _staticData;
-
+    private readonly ICoroutineRunner _coroutineRunner;
     private LoadedScene _loadedScene;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         LoadingCurtain curtain, IGameFactory gameFactory, IUIFactory uIFactory,
         IPersistentProgressService progressService, ISavedLists savedLists,
-        IStaticDataService staticData)
+        IStaticDataService staticData, ICoroutineRunner coroutineRunner)
     {
         _stateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
@@ -34,6 +36,7 @@ internal class LoadSceneState : IPayloaderState<string>
         _progressService = progressService;
         _savedLists = savedLists;
         _staticData = staticData;
+        _coroutineRunner = coroutineRunner;
     }
 
     public void Enter(string sceneName)
@@ -50,6 +53,7 @@ internal class LoadSceneState : IPayloaderState<string>
     {
         InitGameWorld();        
         InformProgressReaders();
+        SetLanguage();
         _stateMachine.Enter<GameLoopState, LoadedScene>(_loadedScene);
     }
 
@@ -140,5 +144,32 @@ internal class LoadSceneState : IPayloaderState<string>
 
         camera.Follow = cameraFollow;
         camera.LookAt = cameraFollow;
+    }
+
+    private void SetLanguage()
+    {
+        try
+        {
+           _coroutineRunner.StartCoroutine(LoadLocale(YG2.lang));
+        }
+        catch (System.Exception) { }
+    }
+
+    private IEnumerator LoadLocale(string languageIdentifier)
+    {
+        yield return LocalizationSettings.InitializationOperation;
+
+        LocaleIdentifier localeCode = new LocaleIdentifier(languageIdentifier);
+
+        for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; i++)
+        {
+            Locale locale = LocalizationSettings.AvailableLocales.Locales[i];
+
+            if (locale.Identifier == localeCode)
+            {
+                LocalizationSettings.SelectedLocale = locale;
+                yield break;
+            }
+        }
     }
 }

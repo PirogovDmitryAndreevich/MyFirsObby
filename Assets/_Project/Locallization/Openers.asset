@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: Openers
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: e86c139fb39da894d9a963520615cc8a, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: 244f36f872022aa40869bb4b5f7c205d, type: 2}
+  - {fileID: 11400000, guid: 8366c1be53075cd4ba9ae9aa6c935ca1, type: 2}
+  - {fileID: 11400000, guid: cf954df16754d504d825a0b4f5719f36, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

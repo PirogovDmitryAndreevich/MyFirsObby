@@ -21,6 +21,7 @@ public class SpawnerResources : MonoBehaviour
     private void Spawn()
     {
         ConveyerResource resource = _pool.Get(_type);
+        resource.transform.rotation = transform.rotation;
         resource.ResetState(_cubeMover.ResourceSpawnPoint.position);
     }
 }

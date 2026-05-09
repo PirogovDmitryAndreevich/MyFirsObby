@@ -14,7 +14,8 @@ public partial class GameStateMachine
             [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
 
             [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IUIFactory>(),
-            services.Single<IPersistentProgressService>(), services.Single<ISavedLists>(), services.Single<IStaticDataService>()),
+            services.Single<IPersistentProgressService>(), services.Single<ISavedLists>(), services.Single<IStaticDataService>(),
+            coroutineRunner),
 
             [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>(),
             services.Single<IStaticDataService>()),
