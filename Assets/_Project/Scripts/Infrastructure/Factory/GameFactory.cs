@@ -98,6 +98,7 @@ public class GameFactory : IGameFactory
         monster.LootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
         monster.Attack.Construct(monsterData.Damage, monsterData.EffectiveDistance,
             monsterData.Cleavage, monsterData.CooldownAttack);
+        monster.DamageImpactSpawner.Construct(this, _poolService);
 
         return monster;
     }
@@ -156,6 +157,15 @@ public class GameFactory : IGameFactory
             .GetComponent<LeaderBoard>();
 
         lb.Construct(_progressService);
+    }
+
+    public DamageImpactPiece CreateDamageImpact()
+    {
+       var piece = _assets.Instantiate(AssetsPath.DamageImpactPath)
+            .GetComponent<DamageImpactPiece>();
+
+        piece.Construct(_poolService);
+        return piece;
     }
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)

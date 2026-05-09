@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: LayerMaskPlayer.m_Bits
       value: 2048
       objectReference: {fileID: 0}
+    - target: {fileID: 6684393631389176149, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 7189899491515710879, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
       propertyPath: m_Name
       value: LittleNoob Variant
@@ -160,6 +164,7 @@ MonoBehaviour:
   _enemyDeath: {fileID: 9057067158723865962}
   _enemyAnimator: {fileID: 3555688348327980218}
   _aggro: {fileID: 8006654852400964832}
+  _damageImpactSpawner: {fileID: 8275501189181454468}
 --- !u!114 &6682788161288117434 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7810372993801663013, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
@@ -202,6 +207,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3976ec88f19a204f8d86d2848c1d3c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8275501189181454468 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4756488176915322395, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
+  m_PrefabInstance: {fileID: 3520140041749376671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa993cf315a2334fa3d9866b42bd10c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8422958829430244672 stripped

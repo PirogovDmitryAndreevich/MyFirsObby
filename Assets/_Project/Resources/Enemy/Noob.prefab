@@ -169,6 +169,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpBar: {fileID: 8634771644834469459}
+--- !u!1 &1086890793028939537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6684393631389176149}
+  - component: {fileID: 4756488176915322395}
+  m_Layer: 22
+  m_Name: DamageSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6684393631389176149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086890793028939537}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1144515282184413129}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4756488176915322395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086890793028939537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa993cf315a2334fa3d9866b42bd10c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: {fileID: 4267764530317301311}
 --- !u!1 &3150932998060930629
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +586,7 @@ Transform:
   - {fileID: 3040444834133922224}
   - {fileID: 4702084262930658585}
   - {fileID: 8851773977759899549}
+  - {fileID: 6684393631389176149}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &880786550999259246
@@ -610,6 +656,7 @@ MonoBehaviour:
   _enemyDeath: {fileID: 5578594548924154869}
   _enemyAnimator: {fileID: 108749402642580005}
   _aggro: {fileID: 6901580187899382399}
+  _damageImpactSpawner: {fileID: 4756488176915322395}
 --- !u!114 &108749402642580005
 MonoBehaviour:
   m_ObjectHideFlags: 0

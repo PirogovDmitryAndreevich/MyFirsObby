@@ -21,4 +21,5 @@ public static class AssetsPath
     public const string LeaderBoardPath = "LeaderBoard/LeaderBoardView";
     public const string RewardPopupPath = "UI/RewardAdvPopup/RewardAdvCanvas";
     public const string PauseWindowPath = "UI/PauseWindow/PauseWindow";
+    public const string DamageImpactPath = "DamageImpact/DamageImpact";
 }

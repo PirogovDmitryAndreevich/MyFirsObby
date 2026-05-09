@@ -14,4 +14,5 @@ public interface IGameFactory : IService
     SpawnPoint CreateSpawner(Vector3 at, string id, MonsterTypeId monsterTypeId);
     void CreateLeaderBoard(Transform at);
     Waypoint CreateWaypoint(Vector3 at);
+    DamageImpactPiece CreateDamageImpact();
 }

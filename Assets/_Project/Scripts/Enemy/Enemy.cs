@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyDeath _enemyDeath;
     [SerializeField] private EnemyAnimator _enemyAnimator;
     [SerializeField] private Aggro _aggro;
+    [SerializeField] private DamageImpactSpawner _damageImpactSpawner;
 
     private EnemyStateMachine _stateMachine;
     private MonsterStaticData _staticData;
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
     public EnemyAnimator EnemyAnimator => _enemyAnimator;
     public Aggro Aggro => _aggro;
     public CheckAttackRange CheckAttackRange => _attackRange;
+    public DamageImpactSpawner DamageImpactSpawner => _damageImpactSpawner;
     public Transform CurrentTarget { get; private set; }
     public float WaitTime => _waitTime;
     public float MinimalDistance => _minimalDistance;

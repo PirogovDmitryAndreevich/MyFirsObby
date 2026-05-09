@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour, IHealth
     [SerializeField] private float _max;
 
     public event Action HealthChanged;
-
+    public event Action<float> DamageReceived;
     public float Current
     {
         get => _current;
@@ -30,6 +30,7 @@ public class EnemyHealth : MonoBehaviour, IHealth
     {
         Current -= damage;
 
+        DamageReceived?.Invoke(damage);
         HealthChanged?.Invoke();
     }
 

@@ -7,14 +7,14 @@
         false,
         false
     ],
-    "idSave": 106,
+    "idSave": 113,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
             "IsTutorialCompleted": true,
-            "Score": 350,
-            "Cash": 108478,
+            "Score": 430,
+            "Cash": 111463,
             "Multiplier": 1,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
