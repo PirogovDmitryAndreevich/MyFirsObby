@@ -19,6 +19,12 @@ MonoBehaviour:
     uniqueID: 000
     playerPhoto: demo image
     payingStatus: 0
+  InterstitialAdv:
+    showFirstAdv: 0
+    interAdvInterval: 60
+    postponeCallByFail: 1
+    postponeCallTimer: 10
+    labelAdvSimLabel: 0
   Leaderboards:
     enable: 1
     saveScoreAnonymousPlayers: 1
@@ -115,6 +121,11 @@ MonoBehaviour:
         rank: 5
         score: 60
         extraData: 
+  Localization:
+    setLanguageMod: 1
+  RewardedAdv:
+    skipInterAdvAfterReward: 0
+    labelAdvSimLabel: 0
   Storage:
     saveLocal: 0
     saveCloud: 1
@@ -176,6 +187,11 @@ MonoBehaviour:
   platformInfo:
     ownHost: 0
   platformToggles:
+    showFirstAdv: 0
+    interAdvInterval: 0
+    postponeCallByFail: 0
+    setLanguageMod: 0
+    skipInterAdvAfterReward: 0
     saveLocal: 0
     saveCloud: 0
     autoPauseGame: 0

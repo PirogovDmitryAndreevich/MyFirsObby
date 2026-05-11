@@ -7,14 +7,14 @@
         false,
         false
     ],
-    "idSave": 5,
+    "idSave": 10,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
-            "IsTutorialCompleted": false,
-            "Score": 0,
-            "Cash": 0,
+            "IsTutorialCompleted": true,
+            "Score": 20,
+            "Cash": 759,
             "Multiplier": 1,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
@@ -27,11 +27,12 @@
         "BuildProgress": {
             "OpenedObjects": [
                 0,
-                5
+                5,
+                1
             ],
             "OpenedOpeners": [
-                1,
-                26
+                26,
+                2
             ]
         },
         "Audio": {
