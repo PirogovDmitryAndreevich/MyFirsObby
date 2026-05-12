@@ -561,6 +561,7 @@ GameObject:
   - component: {fileID: 5578594548924154869}
   - component: {fileID: 2568558587967817768}
   - component: {fileID: 8053786361422351697}
+  - component: {fileID: 5037807835436417681}
   m_Layer: 22
   m_Name: Noob
   m_TagString: Untagged
@@ -657,6 +658,7 @@ MonoBehaviour:
   _enemyAnimator: {fileID: 108749402642580005}
   _aggro: {fileID: 6901580187899382399}
   _damageImpactSpawner: {fileID: 4756488176915322395}
+  _enemyDeathEffectSpawner: {fileID: 5037807835436417681}
 --- !u!114 &108749402642580005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +814,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 1.08, z: 0.32}
   m_Center: {x: 0, y: 0.55, z: -0.1}
+--- !u!114 &5037807835436417681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7189899491515710879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9078e99646cfb1446b1d74985a75c756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7420081185380296935
 GameObject:
   m_ObjectHideFlags: 0

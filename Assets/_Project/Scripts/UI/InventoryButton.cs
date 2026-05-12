@@ -7,18 +7,22 @@ public class InventoryButton : MonoBehaviour
     [SerializeField] private Image _icon;
     [SerializeField] private Image _reload;
     [SerializeField] private Image _selected;
+    [SerializeField] private AudioClip _selectSound;
+    [SerializeField] private AudioClip _unselectSound;
 
     private Button _button;
     private WeaponBase _weapon;
+    private UIAudioHandler _audio;
     private WeaponType _type;
     private IWeaponSelector _weaponSelector;
 
-    public void Construct(IWeaponSelector weaponSelector, WeaponBase weapon ,WeaponType type, Sprite icon)
+    public void Construct(IWeaponSelector weaponSelector, WeaponBase weapon, UIAudioHandler audioHandler, WeaponType type, Sprite icon)
     {
         _type = type;
         _weaponSelector = weaponSelector;
         _icon.sprite = icon;
         _weapon = weapon;
+        _audio = audioHandler;
 
         _button = GetComponent<Button>();
         OnReloadFinished();
@@ -43,9 +47,15 @@ public class InventoryButton : MonoBehaviour
     private void OnPressed()
     {
         if (_weaponSelector.CurrentWeapon != null && _weaponSelector.CurrentWeapon.Type == _type)
+        {
+            _audio.PlaySound(_unselectSound);
             _weaponSelector.UnselectWeapon();
+        }
         else
+        {
+            _audio.PlaySound(_selectSound);
             _weaponSelector.SelectWeapon(_type);
+        }
     }
 
     public void ShowSelectedView() =>

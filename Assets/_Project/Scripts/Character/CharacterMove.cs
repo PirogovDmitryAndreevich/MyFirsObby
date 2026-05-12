@@ -15,11 +15,11 @@ public class CharacterMove : MonoBehaviour
     private IInputService _inputService;
 
     private Vector3 _velocity;
-    private bool _isGrounded;
 
     public CharacterController Controller { get; private set; }
     public Vector3 MovementVector { get; private set; }
     public bool IsMoving => _inputService.Axis.sqrMagnitude > ConstantsData.Epsilon;
+    public bool IsGrounded => Controller.isGrounded;
 
     private void Awake() =>
         Controller = GetComponent<CharacterController>();
@@ -58,9 +58,7 @@ public class CharacterMove : MonoBehaviour
 
     private void HandleGravity()
     {
-        _isGrounded = Controller.isGrounded;
-
-        if (_isGrounded && _velocity.y < 0)
+        if (IsGrounded && _velocity.y < 0)
             _velocity.y = -_groundStickForce;
 
         _velocity.y += Physics.gravity.y * Time.deltaTime;
@@ -68,7 +66,7 @@ public class CharacterMove : MonoBehaviour
 
     private void HandleJump()
     {
-        if (_isGrounded && _inputService.JumpPressed)
+        if (IsGrounded && _inputService.JumpPressed)
             _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * Physics.gravity.y);
     }
 }

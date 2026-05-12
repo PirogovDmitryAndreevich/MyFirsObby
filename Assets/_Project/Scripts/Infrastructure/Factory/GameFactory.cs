@@ -20,7 +20,7 @@ public class GameFactory : IGameFactory
 
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
         ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService,
-        IPoolService poolService, IWaypointChangerService waypointsChanger,IDifficultyService difficultyService,
+        IPoolService poolService, IWaypointChangerService waypointsChanger, IDifficultyService difficultyService,
         IOpenService openService, IConveyersPool conveyersPool, IBulletsPool bulletsPool)
     {
         _assets = assets;
@@ -39,7 +39,7 @@ public class GameFactory : IGameFactory
 
     public CinemachineFreeLook CreateCamera()
     {
-        CinemachineFreeLook camera = _assets.Instantiate(AssetsPath.CameraPath).GetComponent<CinemachineFreeLook>();
+        CinemachineFreeLook camera = InstantiateRegistered(AssetsPath.CameraPath).GetComponent<CinemachineFreeLook>();
         camera.GetComponent<CinemachineZoom>().Construct(_inputService);
         camera.GetComponent<CameraRotateOnRightClick>().Construct(_inputService);
 
@@ -99,6 +99,7 @@ public class GameFactory : IGameFactory
         monster.Attack.Construct(monsterData.Damage, monsterData.EffectiveDistance,
             monsterData.Cleavage, monsterData.CooldownAttack);
         monster.DamageImpactSpawner.Construct(this, _poolService);
+        monster.DeathEffector.Construct(_poolService, this);
 
         return monster;
     }
@@ -161,11 +162,22 @@ public class GameFactory : IGameFactory
 
     public DamageImpactPiece CreateDamageImpact()
     {
-       var piece = _assets.Instantiate(AssetsPath.DamageImpactPath)
-            .GetComponent<DamageImpactPiece>();
+        var piece = _assets.Instantiate(AssetsPath.DamageImpactPath)
+             .GetComponent<DamageImpactPiece>();
 
         piece.Construct(_poolService);
         return piece;
+    }
+
+    public DeathEffect CreateEnemyDeathEffect()
+    {
+        DeathEffect effect = _assets.Instantiate(AssetsPath.EnemyDeathEffectPath)
+            .GetComponent<DeathEffect>();
+
+        effect.Construct(_poolService);
+        effect.AudioHandler.Construct(_progressService.Progress.Audio);
+
+        return effect;
     }
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
@@ -201,7 +213,7 @@ public class GameFactory : IGameFactory
         if (progressReader is IOpenObject openObject)
         {
             ForOpener data = _staticData.ForOpeners(openObject.Type);
-            openObject.Opener.Construct(_openService,_progressService,data.Type,data.UnblockPrice);
+            openObject.Opener.Construct(_openService, _progressService, data.Type, data.UnblockPrice);
             openObject.Construct(data.Next);
             _openService.Register(openObject);
         }

@@ -15,4 +15,5 @@ public interface IGameFactory : IService
     void CreateLeaderBoard(Transform at);
     Waypoint CreateWaypoint(Vector3 at);
     DamageImpactPiece CreateDamageImpact();
+    DeathEffect CreateEnemyDeathEffect();
 }

@@ -288,9 +288,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _handler: {fileID: 3344620899984323736}
-  _buildStepSound: {fileID: 8300000, guid: 2e73cbbc7c06dbc419c0314ee3b64125, type: 3}
-  _grassStepSound: {fileID: 8300000, guid: 1a41c6cce54ad7a49a3d9f8baf125844, type: 3}
-  _jumpSound: {fileID: 8300000, guid: dab8853912902a74fb3815f52aaa9525, type: 3}
+  _stepSound: {fileID: 8300000, guid: 2e73cbbc7c06dbc419c0314ee3b64125, type: 3}
+  _jumpSound: {fileID: 8300000, guid: 303d44c8d6ec943a38df8ec10b19d9c7, type: 3}
 --- !u!1 &1650325043084625569
 GameObject:
   m_ObjectHideFlags: 0

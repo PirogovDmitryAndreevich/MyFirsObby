@@ -7,14 +7,14 @@
         false,
         false
     ],
-    "idSave": 10,
+    "idSave": 92,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
             "IsTutorialCompleted": true,
-            "Score": 20,
-            "Cash": 759,
+            "Score": 175,
+            "Cash": 7163,
             "Multiplier": 1,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
@@ -36,8 +36,8 @@
             ]
         },
         "Audio": {
-            "IsMute": false,
-            "Volume": 0.5
+            "IsMute": true,
+            "Volume": 0.2462007999420166
         }
     }
 }

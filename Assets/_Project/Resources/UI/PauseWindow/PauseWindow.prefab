@@ -447,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 6351219375795202804}
   _audioSettings: {fileID: 7589767673899932985}
+  _closeButtonSound: {fileID: 8300000, guid: dab8853912902a74fb3815f52aaa9525, type: 3}
 --- !u!1 &7569081355932643871
 GameObject:
   m_ObjectHideFlags: 0

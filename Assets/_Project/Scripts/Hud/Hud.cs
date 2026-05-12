@@ -10,6 +10,8 @@ public class Hud : MonoBehaviour
     [SerializeField] private ScoreCounter _scoreCounter;
     [SerializeField] private BossTimer _bossTimer;
     [SerializeField] private Button _settings;
+    [SerializeField] private UIAudioHandler _audioHandler;
+    [SerializeField] private AudioClip _settingButtonSound;
 
     private IUIFactory _uiFactory;
     private IPersistentProgressService _progressService;
@@ -23,6 +25,7 @@ public class Hud : MonoBehaviour
     public HealthUI HealthUI => _healthUI;
     public Transform InventoryView => _inventoryView;
     public BossTimer BossTimer => _bossTimer;
+    public UIAudioHandler AudioHandler => _audioHandler;
 
     private void OnDestroy()
     {
@@ -46,9 +49,12 @@ public class Hud : MonoBehaviour
         _settings.onClick.AddListener(ShowPauseWindow);
     }
 
-    private void ShowPauseWindow() => 
+    private void ShowPauseWindow()
+    {
+        AudioHandler.PlaySound(_settingButtonSound);
         _pauseWindow.Show();
+    }
 
     private void CreateInventoryButton(WeaponType type) =>
-        _uiFactory.CreateInventoryButton(type, _weaponSelector, _weaponContainer.Weapons[type]);
+        _uiFactory.CreateInventoryButton(type, AudioHandler, _weaponSelector, _weaponContainer.Weapons[type]);
 }

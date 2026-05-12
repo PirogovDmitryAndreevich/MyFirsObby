@@ -8,8 +8,11 @@ public class AudioSlider : MonoBehaviour
     [SerializeField] private Image _image;
     [SerializeField] private Sprite _spriteOn;
     [SerializeField] private Sprite _spriteOff;
+    [SerializeField] private AudioClip _sliderSound;
+    [SerializeField] private AudioClip _mutButtonSound;
 
     private AudioSettingSaveData _progressData;
+    private UIAudioHandler _audio;
     private ISaveLoadService _save;
     private bool _isInitialized = false;
 
@@ -34,32 +37,36 @@ public class AudioSlider : MonoBehaviour
     {
         InitializeView();
         _isInitialized = true;
+
+        _progressData.MuteChanged += SetButtonView;
     }
 
-    public void Construct(AudioSettingSaveData progressData, ISaveLoadService save)
+    public void Construct(AudioSettingSaveData progressData, UIAudioHandler audioHandler, ISaveLoadService save)
     {
         _progressData = progressData;
-        _save = save;        
-        
-        _progressData.MuteChanged += SetButtonView;
+        _audio = audioHandler;
+        _save = save;
     }
 
     private void InitializeView()
     {
-        _image.sprite = _progressData.IsMute ? _spriteOff : _spriteOn;
+        SetButtonView();
         _slider.SetValueWithoutNotify(_progressData.Volume);
     }
 
     private void ChangedSoundVolume(float value)
     {
         float finalValue = Mathf.Clamp01(value);
+        _audio.PlaySound(_sliderSound);
         _progressData.ChangeVolume(finalValue);
         _save.SaveProgress();
     }
 
     private void SwitchMute()
     {
+        _audio.PlaySound(_mutButtonSound);
         _progressData.SwitchMute();
+        SetButtonView();
         _save.SaveProgress();
     }
 

@@ -23,4 +23,5 @@ public static class AssetsPath
     public const string PauseWindowPath = "UI/PauseWindow/PauseWindow";
     public const string DamageImpactPath = "DamageImpact/DamageImpact";
     public const string AdNotificationPath = "AdNotification/InterstitialNotification";
+    public const string EnemyDeathEffectPath = "Enemy/DeathEffect/DeathEffect";
 }

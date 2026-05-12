@@ -1278,6 +1278,8 @@ MonoBehaviour:
   _image: {fileID: 5542407498890585611}
   _spriteOn: {fileID: 21300000, guid: 660f03cb9b4eae6489b97f91c53dc4cc, type: 3}
   _spriteOff: {fileID: 21300000, guid: f8c55943a114a5d46972a624e5be3450, type: 3}
+  _sliderSound: {fileID: 8300000, guid: 087224dd7ec352f42a3b950a07009a88, type: 3}
+  _mutButtonSound: {fileID: 8300000, guid: 44a5d716536c11248a09ee1a54d5d168, type: 3}
 --- !u!1 &2785984280428296880
 GameObject:
   m_ObjectHideFlags: 0

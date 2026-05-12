@@ -5,8 +5,10 @@ public class PauseWindow : MonoBehaviour, IWindow
 {
     [SerializeField] private Button _closeButton;
     [SerializeField] private AudioSlider _audioSettings;
+    [SerializeField] private AudioClip _closeButtonSound;
 
     private IPauseService _pause;
+    private UIAudioHandler _audio;
 
     public AudioSlider AudioSettings => _audioSettings;
 
@@ -21,9 +23,10 @@ public class PauseWindow : MonoBehaviour, IWindow
     private void Start() => 
         Hide();
 
-    public void Construct(IPauseService pause)
+    public void Construct(IPauseService pause, UIAudioHandler audioHandler)
     {
         _pause = pause;
+        _audio = audioHandler;
     }
 
     public void Show()
@@ -36,5 +39,6 @@ public class PauseWindow : MonoBehaviour, IWindow
     {
         gameObject.SetActive(false);
         _pause.Run();
+        _audio.PlaySound(_closeButtonSound);
     }
 }

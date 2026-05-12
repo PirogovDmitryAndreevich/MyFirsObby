@@ -25,13 +25,18 @@ public class Character : MonoBehaviour
         _animation.Run(_mover.IsMoving);
         _animation.KeepWeapon(Shooter.IsWeaponSelected);
 
-        if (_input.JumpPressed)
+        if (_input.JumpPressed && _mover.IsGrounded)
+        {
+            CharacterSound.PlayJumpSound();
             _animation.Jump();
+        }
 
         if (_mover.IsMoving)
         {
-            CharacterSound.PlayStepSound();
             _meshRootRotation.RotateCharacter(_mover.MovementVector);
+
+            if (_mover.IsGrounded)
+                CharacterSound.PlayStepSound();
         }
 
         if (_input.IsShoot && Shooter.IsWeaponSelected && Shooter.CurrentWeapon.CanShoot)        

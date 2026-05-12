@@ -289,6 +289,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f824716cdbeb8c4389dac73431ee4e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1337151657820807310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5037807835436417681, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
+  m_PrefabInstance: {fileID: 6298116754650817055}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3792242746789191552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9078e99646cfb1446b1d74985a75c756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1541663848040756228 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4756488176915322395, guid: aaaafa0f0ca39f14eab130bb292ae56a, type: 3}
@@ -378,6 +389,7 @@ MonoBehaviour:
   _enemyAnimator: {fileID: 6261477723679088698}
   _aggro: {fileID: 621550953924405344}
   _damageImpactSpawner: {fileID: 1541663848040756228}
+  _enemyDeathEffectSpawner: {fileID: 1337151657820807310}
 --- !u!114 &8323998047314204648
 MonoBehaviour:
   m_ObjectHideFlags: 0

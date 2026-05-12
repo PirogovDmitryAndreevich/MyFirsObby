@@ -23,6 +23,13 @@ public class AudioHandler : MonoBehaviour, ISavedProgressReader
         ResetMute();
     }
 
+    public void PlayMusic(AudioClip clip)
+    {
+        _audioSource.loop = true;
+        _audioSource.clip = clip;
+        _audioSource.Play();
+    }
+
     public void PlaySound(AudioClip clip) => 
         _audioSource.PlayOneShot(clip);
 

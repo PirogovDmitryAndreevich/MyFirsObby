@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyAnimator _enemyAnimator;
     [SerializeField] private Aggro _aggro;
     [SerializeField] private DamageImpactSpawner _damageImpactSpawner;
+    [SerializeField] private EnemyDeathEffectSpawner _enemyDeathEffectSpawner;
 
     private EnemyStateMachine _stateMachine;
     private MonsterStaticData _staticData;
@@ -37,6 +38,7 @@ public class Enemy : MonoBehaviour
     public Aggro Aggro => _aggro;
     public CheckAttackRange CheckAttackRange => _attackRange;
     public DamageImpactSpawner DamageImpactSpawner => _damageImpactSpawner;
+    public EnemyDeathEffectSpawner DeathEffector => _enemyDeathEffectSpawner;
     public Transform CurrentTarget { get; private set; }
     public float WaitTime => _waitTime;
     public float MinimalDistance => _minimalDistance;
@@ -86,6 +88,7 @@ public class Enemy : MonoBehaviour
     private void OnDeath(EnemyDeath _)
     {
         AddScore();
+        DeathEffector.StartDeathEffect();
         _poolService.Return(this);
     }
 

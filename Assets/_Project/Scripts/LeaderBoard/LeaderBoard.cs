@@ -6,10 +6,11 @@ public class LeaderBoard : MonoBehaviour
     [SerializeField] private LeaderboardYG _leaderboard;
     private IPersistentProgressService _progressService;
 
-    private void OnDestroy()
-    {
+    private void Start() => 
+        SetNewValueLB();
+
+    private void OnDestroy() => 
         _progressService.Progress.PlayerState.ScoreChanged -= SetNewValueLB;
-    }
 
     public void Construct(IPersistentProgressService progressService)
     {

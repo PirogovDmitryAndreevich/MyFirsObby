@@ -16,6 +16,12 @@ public class PithAudioHandler : AudioHandler
         }
     }
 
+    public void PlayRandomPithSound(AudioClip clip)
+    {
+        _randomPitchSoundSource.pitch = Random.Range(_lowPith, _topPith);
+        _randomPitchSoundSource.PlayOneShot(clip);
+    }
+
     protected override void ResetVolume()
     {
         base.ResetVolume();

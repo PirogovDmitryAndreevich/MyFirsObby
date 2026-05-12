@@ -37,16 +37,17 @@ public class UIFactory : IUIFactory
         _hud.HealthUI.Construct(characterHealth);
         _hud.ArmorCounter.Construct(shooter);
         _hud.ScoreCounter.Construct(_progressService.Progress.PlayerState);
+        _hud.AudioHandler.Construct(_progressService.Progress);
 
         return _hud;
     }
 
-    public void CreateInventoryButton(WeaponType type, IWeaponSelector weaponSelector, WeaponBase weapon)
+    public void CreateInventoryButton(WeaponType type, UIAudioHandler audioHandler, IWeaponSelector weaponSelector, WeaponBase weapon)
     {
         InventoryButton button =
                         _assets.Instantiate(AssetsPath.InventoryButtonPath, _hud.InventoryView).GetComponent<InventoryButton>();
 
-        button.Construct(weaponSelector, weapon, type, _staticData.ForWeaponsData(type).Icon);
+        button.Construct(weaponSelector, weapon, audioHandler, type, _staticData.ForWeaponsData(type).Icon);
 
         if (!weaponSelector.InventoryButtons.ContainsKey(type))
             weaponSelector.InventoryButtons[type] = button;
@@ -81,8 +82,8 @@ public class UIFactory : IUIFactory
         PauseWindow window = _assets.Instantiate(AssetsPath.PauseWindowPath)
             .GetComponent<PauseWindow>();
 
-        window.Construct(_pauseService);
-        window.AudioSettings.Construct(_progressService.Progress.Audio, _save);
+        window.Construct(_pauseService, _hud.AudioHandler);
+        window.AudioSettings.Construct(_progressService.Progress.Audio, _hud.AudioHandler, _save);
 
         return window;
     }
