@@ -5,6 +5,8 @@ public class ATM : MonoBehaviour
 {
     [SerializeField] private ATMCollider _collider;
     [SerializeField] private TMP_Text _text;
+    [SerializeField] private AudioHandler _audioHandler;
+    [SerializeField] private AudioClip _dropSound;
     [SerializeField] private int _test = 10000;
 
     private int _cash;
@@ -46,6 +48,7 @@ public class ATM : MonoBehaviour
         {
             isCashCollected = false;
             _progressService.Progress.PlayerState.AddCash(CollectCash());
+            _audioHandler.PlaySound(_dropSound);
             _save.SaveProgress();
             SetState();
         }

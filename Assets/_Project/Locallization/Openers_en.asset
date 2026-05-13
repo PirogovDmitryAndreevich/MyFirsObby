@@ -46,6 +46,26 @@ MonoBehaviour:
     m_Localized: Weapon
     m_Metadata:
       m_Items: []
+  - m_Id: 2264109408256
+    m_Localized: Watch an ad for a reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1721957867520
+    m_Localized: Watch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1388747290566656
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1398083299565568
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1398462649196544
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

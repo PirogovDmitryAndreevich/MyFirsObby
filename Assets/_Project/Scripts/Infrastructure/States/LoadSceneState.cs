@@ -78,7 +78,7 @@ internal class LoadSceneState : IPayloaderState<string>
 
         Hud hud = InitHud(characterController.Health, characterController.Shooter, weaponSelector, container);
 
-        Build build = InitBuild(levelData, rewardPopup, container);
+        Build build = InitBuild(levelData, rewardPopup, container, hud.AudioHandler);
 
         CameraFollow(characterController.CameraFollow);
 
@@ -102,8 +102,8 @@ internal class LoadSceneState : IPayloaderState<string>
         return levelData;
     }
 
-    private Build InitBuild(LevelStaticData levelData, RewardAdvPopup rewardAdvPopup, IWeaponContainer container) =>
-        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData, rewardAdvPopup, container);
+    private Build InitBuild(LevelStaticData levelData, RewardAdvPopup rewardAdvPopup, IWeaponContainer container, UIAudioHandler audioHandler) =>
+        _gameFactory.CreateBuild(at: GameObject.FindWithTag(BuildPointTag).transform, levelData, rewardAdvPopup, container, audioHandler);
 
     private Character InitCharacter(Vector3 at) =>
         _gameFactory.CreateCharacterController(at: at);

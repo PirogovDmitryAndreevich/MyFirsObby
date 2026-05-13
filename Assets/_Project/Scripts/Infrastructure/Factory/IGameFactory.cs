@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IGameFactory : IService
 {
     CinemachineFreeLook CreateCamera();
-    Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IWeaponContainer container);
+    Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IWeaponContainer container, UIAudioHandler audioHandler);
     Character CreateCharacterController(Vector3 at);
     WeaponSelector CreateWeaponSelector(Character character, IWeaponContainer container);
     WeaponContainer CreateWeaponContainer();

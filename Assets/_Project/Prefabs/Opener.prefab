@@ -561,3 +561,4 @@ MonoBehaviour:
   _renderer: {fileID: 1249801278893094462}
   _collider: {fileID: 5555447257465781344}
   _name: {fileID: 4160019956261044513}
+  _openerSound: {fileID: 8300000, guid: 19a5b18b079f844bba783a9ec5f32efa, type: 3}

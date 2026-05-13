@@ -125,7 +125,7 @@ MonoBehaviour:
   _icon: {fileID: 6696391372371088781}
   _reload: {fileID: 5087897976189137013}
   _selected: {fileID: 3035249994303110463}
-  _selectSound: {fileID: 8300000, guid: adf8eea18cb5e47eb95c7c80d6c21366, type: 3}
+  _selectSound: {fileID: 8300000, guid: a662aafbcfaef4b6da8f965d1dfab2c5, type: 3}
   _unselectSound: {fileID: 8300000, guid: f9390048cef5143fab5373e6dd3c429e, type: 3}
 --- !u!1 &1949829126134318245
 GameObject:

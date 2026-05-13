@@ -18,6 +18,8 @@ public class GameFactory : IGameFactory
     private readonly IConveyersPool _conveyersPool;
     private readonly IBulletsPool _bulletsPool;
 
+    private UIAudioHandler _audioHandler;
+
     public GameFactory(IAssets assets, IStaticDataService staticData, IPersistentProgressService progressService,
         ISavedLists savedLists, ISaveLoadService saveLoadService, IInputService inputService,
         IPoolService poolService, IWaypointChangerService waypointsChanger, IDifficultyService difficultyService,
@@ -46,18 +48,20 @@ public class GameFactory : IGameFactory
         return camera;
     }
 
-    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IWeaponContainer container)
+    public Build CreateBuild(Transform at, LevelStaticData levelStaticData, RewardAdvPopup rewardPopup, IWeaponContainer container, UIAudioHandler audioHandler)
     {
+        _audioHandler = audioHandler;
+
         Build build = InstantiateRegistered(AssetsPath.BuildPath, at.position).GetComponent<Build>();
 
         build.ATM.Construct(_progressService, _saveLoadService);
-        build.MoneyBugAdv.Construct(rewardPopup);
+        build.MoneyBugAdv.Construct(rewardPopup, levelStaticData.RewardCashFromAdv);
 
         foreach (var conveyer in build.Conveyers)
             conveyer.Construct(_conveyersPool, build.ATM);
 
         foreach (var stand in build.Stands)
-            stand.Construct(_staticData, container, _saveLoadService);
+            stand.Construct(_staticData, container, _saveLoadService, audioHandler);
 
         return build;
     }
@@ -78,7 +82,7 @@ public class GameFactory : IGameFactory
         var lootPiece = InstantiateRegistered(AssetsPath.Loot)
             .GetComponent<LootPiece>();
 
-        lootPiece.Construct(_progressService.Progress.PlayerState, _saveLoadService, _poolService);
+        lootPiece.Construct(_progressService.Progress.PlayerState, _saveLoadService, _poolService, _audioHandler);
 
         return lootPiece;
     }
@@ -213,7 +217,7 @@ public class GameFactory : IGameFactory
         if (progressReader is IOpenObject openObject)
         {
             ForOpener data = _staticData.ForOpeners(openObject.Type);
-            openObject.Opener.Construct(_openService, _progressService, data.Type, data.UnblockPrice);
+            openObject.Opener.Construct(_openService, _progressService, data.Type, data.UnblockPrice, _audioHandler);
             openObject.Construct(data.Next);
             _openService.Register(openObject);
         }

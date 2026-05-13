@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AudioHandler : MonoBehaviour, ISavedProgressReader
@@ -15,12 +16,7 @@ public class AudioHandler : MonoBehaviour, ISavedProgressReader
     public void LoadProgress(PlayerProgress progress)
     {
         SettingSaveData = progress.Audio;
-
-        SettingSaveData.VolumeChanged += ResetVolume;
-        SettingSaveData.MuteChanged += ResetMute;
-
-        ResetVolume();
-        ResetMute();
+        Initialize();
     }
 
     public void PlayMusic(AudioClip clip)
@@ -38,4 +34,18 @@ public class AudioHandler : MonoBehaviour, ISavedProgressReader
 
     protected virtual void ResetMute() => 
         _audioSource.mute = SettingSaveData.IsMute;
+
+    private void Initialize()
+    {
+        SettingSaveData.VolumeChanged += ResetVolume;
+        SettingSaveData.MuteChanged += ResetMute;
+
+        ResetVolume();
+        ResetMute();
+    }
+
+    public static implicit operator AudioHandler(UIAudioHandler v)
+    {
+        throw new NotImplementedException();
+    }
 }

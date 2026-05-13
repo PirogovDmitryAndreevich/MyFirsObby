@@ -293,6 +293,7 @@ MonoBehaviour:
   _text: {fileID: 1501827065725165911}
   _collider: {fileID: 5953283264112836475}
   _renderer: {fileID: 6677200088200699871}
+  _openSound: {fileID: 8300000, guid: adf8eea18cb5e47eb95c7c80d6c21366, type: 3}
 --- !u!1 &3300662489598513931
 GameObject:
   m_ObjectHideFlags: 0

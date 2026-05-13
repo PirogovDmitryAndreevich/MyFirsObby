@@ -7,12 +7,14 @@ public class Opener : MonoBehaviour, ISavedProgressReader
     [SerializeField] private Renderer _renderer;
     [SerializeField] private Collider _collider;
     [SerializeField] private TMP_Text _name;
+    [SerializeField] private AudioClip _openerSound;
 
     private int _price;
     private OpeningType _type;
     private MaterialPropertyBlock _block;
     private IOpenService _openService;
     private PlayerProgress _progress;
+    private UIAudioHandler _audio;
 
     private void Awake() => 
         _block = new MaterialPropertyBlock();
@@ -27,18 +29,20 @@ public class Opener : MonoBehaviour, ISavedProgressReader
 
         if (_progress.PlayerState.Cash >= _price)
         {
+            _audio.PlaySound(_openerSound);
             _progress.PlayerState.SpendCash(_price);
             _openService.OpenObject(_type);
         }
     }
 
-    public void Construct(IOpenService openService ,IPersistentProgressService progress, OpeningType type, int price)
+    public void Construct(IOpenService openService ,IPersistentProgressService progress, OpeningType type, int price, UIAudioHandler audioHandler)
     {
         _openService = openService;
         _progress = progress.Progress;
         _price = price;
         _type = type;
         _name.text = $"{_price}$";
+        _audio = audioHandler;
 
         _progress.PlayerState.CashChanged += SetState;
         SetState();

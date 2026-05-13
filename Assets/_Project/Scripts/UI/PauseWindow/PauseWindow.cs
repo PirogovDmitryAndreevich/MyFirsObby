@@ -20,8 +20,8 @@ public class PauseWindow : MonoBehaviour, IWindow
     private void OnDisable() => 
         _closeButton.onClick.RemoveListener(Hide);
 
-    private void Start() => 
-        Hide();
+    private void Start() =>
+        gameObject.SetActive(false);
 
     public void Construct(IPauseService pause, UIAudioHandler audioHandler)
     {

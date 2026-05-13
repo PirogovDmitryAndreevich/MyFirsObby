@@ -15669,6 +15669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 5921621613209257788}
   _rewardID: 0
+  _text: {fileID: 6523226133174432993}
 --- !u!1 &7507684157107004853
 GameObject:
   m_ObjectHideFlags: 0
@@ -18986,7 +18987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05100012
+      value: 0.099999905
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -19152,7 +19153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05100012
+      value: 0.099999905
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -19322,7 +19323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05100012
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -19458,6 +19459,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8017508922552454346}
     m_Modifications:
+    - target: {fileID: 4570830662165450325, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
+      propertyPath: m_text
+      value: "\u0421\u0442\u0435\u043D\u0430"
+      objectReference: {fileID: 0}
     - target: {fileID: 7310862865626900084, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 593866252288
@@ -20696,6 +20701,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3957852867698043251}
     m_Modifications:
+    - target: {fileID: 4570830662165450325, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
+      propertyPath: m_text
+      value: "\u041B\u0435\u0441\u0442\u043D\u0438\u0446\u0430"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310862865626900084, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 623830360064
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310862865626900084, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:e86c139fb39da894d9a963520615cc8a
+      objectReference: {fileID: 0}
     - target: {fileID: 8658760135777111210, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_Name
       value: Opener
@@ -21048,6 +21065,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6357604387367792801}
     m_Modifications:
+    - target: {fileID: 4570830662165450325, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
+      propertyPath: m_text
+      value: "\u0421\u0442\u0435\u043D\u0430"
+      objectReference: {fileID: 0}
     - target: {fileID: 7310862865626900084, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 593866252288
@@ -21765,7 +21786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05100012
+      value: 0.099999905
       objectReference: {fileID: 0}
     - target: {fileID: 8905227346679732270, guid: 703b74b0ef78c524b9ba0289ebacd86f, type: 3}
       propertyPath: m_LocalPosition.z

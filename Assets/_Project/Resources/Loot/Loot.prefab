@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 7641223614059306321}
+  _pickedSound: {fileID: 8300000, guid: 31469d54fe48ae146b94f95d92d99f29, type: 3}
 --- !u!1 &6800866023473052572
 GameObject:
   m_ObjectHideFlags: 0

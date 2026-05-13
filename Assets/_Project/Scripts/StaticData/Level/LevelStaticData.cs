@@ -6,6 +6,7 @@ public class LevelStaticData : ScriptableObject
 {
     public Vector3 PlayerInitialPoint;
     public int StartATMCash;
+    public int RewardCashFromAdv;
 
     [Header("Game Loop Settings")]
     public float EnemySpawningTimer;

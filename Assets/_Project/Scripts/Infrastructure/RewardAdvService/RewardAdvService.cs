@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YG;
 
 public class RewardAdvService : IRewardAdvService
@@ -22,12 +23,16 @@ public class RewardAdvService : IRewardAdvService
 
     private void GiveReward(string rewardID)
     {
+        string sceneKey = SceneManager.GetActiveScene().name;
+        LevelStaticData levelData = _staticData.ForLevel(sceneKey);
+
         if (Enum.TryParse(rewardID, out RewardType rewardType))
         {
             switch (rewardType)
             {
                 case RewardType.Cash:
-                    Debug.Log("Cash reward added");
+                    _progressService.Progress.PlayerState.AddCash(levelData.RewardCashFromAdv);
+                    _save.SaveProgress();
                     break;
             }
         }

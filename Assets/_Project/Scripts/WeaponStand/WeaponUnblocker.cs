@@ -9,7 +9,9 @@ public class WeaponUnblocker : MonoBehaviour, ISavedProgressReader
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Collider _collider;
     [SerializeField] private Renderer _renderer;
+    [SerializeField] private AudioClip _openSound;
 
+    private UIAudioHandler _audioHandler;
     private PlayerProgress _progress;
     private MaterialPropertyBlock _block;
     private IWeaponContainer _weaponCreator;
@@ -29,18 +31,20 @@ public class WeaponUnblocker : MonoBehaviour, ISavedProgressReader
 
         if (_progress.PlayerState.Cash >= _price)
         {
+            _audioHandler.PlaySound(_openSound);
             _progress.PlayerState.SpendCash(_price);
             OpenWeapon();
             _saveLoadService.SaveProgress();
         }
     }
 
-    public void Construct(IStaticDataService staticData, IWeaponContainer weaponCreator, ISaveLoadService saveLoadService)
+    public void Construct(IStaticDataService staticData, IWeaponContainer weaponCreator, ISaveLoadService saveLoadService, UIAudioHandler audioHandler)
     {
         var weaponStaticData = staticData.ForWeaponsData(_type);
 
         _weaponCreator = weaponCreator;
         _saveLoadService = saveLoadService;
+        _audioHandler = audioHandler;
 
         _price = weaponStaticData.UnblockPrice;
         _text.text = _price.ToString() + "$";
