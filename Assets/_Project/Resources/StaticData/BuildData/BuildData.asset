@@ -33,10 +33,22 @@ MonoBehaviour:
     Next: 
   - Type: 1
     UnblockPrice: 800
-    Next: 02000000
+    Next: 020000002100000027000000
+  - Type: 39
+    UnblockPrice: 450
+    Next: 
+  - Type: 33
+    UnblockPrice: 400
+    Next: 
   - Type: 2
     UnblockPrice: 3000
-    Next: 03000000
+    Next: 03000000240000002d000000
+  - Type: 45
+    UnblockPrice: 800
+    Next: 
+  - Type: 36
+    UnblockPrice: 650
+    Next: 
   - Type: 3
     UnblockPrice: 5000
     Next: 0800000009000000
@@ -57,7 +69,13 @@ MonoBehaviour:
     Next: 11000000
   - Type: 17
     UnblockPrice: 25000
-    Next: 120000001b00000010000000
+    Next: 120000001b000000100000002b00000028000000
+  - Type: 40
+    UnblockPrice: 2000
+    Next: 
+  - Type: 43
+    UnblockPrice: 2500
+    Next: 
   - Type: 16
     UnblockPrice: 220000
     Next: 
@@ -66,7 +84,16 @@ MonoBehaviour:
     Next: 
   - Type: 18
     UnblockPrice: 40000
-    Next: 130000000e0000000d000000
+    Next: 130000000e0000000d000000220000002500000031000000
+  - Type: 49
+    UnblockPrice: 3000
+    Next: 
+  - Type: 37
+    UnblockPrice: 3500
+    Next: 
+  - Type: 34
+    UnblockPrice: 1000
+    Next: 
   - Type: 14
     UnblockPrice: 15000
     Next: 
@@ -90,7 +117,13 @@ MonoBehaviour:
     Next: 1d000000
   - Type: 29
     UnblockPrice: 40000
-    Next: 1e0000001c00000006000000
+    Next: 1e0000001c000000060000002c00000029000000
+  - Type: 41
+    UnblockPrice: 4500
+    Next: 
+  - Type: 44
+    UnblockPrice: 4500
+    Next: 
   - Type: 6
     UnblockPrice: 600000
     Next: 
@@ -99,7 +132,19 @@ MonoBehaviour:
     Next: 
   - Type: 30
     UnblockPrice: 90000
-    Next: 1f00000017000000
+    Next: 1f0000001700000023000000260000002f00000032000000
+  - Type: 38
+    UnblockPrice: 6000
+    Next: 
+  - Type: 47
+    UnblockPrice: 7500
+    Next: 
+  - Type: 50
+    UnblockPrice: 8600
+    Next: 
+  - Type: 35
+    UnblockPrice: 3000
+    Next: 
   - Type: 23
     UnblockPrice: 50000
     Next: 16000000

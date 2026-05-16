@@ -9,7 +9,6 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     private readonly ITutorialCompleterService _tutorialCompleter;
     private readonly IDifficultyService _difficultyService;
     private readonly IOpenService _openService;
-    private readonly IInterstitialAdvService _interstitialAdv;
     private LoadedScene _loadedScene;
     private LevelStaticData _levelStaticData;
     private bool _isGameStarted;
@@ -20,15 +19,13 @@ public class GameLoopState : IPayloaderState<LoadedScene>
     private float _nextSpawnTime;
 
     public GameLoopState(GameStateMachine stateMachine, IPersistentProgressService progressService, ICoroutineRunner coroutineRunner,
-        ITutorialCompleterService tutorialCompleter, IDifficultyService difficultyService, IOpenService openService,
-        IInterstitialAdvService interstitialAdv)
+        ITutorialCompleterService tutorialCompleter, IDifficultyService difficultyService, IOpenService openService)
     {
         _progressService = progressService;
         _coroutineRunner = coroutineRunner;
         _tutorialCompleter = tutorialCompleter;
         _difficultyService = difficultyService;
         _openService = openService;
-        _interstitialAdv = interstitialAdv;
     }
 
     public void Enter(LoadedScene loadedScene)
@@ -116,9 +113,6 @@ public class GameLoopState : IPayloaderState<LoadedScene>
         {
             SpawnLoopEnemy();
             SpawnLoopBoss();
-
-            if (_interstitialAdv.IsInterstitialReady())
-                _interstitialAdv.ShowAdv();
 
             yield return null;
         }

@@ -7,14 +7,14 @@
         false,
         false
     ],
-    "idSave": 14,
+    "idSave": 116,
     "Progress": {
         "MainScene": "Main",
         "PlayerState": {
             "CharacterViewType": 0,
-            "IsTutorialCompleted": false,
-            "Score": 0,
-            "Cash": 44700,
+            "IsTutorialCompleted": true,
+            "Score": 20,
+            "Cash": 484422,
             "Multiplier": 1,
             "CurrentHP": 100.0,
             "MaxHP": 100.0
@@ -22,28 +22,70 @@
         "Weapons": {
             "OpenedWeapons": [
                 1,
-                9
+                9,
+                3,
+                4,
+                7,
+                8
             ]
         },
         "BuildProgress": {
             "OpenedObjects": [
                 0,
                 5,
-                26,
                 1,
+                33,
+                39,
                 2,
+                36,
+                45,
                 3,
-                9,
                 8,
-                7
+                9,
+                7,
+                10,
+                26,
+                11,
+                17,
+                18,
+                49,
+                37,
+                34,
+                43,
+                13,
+                14,
+                40,
+                16,
+                19,
+                12,
+                15,
+                21,
+                20,
+                27,
+                29,
+                41,
+                44,
+                30,
+                31,
+                38,
+                47,
+                35,
+                50,
+                6,
+                22,
+                28,
+                23,
+                24,
+                25,
+                22,
+                25,
+                32
             ],
-            "OpenedOpeners": [
-                10
-            ]
+            "OpenedOpeners": []
         },
         "Audio": {
-            "IsMute": false,
-            "Volume": 0.5
+            "IsMute": true,
+            "Volume": 0.0
         }
     }
 }

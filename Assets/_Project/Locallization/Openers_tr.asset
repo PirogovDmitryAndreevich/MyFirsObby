@@ -66,6 +66,30 @@ MonoBehaviour:
     m_Localized: Ses Seviyesi
     m_Metadata:
       m_Items: []
+  - m_Id: 2233555928211456
+    m_Localized: "Reklam \u015Fu s\xFCre sonra: ..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2255479802683392
+    m_Localized: "Hal\u0131"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2312738712838144
+    m_Localized: Cephanelik
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2312859361992704
+    m_Localized: Kasalar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2312984448720896
+    m_Localized: Hedef
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2313097539739648
+    m_Localized: Depo
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

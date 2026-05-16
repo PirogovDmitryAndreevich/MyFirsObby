@@ -3,5 +3,4 @@
     Hud CreateHod(bool isMobile, CharacterHealth characterHealth, Shooter shooter, IWeaponSelector weaponSelector, IWeaponContainer weaponContainer);
     void CreateInventoryButton(WeaponType type, UIAudioHandler audioHandler, IWeaponSelector weaponSelector, WeaponBase weapon);
     RewardAdvPopup CreateRewardAdvPopup();
-    AdNotification CreateAdNotification();
 }

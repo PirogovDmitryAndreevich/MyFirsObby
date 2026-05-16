@@ -65,8 +65,6 @@ public class BootstrapState : IState
 
         _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IPersistentProgressService>(),
             _services.Single<IStaticDataService>(), _services.Single<IRewardAdvService>(), _services.Single<IPauseService>(), _services.Single<ISaveLoadService>()));
-
-        _services.RegisterSingle<IInterstitialAdvService>(new InterstitialAdvService(_services.Single<IUIFactory>()));
     }
 
     private void RegisterStaticData()

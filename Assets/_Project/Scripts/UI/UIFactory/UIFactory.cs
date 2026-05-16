@@ -61,16 +61,6 @@ public class UIFactory : IUIFactory
         return popup;
     }
 
-    public AdNotification CreateAdNotification()
-    {
-        AdNotification notification = _assets.Instantiate(AssetsPath.AdNotificationPath)
-            .GetComponent<AdNotification>();
-
-        notification.Construct(_pauseService);
-
-        return notification;
-    }
-
     private GameObject CreateHudMobile() =>
        _assets.Instantiate(AssetsPath.HudMobilePath);
 

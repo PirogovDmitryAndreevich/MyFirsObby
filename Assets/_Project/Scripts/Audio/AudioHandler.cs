@@ -6,11 +6,18 @@ public class AudioHandler : MonoBehaviour, ISavedProgressReader
     [SerializeField] private AudioSource _audioSource;    
 
     protected AudioSettingSaveData SettingSaveData;
+    private bool _isInitialized;
 
     private void OnDestroy()
     {
         SettingSaveData.VolumeChanged -= ResetVolume;
         SettingSaveData.MuteChanged -= ResetMute;
+    }
+
+    private void Start()
+    {
+        if (!_isInitialized)
+            Initialize();
     }
 
     public void LoadProgress(PlayerProgress progress)
@@ -37,15 +44,15 @@ public class AudioHandler : MonoBehaviour, ISavedProgressReader
 
     private void Initialize()
     {
+        _isInitialized = true;
+
+        if (SettingSaveData == null)
+            SettingSaveData = AllServices.Container.Single<IPersistentProgressService>().Progress.Audio;
+
         SettingSaveData.VolumeChanged += ResetVolume;
         SettingSaveData.MuteChanged += ResetMute;
 
         ResetVolume();
         ResetMute();
-    }
-
-    public static implicit operator AudioHandler(UIAudioHandler v)
-    {
-        throw new NotImplementedException();
     }
 }
