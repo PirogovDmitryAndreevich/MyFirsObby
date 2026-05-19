@@ -38,7 +38,7 @@ public class BootstrapState : IState
         _services.RegisterSingle<ISavedLists>(new SavedLists());
         _services.RegisterSingle<IWaypointChangerService>(new WaypointChangerService());
         _services.RegisterSingle<IPoolService>(new PoolService());
-        _services.RegisterSingle<IPauseService>(new PauseService());        
+        _services.RegisterSingle<IPauseService>(new PauseService());
 
         _services.RegisterSingle<IBulletsPool>(new BulletsPool(_services.Single<IStaticDataService>()));
 

@@ -156,8 +156,8 @@ MonoBehaviour:
   _bulletForce: 70
   _radius: 3
   disableOnHit: {fileID: 5566758492148163120}
-  rocketExplosion: {fileID: 1764654978243476, guid: a98b15aa948478849b54661e4d9a317e, type: 3}
-  inFlightAudioSource: {fileID: 1560266398946719293}
+  rocketExplosion: {fileID: 531137881643083344, guid: a98b15aa948478849b54661e4d9a317e, type: 3}
+  _inFlightAudioSource: {fileID: 1560266398946719293}
   _enemyMask:
     serializedVersion: 2
     m_Bits: 4194304

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MonsterTypeID: 1
   Health: 50
-  Damage: 2
+  Damage: 10
   RewardScores: 15
   MinLoot: 1000
   MaxLoot: 1500

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BigNoob
   m_EditorClassIdentifier: 
   MonsterTypeID: 2
-  Health: 200
+  Health: 250
   Damage: 10
   RewardScores: 150
   MinLoot: 3000

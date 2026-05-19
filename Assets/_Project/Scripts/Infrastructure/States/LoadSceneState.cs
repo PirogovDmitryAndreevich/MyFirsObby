@@ -40,9 +40,8 @@ internal class LoadSceneState : IPayloaderState<string>
 
     public void Enter(string sceneName)
     {
-        _curtain.Show();
         _savedLists.Cleanup();
-        _sceneLoader.Load(sceneName, OnLoaded);
+        _sceneLoader.Load(sceneName, _curtain, OnLoaded);
     }
 
     public void Exit() =>

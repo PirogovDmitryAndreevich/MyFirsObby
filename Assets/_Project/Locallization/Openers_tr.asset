@@ -90,6 +90,10 @@ MonoBehaviour:
     m_Localized: Depo
     m_Metadata:
       m_Items: []
+  - m_Id: 2661270871334912
+    m_Localized: "Bossa kalan s\xFCre"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

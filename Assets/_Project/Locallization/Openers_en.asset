@@ -90,6 +90,10 @@ MonoBehaviour:
     m_Localized: Warehouse
     m_Metadata:
       m_Items: []
+  - m_Id: 2661270871334912
+    m_Localized: Time until boss
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

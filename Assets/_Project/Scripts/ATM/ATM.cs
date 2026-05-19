@@ -94,16 +94,23 @@ public class ATM : MonoBehaviour
 
     private string FormatCash(int value)
     {
-        if (value < 1000)
-            return value.ToString("0");
+        if (value < 1_000)
+            return value.ToString();
 
+        // 1,0ê - 9,9ê
+        if (value < 10_000)
+            return (value / 1000f).ToString("0.0").Replace(".", ",") + "ê";
+
+        // 10ê - 999ê
         if (value < 1_000_000)
-            return Format(value, 1000, "ê");
+            return (value / 1000).ToString("0") + "ê";
 
-        if (value < 1_000_000_000)
-            return Format(value, 1_000_000, "ì");
+        // 1,0ì - 9,9ì
+        if (value < 10_000_000)
+            return (value / 1_000_000f).ToString("0.0").Replace(".", ",") + "ì";
 
-        return Format(value, 1_000_000_000, "b");
+        // 10ì+
+        return (value / 1_000_000).ToString("0") + "ì";
     }
 
     private string Format(int value, int divider, string suffix)

@@ -21,7 +21,7 @@ public partial class GameStateMachine
             services.Single<IStaticDataService>()),
 
             [typeof(GameLoopState)] = new GameLoopState(this, services.Single<IPersistentProgressService>(), coroutineRunner,
-            services.Single<ITutorialCompleterService>(), services.Single<IDifficultyService>(), services.Single <IOpenService>())
+            services.Single<ITutorialCompleterService>(), services.Single<IDifficultyService>(), services.Single<IOpenService>())
         };
     }
 
@@ -36,7 +36,7 @@ public partial class GameStateMachine
         TState state = ChangeState<TState>();
         state.Enter(payload);
     }
-    
+
     private TState GetState<TState>() where TState : class, IExcitableState =>
         _states[typeof(TState)] as TState;
 

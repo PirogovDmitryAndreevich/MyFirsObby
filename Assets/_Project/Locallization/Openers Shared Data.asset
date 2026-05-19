@@ -87,6 +87,10 @@ MonoBehaviour:
     m_Key: Warehouse
     m_Metadata:
       m_Items: []
+  - m_Id: 2661270871334912
+    m_Key: Time until boss
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
